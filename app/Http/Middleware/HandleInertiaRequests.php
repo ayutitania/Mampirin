@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Ad;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -41,6 +43,31 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
+            'siteCategories' => fn () => Category::query()
+                ->active()
+                ->withCount(['articles as articles_count' => fn ($query) => $query->published()])
+                ->orderBy('sort_order')
+                ->get(['id', 'name', 'slug', 'description', 'image_url'])
+                ->map(fn (Category $category) => [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'description' => $category->description,
+                    'image_url' => $category->image_url,
+                    'articles_count' => (int) $category->getAttribute('articles_count'),
+                ])
+                ->all(),
+            'ads' => fn () => Ad::query()
+                ->active()
+                ->orderBy('sort_order')
+                ->get(['id', 'title', 'image_url', 'target_url', 'placement'])
+                ->groupBy('placement')
+                ->map(fn ($items) => $items->values()->all())
+                ->all(),
         ];
     }
 }

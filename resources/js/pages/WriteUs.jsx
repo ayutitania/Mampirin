@@ -1,38 +1,40 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
+import BannerAds from '../components/BannerAds';
+import Navbar from '../components/Navbar';
+
+function FieldError({ message }) {
+  if (!message) return null;
+
+  return <p className="mt-1 text-xs text-red-600">{message}</p>;
+}
 
 export default function WriteUs() {
+  const { flash } = usePage().props;
+  const { data, setData, post, processing, errors, reset } = useForm({
+    title: '',
+    body: '',
+    writer_name: '',
+    writer_email: '',
+    writer_phone: '',
+  });
+
+  const submit = (event) => {
+    event.preventDefault();
+
+    post('/write-us', {
+      preserveScroll: true,
+      onSuccess: () => reset(),
+    });
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 font-sans text-gray-900 pb-10">
 
-      {/* Top Banner / Ads Placeholder */}
-      <div className="flex justify-center space-x-2 py-2 text-xs text-gray-400 border-b border-gray-200">
-        <span>[Banner Ads]</span>
-        <span>[Banner Ads]</span>
-        <span>[Banner Ads]</span>
-      </div>
+      {/* Top Banner / Ads */}
+      <BannerAds />
 
-      {/* Navbar Global */}
-      <nav className="flex justify-center space-x-6 py-4 border-b border-gray-300 mb-6 text-sm font-bold uppercase tracking-widest relative z-20">
-        <Link href="/" className="hover:text-gray-500">Home</Link>
-        <Link href="/about" className="hover:text-gray-500">About</Link>
-
-        {/* Dropdown Article */}
-        <div className="relative group cursor-pointer">
-          <Link href="/article" className="hover:text-gray-500 flex items-center">
-            Article
-          </Link>
-          <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-300 shadow-xl hidden group-hover:block z-30">
-            <Link href="/article/entertainment" className="block px-4 py-3 hover:bg-gray-200 border-b border-gray-200 text-xs">Entertainment</Link>
-            <Link href="/article/history" className="block px-4 py-3 hover:bg-gray-200 border-b border-gray-200 text-xs">History</Link>
-            <Link href="/article/lifestyle" className="block px-4 py-3 hover:bg-gray-200 text-xs">Lifestyle</Link>
-          </div>
-        </div>
-
-        <Link href="/write-us" className="hover:text-black text-black">Write Us</Link>
-        <Link href="/ads" className="hover:text-gray-500">Ads</Link>
-        <a href="#footer-contact" className="hover:text-gray-500">Contact</a>
-      </nav>
+      <Navbar />
 
       {/* Header */}
       <header className="text-center mb-12">
@@ -51,20 +53,33 @@ export default function WriteUs() {
           Pastikan kamu membaca syarat dan FAQ pengiriman artikel yang ada di <a href="#" className="underline">sini</a>
         </p>
 
-        <form className="space-y-10">
+        {flash?.success && (
+          <div
+            role="status"
+            className="mb-8 border border-green-600 bg-green-50 px-4 py-3 text-sm text-green-800"
+          >
+            {flash.success}
+          </div>
+        )}
+
+        <form className="space-y-10" onSubmit={submit} noValidate>
 
           {/* Article Title */}
           <div>
-            <label className="block text-sm text-gray-800 mb-2">Article Title:</label>
+            <label htmlFor="title" className="block text-sm text-gray-800 mb-2">Article Title:</label>
             <input
+              id="title"
               type="text"
+              value={data.title}
+              onChange={(event) => setData('title', event.target.value)}
               className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-black bg-transparent transition-colors"
             />
+            <FieldError message={errors.title} />
           </div>
 
           {/* Article Body (WYSIWYG Mockup) */}
           <div>
-            <label className="block text-sm text-gray-800 mb-2">Article Body:</label>
+            <label htmlFor="body" className="block text-sm text-gray-800 mb-2">Article Body:</label>
             <div className="border border-gray-300 bg-white">
 
               {/* Tabs Visual / Text */}
@@ -92,38 +107,54 @@ export default function WriteUs() {
 
               {/* Textarea */}
               <textarea
+                id="body"
                 rows="10"
+                value={data.body}
+                onChange={(event) => setData('body', event.target.value)}
+                placeholder="Tulis isi artikelmu di sini..."
                 className="w-full p-4 focus:outline-none bg-white text-sm"
-                defaultValue="Initial content for the editor."
               ></textarea>
             </div>
+            <FieldError message={errors.body} />
           </div>
 
           {/* Writer Name */}
           <div>
-            <label className="block text-sm text-gray-800 mb-2">Writer Name:</label>
+            <label htmlFor="writer_name" className="block text-sm text-gray-800 mb-2">Writer Name:</label>
             <input
+              id="writer_name"
               type="text"
+              value={data.writer_name}
+              onChange={(event) => setData('writer_name', event.target.value)}
               className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-black bg-transparent transition-colors"
             />
+            <FieldError message={errors.writer_name} />
           </div>
 
           {/* Writer Email */}
           <div>
-            <label className="block text-sm text-gray-800 mb-2">Writer Email:</label>
+            <label htmlFor="writer_email" className="block text-sm text-gray-800 mb-2">Writer Email:</label>
             <input
+              id="writer_email"
               type="email"
+              value={data.writer_email}
+              onChange={(event) => setData('writer_email', event.target.value)}
               className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-black bg-transparent transition-colors"
             />
+            <FieldError message={errors.writer_email} />
           </div>
 
           {/* Writer Phone */}
           <div>
-            <label className="block text-sm text-gray-800 mb-2">Writer Phone:</label>
+            <label htmlFor="writer_phone" className="block text-sm text-gray-800 mb-2">Writer Phone:</label>
             <input
+              id="writer_phone"
               type="text"
+              value={data.writer_phone}
+              onChange={(event) => setData('writer_phone', event.target.value)}
               className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-black bg-transparent transition-colors"
             />
+            <FieldError message={errors.writer_phone} />
           </div>
 
           {/* reCAPTCHA Mockup */}
@@ -140,8 +171,12 @@ export default function WriteUs() {
 
           {/* Submit Button */}
           <div className="pb-10 border-b border-gray-300">
-            <button type="button" className="bg-black text-white px-8 py-2 text-sm uppercase hover:bg-gray-800 transition">
-              Submit
+            <button
+              type="submit"
+              disabled={processing}
+              className="bg-black text-white px-8 py-2 text-sm uppercase hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {processing ? 'Mengirim...' : 'Submit'}
             </button>
           </div>
 

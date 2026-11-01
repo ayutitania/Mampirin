@@ -1,4 +1,7 @@
 import React from 'react';
+import Navbar from '../components/Navbar';
+import BannerAds from '../components/BannerAds';
+import SidebarAd from '../components/SidebarAd';
 import { Link } from '@inertiajs/react';
 
 export default function History() {
@@ -58,35 +61,9 @@ export default function History() {
   return (
     <div className="max-w-6xl mx-auto px-4 font-sans text-gray-900 pb-10">
 
-      {/* Top Banner / Ads Placeholder */}
-      <div className="flex justify-center space-x-2 py-2 text-xs text-gray-400 border-b border-gray-200">
-        <span>[Banner Ads]</span>
-        <span>[Banner Ads]</span>
-        <span>[Banner Ads]</span>
-      </div>
+      <BannerAds />
 
-      {/* Navbar Global */}
-      <nav className="flex justify-center space-x-6 py-4 border-b border-gray-300 mb-6 text-sm font-bold uppercase tracking-widest relative z-20">
-        <Link href="/" className="hover:text-gray-500">Home</Link>
-        <Link href="/about" className="hover:text-gray-500">About</Link>
-
-        {/* Dropdown Article */}
-        <div className="relative group cursor-pointer">
-          <Link href="/article" className="hover:text-black text-black flex items-center">
-            Article
-          </Link>
-          <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-300 shadow-xl hidden group-hover:block z-30">
-            <Link href="/article/entertainment" className="block px-4 py-3 hover:bg-gray-200 border-b border-gray-200 text-xs">Entertainment</Link>
-            <Link href="/article/history" className="block px-4 py-3 hover:bg-gray-200 border-b border-gray-200 text-xs">History</Link>
-            <Link href="/article/lifestyle" className="block px-4 py-3 hover:bg-gray-200 text-xs">Lifestyle</Link>
-          </div>
-        </div>
-
-        <Link href="/write-us" className="hover:text-gray-500">Write Us</Link>
-        <Link href="/ads" className="hover:text-gray-500">Ads</Link>
-
-        <a href="#footer-contact" className="hover:text-gray-500">Contact</a>
-      </nav>
+      <Navbar />
 
       {/* Header */}
       <header className="text-center mb-8 border-b-[4px] border-black pb-8">
@@ -209,13 +186,7 @@ export default function History() {
             </div>
           </div>
 
-          {/* Sidebar Widget: Ad Space (Dipindah ke bawah) */}
-          <div className="bg-gray-100 h-80 flex flex-col items-center justify-center border border-gray-300 relative overflow-hidden">
-            <img src="https://picsum.photos/300/400?random=ad-1" className="absolute inset-0 w-full h-full object-cover opacity-60" alt="Ad Background" />
-            <div className="relative z-10 text-center">
-              <span className="text-xs font-bold text-black uppercase bg-white/80 px-2 py-1">Advertisement</span>
-            </div>
-          </div>
+          <SidebarAd placement="article_sidebar" heightClass="h-80" />
 
         </div>
 

@@ -11,6 +11,8 @@
 /storage/*.key
 /storage/pail
 /vendor
+/db_ucd
+/database/*.sqlite
 .env
 .env.backup
 .env.production
