@@ -2,83 +2,237 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 
 export default function Entertainment() {
+  const categories = [
+    { name: 'MSME', count: 5 },
+    { name: 'MUSIC', count: 4 },
+    { name: 'TECHNOLOGY', count: 8 },
+    { name: 'ENTERTAINMENT', count: 4 },
+    { name: 'SPORTS', count: 4 },
+    { name: 'HISTORY', count: 3 },
+  ];
+
+  const popularPosts = [
+    {
+      id: 1,
+      title: 'The Origin Of All Religions In The World',
+      excerpt: 'Labores incorrupte vim an. Id augue populo alienum usu, has harum consectetuer ne, ne clita fuisset dignissim quo. Semper oportere assueverit eum',
+      img: 'https://picsum.photos/400/250?random=pop-1'
+    },
+    {
+      id: 2,
+      title: 'The Fox – Redefine The Concept',
+      excerpt: 'Justo fabulas singulis at pri, saepe luptatum mei an. Duo idque solet nullam, eam ne putant hendrerit.',
+      img: 'https://picsum.photos/400/250?random=pop-2'
+    },
+    {
+      id: 3,
+      title: 'They arrived in fifty mother ships',
+      excerpt: 'Ei mei scripta intellegat. Verear voluptaria eam at, consul putent eu vel. Pro saepe maluisset ne, audire.',
+      img: 'https://picsum.photos/400/250?random=pop-3'
+    }
+  ];
+
+  const listPosts = [
+    {
+      title: 'Despicable Me Trailer',
+      excerpt: 'Quo natum nemore putant in, his te case habemus. Nulla detraxit explicari in vim. Id eam magna omnesque.',
+      img: 'https://picsum.photos/400/300?random=list-1'
+    },
+    {
+      title: 'This is a Post with Featured Slider',
+      excerpt: 'Justo fabulas singulis at pri, saepe luptatum mei an. Duo idque solet nullam, eam ne putant hendrerit.',
+      img: 'https://picsum.photos/400/300?random=list-2'
+    },
+    {
+      title: 'A Vimeo Video',
+      excerpt: 'Ei mei scripta intellegat. Verear voluptaria eam at, consul putent eu vel. Pro saepe maluisset ne, audire.',
+      img: 'https://picsum.photos/400/300?random=list-3'
+    },
+    {
+      title: 'This Is A Sample Audio Post',
+      excerpt: 'Labores incorrupte vim an. Id augue populo alienum usu, has harum consectetuer ne, ne clita fuisset.',
+      img: 'https://picsum.photos/400/300?random=list-4'
+    }
+  ];
+
   return (
     <div className="max-w-6xl mx-auto px-4 font-sans text-gray-900 pb-10">
-      
+
+      {/* Top Banner / Ads Placeholder */}
+      <div className="flex justify-center space-x-2 py-2 text-xs text-gray-400 border-b border-gray-200">
+        <span>[Banner Ads]</span>
+        <span>[Banner Ads]</span>
+        <span>[Banner Ads]</span>
+      </div>
+
       {/* Navbar Global */}
-      <nav className="flex justify-center space-x-6 py-4 border-b border-gray-300 mb-6 text-sm font-bold uppercase tracking-widest">
+      <nav className="flex justify-center space-x-6 py-4 border-b border-gray-300 mb-6 text-sm font-bold uppercase tracking-widest relative z-20">
         <Link href="/" className="hover:text-gray-500">Home</Link>
-        <Link href="/article" className="hover:text-gray-500">Article</Link>
-        <Link href="/entertainment" className="hover:text-gray-500">Entertainment</Link>
+        <Link href="/about" className="hover:text-gray-500">About</Link>
+
+        {/* Dropdown Article */}
+        <div className="relative group cursor-pointer">
+          <Link href="/article" className="hover:text-black text-black flex items-center">
+            Article
+          </Link>
+          <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-300 shadow-xl hidden group-hover:block z-30">
+            <Link href="/article/entertainment" className="block px-4 py-3 hover:bg-gray-200 border-b border-gray-200 text-xs">Entertainment</Link>
+            <Link href="/article/history" className="block px-4 py-3 hover:bg-gray-200 border-b border-gray-200 text-xs">History</Link>
+            <Link href="/article/lifestyle" className="block px-4 py-3 hover:bg-gray-200 text-xs">Lifestyle</Link>
+          </div>
+        </div>
+
         <Link href="/write-us" className="hover:text-gray-500">Write Us</Link>
         <Link href="/ads" className="hover:text-gray-500">Ads</Link>
+
+        <a href="#footer-contact" className="hover:text-gray-500">Contact</a>
       </nav>
 
-      <header className="py-4 text-center mb-8">
+      {/* Header */}
+      <header className="text-center mb-8 border-b-[4px] border-black pb-8">
         <Link href="/">
-          <h1 className="text-5xl font-extrabold uppercase tracking-tighter hover:text-gray-700">Mampirin Magazine</h1>
+          <h1 className="text-6xl font-black uppercase tracking-tighter">Mampirin Magazine</h1>
         </Link>
+        <p className="text-xs tracking-[0.3em] mt-2 text-gray-500 uppercase">Mampir Dulu, Sukses Kemudian</p>
       </header>
 
-      <div className="text-center mb-10 border-t border-b border-black py-6">
-        <span className="bg-black text-white px-3 py-1 text-xs uppercase font-bold tracking-widest">Category</span>
-        <h2 className="text-4xl font-black mt-4">ENTERTAINMENT</h2>
-        <p className="text-gray-500 text-sm max-w-2xl mx-auto mt-4">
-          These mostly part and view to stand window. Another think for another men in main underem male ready every all in mange.
+      {/* Category Title Section */}
+      <div className="text-center mb-12">
+        <span className="bg-black text-white px-3 py-1 text-[10px] uppercase font-bold tracking-widest">Category</span>
+        <h2 className="text-[4rem] leading-none font-black uppercase mt-4 tracking-tighter scale-y-110">ENTERTAINMENT</h2>
+        <p className="text-gray-600 font-serif text-sm max-w-2xl mx-auto mt-6 leading-relaxed">
+          These mostly part and view to stand window. Another think for another men in main underem male ready every all in mange. Find out the latest updates from the entertainment world right here.
         </p>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-8">
-        <main className="w-full md:w-3/4">
-          <Link href="/article" className="group">
-            <div className="mb-10">
-              <div className="bg-gray-200 w-full h-[400px] flex items-center justify-center text-gray-400 mb-4">
-                [Gambar Highlight Entertainment]
-              </div>
-              <h3 className="text-3xl font-bold mb-2 group-hover:underline">The Origin Of All Religions In The World</h3>
-              <p className="text-gray-700 text-sm">Every new part around our have long single the is point in its our well men a to our all have the up ready the we the is that a view every all is as its that...</p>
-            </div>
-          </Link>
+      {/* Top Featured Posts (Grid Layout: 2 Columns) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
 
-          <div className="space-y-8">
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="flex gap-6 border-b border-gray-200 pb-6 group">
-                <Link href="/article" className="w-1/3">
-                  <div className="bg-gray-200 w-full h-40 flex items-center justify-center text-gray-400">
-                    [Gambar List {item}]
-                  </div>
+        {/* Post 1 */}
+        <div className="group cursor-pointer">
+          <Link href="/article">
+            <div className="w-full h-[350px] overflow-hidden bg-gray-200 mb-4">
+              <img src="https://picsum.photos/800/600?random=feat-1" alt="Featured 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 className="text-3xl font-black mb-2 group-hover:underline leading-tight tracking-tight">The Origin Of All Religions In The World</h3>
+          </Link>
+          <div className="text-[10px] font-bold mb-3 text-gray-500 uppercase tracking-widest flex items-center gap-2">
+            <span className="w-4 h-4 rounded-full bg-gray-400 inline-block"></span> Mampirin • December 20, 2026
+          </div>
+          <p className="text-sm text-gray-700 font-serif leading-relaxed">
+            Labores incorrupte vim an. Id augue populo alienum usu, has harum consectetuer ne, ne clita fuisset dignissim quo. Semper oportere assueverit eum.
+          </p>
+        </div>
+
+        {/* Post 2 */}
+        <div className="group cursor-pointer">
+          <Link href="/article">
+            <div className="w-full h-[350px] overflow-hidden bg-gray-200 mb-4">
+              <img src="https://picsum.photos/800/600?random=feat-4" alt="Featured 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 className="text-3xl font-black mb-2 group-hover:underline leading-tight tracking-tight">San Francisco, Macabre?</h3>
+          </Link>
+          <div className="text-[10px] font-bold mb-3 text-gray-500 uppercase tracking-widest flex items-center gap-2">
+            <span className="w-4 h-4 rounded-full bg-gray-400 inline-block"></span> Mampirin • Sep 18, 2026
+          </div>
+          <p className="text-sm text-gray-700 font-serif leading-relaxed">
+            Ei mei scripta intellegat. Verear voluptaria eam at, consul putent eu vel. Pro saepe maluisset ne, audire.
+          </p>
+        </div>
+
+      </div>
+
+      {/* Main Content & Sidebar */}
+      <div className="grid grid-cols-1 md:grid-cols-3 border-t border-gray-400 pt-10">
+
+        {/* Left Column: Article List */}
+        <div className="md:col-span-2 space-y-8 md:border-r md:border-gray-400 md:pr-8">
+          {listPosts.map((item, idx) => (
+            <div key={idx} className="flex flex-col sm:flex-row gap-6 group cursor-pointer border-b border-gray-300 pb-8 last:border-0">
+              <div className="sm:w-1/2 h-48 shrink-0 overflow-hidden bg-gray-200">
+                <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="sm:w-1/2 flex flex-col justify-center">
+                <div className="text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest">Entertainment</div>
+                <Link href="/article">
+                  <h4 className="font-black text-2xl leading-tight group-hover:underline mb-3 tracking-tight">{item.title}</h4>
                 </Link>
-                <div className="w-2/3">
-                  <Link href="/article">
-                    <h4 className="text-2xl font-bold mb-2 group-hover:underline">Berita Entertainment {item} Terbaru</h4>
-                  </Link>
-                  <p className="text-sm text-gray-600 mb-4">Every new part around our have long single the is point...</p>
-                  <Link href="/article">
-                    <button className="bg-black text-white px-4 py-2 text-xs font-bold uppercase hover:bg-gray-800">Read More</button>
-                  </Link>
+                <p className="text-sm text-gray-700 font-serif mb-4 line-clamp-3">{item.excerpt}</p>
+                <div>
+                  <button className="bg-black text-white px-4 py-2 text-[10px] font-bold uppercase hover:bg-gray-800 transition-colors">
+                    Read More
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-        </main>
+            </div>
+          ))}
+        </div>
 
-        <aside className="w-full md:w-1/4">
-          <div className="mb-8">
-            <h4 className="font-bold bg-black text-white px-2 py-1 mb-4 text-center uppercase">Popular</h4>
-            <div className="space-y-4">
-               <div className="flex justify-between items-center text-sm border-b pb-2">
-                 <span>Movies</span> <span className="font-bold">47</span>
-               </div>
-               <div className="flex justify-between items-center text-sm border-b pb-2">
-                 <span>Music</span> <span className="font-bold">46</span>
-               </div>
-               <div className="flex justify-between items-center text-sm border-b pb-2">
-                 <span>Lifestyle</span> <span className="font-bold">32</span>
-               </div>
+        {/* Right Column: Sidebar */}
+        <div className="md:col-span-1 md:pl-8 mt-10 md:mt-0">
+
+          {/* Sidebar Widget: Categories */}
+          <div className="mb-10">
+            <div className="bg-black text-white text-center text-[11px] font-bold tracking-widest py-1 mb-2 uppercase">
+              Categories
+            </div>
+            <ul className="text-sm font-serif text-gray-800">
+              {categories.map((cat, idx) => (
+                <li key={idx} className="flex justify-between border-b border-gray-400 py-2">
+                  <span className="font-bold">{cat.name}</span>
+                  <span>({cat.count})</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Sidebar Widget: Popular Posts */}
+          <div className="mb-10">
+            <div className="bg-black text-white text-center text-[11px] font-bold tracking-widest py-1 mb-6 uppercase">
+              Popular
+            </div>
+            <div className="space-y-8">
+              {popularPosts.map((post) => (
+                <div key={post.id} className="group cursor-pointer">
+                  <div className="relative mb-3">
+                    <img src={post.img} alt={post.title} className="w-full h-48 object-cover" />
+                    <span className="absolute bottom-1 right-3 text-white text-5xl font-serif italic drop-shadow-md">
+                      {post.id}
+                    </span>
+                  </div>
+                  <h5 className="font-black text-xl leading-tight hover:underline mb-2">{post.title}</h5>
+                  <p className="text-sm text-gray-800 font-serif leading-relaxed border-b border-gray-400 pb-6">
+                    {post.excerpt}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
-        </aside>
+
+          {/* Sidebar Widget: Ad Space (Dipindah ke bawah) */}
+          <div className="bg-gray-100 h-80 flex flex-col items-center justify-center border border-gray-300 relative overflow-hidden">
+            <img src="https://picsum.photos/300/400?random=ad-1" className="absolute inset-0 w-full h-full object-cover opacity-60" alt="Ad Background" />
+            <div className="relative z-10 text-center">
+              <span className="text-xs font-bold text-black uppercase bg-white/80 px-2 py-1">Advertisement</span>
+            </div>
+          </div>
+
+        </div>
+
       </div>
+
+      {/* Footer */}
+      <footer id="footer-contact" className="border-t-[4px] border-black pt-8 mt-12 text-center">
+        <h2 className="text-4xl font-black uppercase tracking-tighter mb-2">Mampirin Magazine</h2>
+        <p className="text-xs text-gray-500 uppercase tracking-widest mb-4">Mampir Dulu, Sukses Kemudian</p>
+        <div className="flex justify-center space-x-4 text-xs font-bold text-gray-600 mb-4">
+          <Link href="/about" className="hover:text-black">About</Link>
+          <Link href="/contact" className="hover:text-black">Contact</Link>
+          <Link href="/privacy" className="hover:text-black">Privacy Policy</Link>
+        </div>
+        <p className="text-xs text-gray-400">&copy; 2026 Mampirin Magazine. All rights reserved.</p>
+      </footer>
+
     </div>
   );
 }
