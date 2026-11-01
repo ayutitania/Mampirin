@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
 
 export default function Ads() {
+  const [selectedPackage, setSelectedPackage] = useState('viral-buzz');
   return (
     <div className="max-w-6xl mx-auto px-4 font-sans text-gray-900 pb-10">
 
@@ -127,7 +128,7 @@ export default function Ads() {
               <div className="text-5xl font-black text-gray-300 mb-4 tracking-tighter">03</div>
               <h4 className="font-bold text-lg uppercase tracking-tight mb-3">Paket Ramah Anggaran UMKM</h4>
               <p className="text-sm text-gray-700 font-serif leading-relaxed mb-8">
-                Struktur tarif transparan tanpa biaya siluman. Diformulasikan khusus untuk skala kafe mandiri dan UMKM. Dapatkan skala ROI positif agresif melalui model voucher / sales tie-in.
+                Struktur tarif transparan tanpa biaya siluman. Diformulasikan khusus untuk skala bisnis mandiri dan UMKM. Dapatkan skala ROI positif agresif melalui model voucher / sales tie-in.
               </p>
             </div>
             <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
@@ -147,74 +148,137 @@ export default function Ads() {
           </p>
         </div>
 
+        {/* Visual Cue Hint */}
+        <p className="text-center text-xs text-gray-500 font-serif mb-6">
+          *Klik kartu paket untuk melihat visualisasi paket terpilih atau langsung klik tombol konfirmasi.
+        </p>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+          {[
+            {
+              id: 'starter',
+              subtitle: 'Paket 01 — Dasar (Pemula)',
+              name: 'Starter UMKM Spotlight',
+              description: 'Beri visibilitas awal yang berkesan. Cocok untuk UMKM yang baru memulai penetrasi di segmen mahasiswa.',
+              price: 'Rp 750.000',
+              duration: '/ Konten',
+              badge: '★ Rekomendasi Pemula',
+              features: [
+                { text: '1 Artikel Review Mendalam (SEO Optimized & High Keyword Ranking)', included: true },
+                { text: 'Listing Profil Permanen di Direktori Spot Terverifikasi', included: true },
+                { text: '1x Instagram Story Amplification & Tag Lokasi Google Maps', included: true },
+                { text: 'Tidak termasuk video produksi TikTok/Reels', included: false },
+                { text: 'Tanpa penempatan Featured Banner', included: false },
+              ],
+              buttonText: 'Pilih Paket Starter →',
+            },
+            {
+              id: 'viral-buzz',
+              subtitle: 'Paket 02 — Maksimum Liputan',
+              name: 'Viral Buzz Package',
+              description: 'Dorongan visual penuh di lintas sosial media untuk menciptakan antrean riil dan exposure tinggi.',
+              price: 'Rp 1.850.000',
+              duration: '/ Campaign',
+              badge: '★ Paling Diminati Pemilik UMKM',
+              features: [
+                { text: 'Artikel Liputan Utama + Masuk Featured Banner Beranda 2 Minggu', included: true },
+                { text: '1 Video Kurasi Reels & TikTok (On-Site Shoot oleh Videografer)', included: true },
+                { text: 'Badge Khusus "Mampirin Approved - Best Place to Study / Hangout"', included: true },
+                { text: '1x Siaran Broadcast ke WhatsApp Komunitas Mahasiswa (12K+ Anggota)', included: true },
+                { text: 'Laporan Analytic Jangkauan & Interaksi Pembaca', included: true },
+              ],
+              buttonText: 'Klaim Paket Viral Buzz →',
+            },
+            {
+              id: 'growth-partner',
+              subtitle: 'Paket 03 — Skala Perusahaan',
+              name: 'Growth Partner (Retainer)',
+              description: 'Kemitraan strategis bulanan untuk menjaga brand mental presence UMKM Anda di benak audiens secara berkelanjutan.',
+              price: 'Rp 3.500.000',
+              duration: '/ Bulan',
+              badge: '★ Skala Bisnis (Retainer)',
+              features: [
+                { text: 'Kampanye Rutin Komunitas Bulanan (Bisa Jam / Acara / Giveaway)', included: true },
+                { text: 'Pengelolaan Voucher Diskon Mahasiswa Eksklusif', included: true },
+                { text: '2x Konten Video Fresh Reels/TikTok Tiap Bulan', included: true },
+                { text: 'Laporan Bulanan Lengkap (Klik Web, Kunjungan, & Profil Pengunjung)', included: true },
+                { text: 'Dedicated Relationship Manager dari Tim Redaksi', included: true },
+              ],
+              buttonText: 'Pilih Paket Retainer →',
+            },
+          ].map((pkg) => {
+            const isSelected = selectedPackage === pkg.id;
+            return (
+              <div
+                key={pkg.id}
+                onClick={() => setSelectedPackage(pkg.id)}
+                className={`p-8 relative transition-all duration-300 cursor-pointer ${
+                  isSelected
+                    ? 'border-[4px] border-black shadow-2xl scale-105 bg-white z-10'
+                    : 'border border-gray-400 bg-white hover:border-black hover:shadow-md'
+                }`}
+              >
+                {/* Floating Top Badge when selected */}
+                {isSelected && (
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white text-[9px] font-bold uppercase tracking-widest px-4 py-1 w-max shadow-sm">
+                    {pkg.badge}
+                  </div>
+                )}
 
-          {/* Package 1 */}
-          <div className="border border-gray-400 p-8">
-            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Paket 01 — Dasar (Pemula)</div>
-            <h4 className="text-2xl font-black uppercase tracking-tight mb-6">Starter UMKM Spotlight</h4>
-            <p className="text-sm text-gray-600 font-serif mb-6">Beri visibilitas awal yang berkesan. Cocok untuk kafe yang baru memulai penetrasi di segmen mahasiswa.</p>
-            <div className="mb-6">
-              <div className="text-[10px] text-gray-500 uppercase tracking-widest">Investasi Publikasi</div>
-              <div className="text-4xl font-black tracking-tighter">Rp 750.000 <span className="text-sm font-normal text-gray-500 tracking-normal">/ Konten</span></div>
-            </div>
-            <ul className="text-sm font-serif text-gray-700 space-y-3 mb-8">
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> 1 Artikel Review Mendalam (SEO Optimized & High Keyword Ranking)</li>
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> Listing Profil Permanen di Direktori Spot Terverifikasi</li>
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> 1x Instagram Story Amplification & Tag Lokasi Google Maps</li>
-              <li className="flex items-start text-gray-400"><span className="mr-2">&#10005;</span> Tidak termasuk video produksi TikTok/Reels</li>
-              <li className="flex items-start text-gray-400"><span className="mr-2">&#10005;</span> Tanpa penempatan Featured Banner</li>
-            </ul>
-            <button className="w-full border-[2px] border-black text-black font-bold uppercase text-xs py-3 hover:bg-black hover:text-white transition-colors">
-              Pilih Paket Starter
-            </button>
-          </div>
+                <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1 mt-2">
+                  {pkg.subtitle}
+                </div>
+                <h4 className="text-2xl font-black uppercase tracking-tight mb-6">
+                  {pkg.name}
+                </h4>
+                <p className="text-sm text-gray-600 font-serif mb-6">
+                  {pkg.description}
+                </p>
+                <div className="mb-6">
+                  <div className="text-[10px] text-gray-500 uppercase tracking-widest">
+                    Investasi Publikasi
+                  </div>
+                  <div className="text-4xl font-black tracking-tighter">
+                    {pkg.price}{' '}
+                    <span className="text-sm font-normal text-gray-500 tracking-normal">
+                      {pkg.duration}
+                    </span>
+                  </div>
+                </div>
 
-          {/* Package 2 (Highlighted) */}
-          <div className="border-[4px] border-black p-8 relative shadow-xl scale-105 bg-white z-10">
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white text-[9px] font-bold uppercase tracking-widest px-4 py-1 w-max">
-              &#9733; Paling Diminati Pemilik Kafe
-            </div>
-            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1 mt-2">Paket 02 — Maksimum Liputan</div>
-            <h4 className="text-2xl font-black uppercase tracking-tight mb-6">Viral Buzz Package</h4>
-            <p className="text-sm text-gray-600 font-serif mb-6">Dorongan visual penuh di lintas sosial media untuk menciptakan antrean riil dan exposure tinggi.</p>
-            <div className="mb-6">
-              <div className="text-[10px] text-gray-500 uppercase tracking-widest">Investasi Publikasi</div>
-              <div className="text-4xl font-black tracking-tighter">Rp 1.850.000 <span className="text-sm font-normal text-gray-500 tracking-normal">/ Campaign</span></div>
-            </div>
-            <ul className="text-sm font-serif text-black font-bold space-y-3 mb-8">
-              <li className="flex items-start"><span className="mr-2">&#9632;</span> Artikel Liputan Utama + Masuk Featured Banner Beranda 2 Minggu</li>
-              <li className="flex items-start"><span className="mr-2">&#9632;</span> 1 Video Kurasi Reels & TikTok (On-Site Shoot oleh Videografer)</li>
-              <li className="flex items-start"><span className="mr-2">&#9632;</span> Badge Khusus "Mampirin Approved - Best Place to Study / Hangout"</li>
-              <li className="flex items-start"><span className="mr-2">&#9632;</span> 1x Siaran Broadcast ke WhatsApp Komunitas Mahasiswa (12K+ Anggota)</li>
-              <li className="flex items-start"><span className="mr-2">&#9632;</span> Laporan Analytic Jangkauan & Interaksi Pembaca</li>
-            </ul>
-            <button className="w-full bg-black text-white font-bold uppercase text-xs py-4 hover:bg-gray-800 transition-colors">
-              Klaim Paket Viral Buzz &rarr;
-            </button>
-          </div>
+                <ul
+                  className={`text-sm font-serif space-y-3 mb-8 ${
+                    isSelected ? 'text-black font-bold' : 'text-gray-700'
+                  }`}
+                >
+                  {pkg.features.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className={`flex items-start ${
+                        item.included ? '' : 'text-gray-400 font-normal'
+                      }`}
+                    >
+                      <span className="mr-2">
+                        {item.included ? (isSelected ? '■' : '✓') : '✕'}
+                      </span>
+                      <span>{item.text}</span>
+                    </li>
+                  ))}
+                </ul>
 
-          {/* Package 3 */}
-          <div className="border border-gray-400 p-8">
-            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Paket 03 — Skala Perusahaan</div>
-            <h4 className="text-2xl font-black uppercase tracking-tight mb-6">Growth Partner (Retainer)</h4>
-            <p className="text-sm text-gray-600 font-serif mb-6">Kemitraan strategis bulanan untuk menjaga brand mental presence kafe Anda di benak audiens secara berkelanjutan.</p>
-            <div className="mb-6">
-              <div className="text-[10px] text-gray-500 uppercase tracking-widest">Investasi Publikasi</div>
-              <div className="text-4xl font-black tracking-tighter">Rp 3.500.000 <span className="text-sm font-normal text-gray-500 tracking-normal">/ Bulan</span></div>
-            </div>
-            <ul className="text-sm font-serif text-gray-700 space-y-3 mb-8">
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> Kampanye Rutin Komunitas Bulanan (Bisa Jam / Acara / Giveaway)</li>
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> Pengelolaan Voucher Diskon Mahasiswa Eksklusif</li>
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> 2x Konten Video Fresh Reels/TikTok Tiap Bulan</li>
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> Laporan Bulanan Lengkap (Klik Web, Kunjungan, & Profil Pengunjung)</li>
-              <li className="flex items-start"><span className="mr-2">&#10003;</span> Dedicated Relationship Manager dari Tim Redaksi</li>
-            </ul>
-            <button className="w-full border-[2px] border-black text-black font-bold uppercase text-xs py-3 hover:bg-black hover:text-white transition-colors">
-              Konsultasikan Retainer
-            </button>
-          </div>
-
+                <Link
+                  href={`/ads/order?package=${pkg.id}`}
+                  className={`block text-center w-full font-bold uppercase text-xs transition-colors ${
+                    isSelected
+                      ? 'bg-black text-white py-4 hover:bg-gray-800 shadow-md'
+                      : 'border-[2px] border-black text-black py-3 hover:bg-black hover:text-white'
+                  }`}
+                >
+                  {pkg.buttonText}
+                </Link>
+              </div>
+            );
+          })}
         </div>
 
         {/* Disclaimer Banner */}
