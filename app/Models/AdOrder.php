@@ -13,6 +13,7 @@ class AdOrder extends Model
         'package_price',
         'cafe_name',
         'owner_name',
+        'email',
         'whatsapp_number',
         'address',
         'maps_url',
