@@ -281,16 +281,6 @@ export default function Ads() {
           })}
         </div>
 
-        {/* Disclaimer Banner */}
-        <div className="mt-12 border border-gray-300 bg-gray-50 p-4 flex justify-between items-center text-xs text-gray-600 font-serif">
-          <div className="flex items-center">
-            <span className="text-lg font-bold mr-3">&#8505;</span>
-            <span>Semua paket sudah termasuk sesi wawancara mendalam dengan Anda (owner/founder) untuk merumuskan story telling yang tepat sesuai visi media.</span>
-          </div>
-          <div className="font-bold uppercase tracking-widest border-l border-gray-400 pl-4 ml-4 shrink-0 text-black">
-            Tanpa Biaya Tersembunyi
-          </div>
-        </div>
       </section>
 
       {/* Footer (Format Sama) */}

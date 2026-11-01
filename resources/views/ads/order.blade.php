@@ -163,23 +163,23 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- 3. Nomor WhatsApp Aktif -->
+                    <!-- 3. Alamat Email Aktif -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-gray-900 mb-2">
-                            3. Nomor WhatsApp Aktif <span class="text-red-600">*</span>
+                            3. Alamat Email Aktif <span class="text-red-600">*</span>
                         </label>
                         <input
-                            type="text"
-                            name="whatsapp_number"
-                            value="{{ old('whatsapp_number') }}"
-                            placeholder="Contoh: 081234567890"
-                            class="w-full border-b @error('whatsapp_number') border-red-500 @else border-gray-300 @enderror py-2.5 px-1 focus:outline-none focus:border-black bg-transparent text-sm transition-colors"
+                            type="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="Contoh: owner@namabisnis.com"
+                            class="w-full border-b @error('email') border-red-500 @else border-gray-300 @enderror py-2.5 px-1 focus:outline-none focus:border-black bg-transparent text-sm transition-colors"
                             required
                         >
                         <span class="text-[11px] text-gray-400 block mt-1">
-                            Akan dihubungi tim redaksi untuk konfirmasi jadwal liputan on-site.
+                            Invoice resmi dan jadwal liputan akan dikirimkan ke alamat email ini.
                         </span>
-                        @error('whatsapp_number')
+                        @error('email')
                             <p class="text-red-600 text-xs mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>

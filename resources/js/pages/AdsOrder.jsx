@@ -7,7 +7,7 @@ export default function AdsOrder({ selectedPackageKey, packages }) {
   const { data, setData, post, processing, errors } = useForm({
     cafe_name: '',
     owner_name: '',
-    whatsapp_number: '',
+    email: '',
     address: '',
     maps_url: '',
     social_media: '',
@@ -221,25 +221,25 @@ export default function AdsOrder({ selectedPackageKey, packages }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-            {/* 3. Nomor WhatsApp Aktif */}
+            {/* 3. Alamat Email Aktif */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-gray-900 mb-2">
-                3. Nomor WhatsApp Aktif <span className="text-red-600">*</span>
+                3. Alamat Email Aktif <span className="text-red-600">*</span>
               </label>
               <input
-                type="text"
-                value={data.whatsapp_number}
-                onChange={(e) => setData('whatsapp_number', e.target.value)}
-                placeholder="Contoh: 081234567890"
+                type="email"
+                value={data.email}
+                onChange={(e) => setData('email', e.target.value)}
+                placeholder="Contoh: owner@namabisnis.com"
                 className={`w-full border-b ${
-                  errors.whatsapp_number ? 'border-red-500' : 'border-gray-300'
+                  errors.email ? 'border-red-500' : 'border-gray-300'
                 } py-2.5 px-1 focus:outline-none focus:border-black bg-transparent text-sm transition-colors`}
               />
               <span className="text-[11px] text-gray-400 block mt-1">
-                Akan dihubungi tim redaksi untuk konfirmasi jadwal liputan on-site.
+                Invoice resmi dan jadwal liputan akan dikirimkan ke alamat email ini.
               </span>
-              {errors.whatsapp_number && (
-                <p className="text-red-600 text-xs mt-1.5">{errors.whatsapp_number}</p>
+              {errors.email && (
+                <p className="text-red-600 text-xs mt-1.5">{errors.email}</p>
               )}
             </div>
 

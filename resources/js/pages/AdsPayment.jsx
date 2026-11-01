@@ -90,7 +90,7 @@ export default function AdsPayment({ order, packages }) {
               </h2>
             </div>
             <p className="text-sm font-serif text-gray-200">
-              Terima kasih! Pesanan iklan UMKM <strong>{order.cafe_name}</strong> telah lunas. Tim redaksi Mampirin segera menghubungi nomor WhatsApp <strong>{order.whatsapp_number}</strong> dalam 1x24 jam kerja untuk penjadwalan liputan.
+              Terima kasih! Pesanan iklan UMKM <strong>{order.cafe_name}</strong> telah lunas. Tim redaksi Mampirin segera menghubungi alamat email <strong>{order.email || order.whatsapp_number}</strong> dalam 1x24 jam kerja untuk konfirmasi liputan dan pengiriman invoice.
             </p>
           </div>
         ) : (
@@ -132,8 +132,8 @@ export default function AdsPayment({ order, packages }) {
               </div>
 
               <div>
-                <span className="text-gray-500 block uppercase tracking-wider text-[10px]">WhatsApp:</span>
-                <span className="text-gray-800 font-mono">{order.whatsapp_number}</span>
+                <span className="text-gray-500 block uppercase tracking-wider text-[10px]">Email Aktif:</span>
+                <span className="text-gray-800 font-mono">{order.email || order.whatsapp_number}</span>
               </div>
 
               <div>
