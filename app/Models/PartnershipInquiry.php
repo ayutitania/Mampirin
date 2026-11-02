@@ -31,6 +31,18 @@ use Illuminate\Support\Carbon;
 class PartnershipInquiry extends Model
 {
     /**
+     * Inquiry statuses and their Indonesian labels.
+     *
+     * @var array<string, string>
+     */
+    public const STATUSES = [
+        'pending' => 'Menunggu',
+        'contacted' => 'Dihubungi',
+        'approved' => 'Disetujui',
+        'rejected' => 'Ditolak',
+    ];
+
+    /**
      * @return BelongsTo<PartnershipPackage, $this>
      */
     public function package(): BelongsTo

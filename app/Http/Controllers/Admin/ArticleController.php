@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
 use App\Support\Slug;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -180,7 +181,7 @@ class ArticleController extends Controller
     /**
      * Get the category options for the form and filters.
      *
-     * @return \Illuminate\Database\Eloquent\Collection<int, Category>
+     * @return Collection<int, Category>
      */
     private function categories()
     {

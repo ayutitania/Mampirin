@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ad;
 use App\Models\Article;
 use App\Models\ArticleSubmission;
 use App\Models\Category;
@@ -22,6 +23,8 @@ class DashboardController extends Controller
                 'articles' => Article::query()->count(),
                 'published' => Article::query()->published()->count(),
                 'categories' => Category::query()->count(),
+                'ads' => Ad::query()->count(),
+                'active_ads' => Ad::query()->active()->count(),
                 'submissions' => ArticleSubmission::query()
                     ->where('status', 'pending')
                     ->count(),
@@ -34,6 +37,17 @@ class DashboardController extends Controller
                 ->latest('created_at')
                 ->take(5)
                 ->get(['id', 'category_id', 'title', 'slug', 'is_published', 'published_at', 'created_at']),
+            'pendingSubmissions' => ArticleSubmission::query()
+                ->where('status', 'pending')
+                ->latest()
+                ->take(3)
+                ->get(['id', 'title', 'writer_name', 'created_at']),
+            'pendingInquiries' => PartnershipInquiry::query()
+                ->with('package:id,name')
+                ->where('status', 'pending')
+                ->latest()
+                ->take(3)
+                ->get(['id', 'partnership_package_id', 'company', 'contact_name', 'created_at']),
         ]);
     }
 }

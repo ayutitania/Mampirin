@@ -19,7 +19,14 @@ class ArticleSubmissionController extends Controller
             'writer_name' => ['required', 'string', 'max:255'],
             'writer_email' => ['required', 'string', 'email', 'max:255'],
             'writer_phone' => ['nullable', 'string', 'max:30'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ]);
+
+        unset($validated['photo']);
+
+        if ($request->hasFile('photo')) {
+            $validated['image_path'] = $request->file('photo')->store('submissions', 'public');
+        }
 
         ArticleSubmission::create($validated);
 

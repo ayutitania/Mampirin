@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\AdController as AdminAdController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
 use App\Http\Controllers\Admin\SubmissionController as AdminSubmissionController;
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ArticleController;
@@ -88,7 +90,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->except('show')
             ->names('categories');
 
+        Route::patch('/submissions/{submission}/approve', [AdminSubmissionController::class, 'approve'])
+            ->name('submissions.approve');
+        Route::patch('/submissions/{submission}/reject', [AdminSubmissionController::class, 'reject'])
+            ->name('submissions.reject');
         Route::get('/submissions', [AdminSubmissionController::class, 'index'])
             ->name('submissions.index');
+
+        Route::patch('/ads/{ad}/toggle', [AdminAdController::class, 'toggle'])
+            ->name('ads.toggle');
+        Route::resource('/ads', AdminAdController::class)
+            ->except('show')
+            ->names('ads');
+
+        Route::get('/sponsors', [AdminSponsorController::class, 'index'])
+            ->name('sponsors.index');
+        Route::patch('/sponsors/{inquiry}/status', [AdminSponsorController::class, 'updateStatus'])
+            ->name('sponsors.status');
+        Route::delete('/sponsors/{inquiry}', [AdminSponsorController::class, 'destroy'])
+            ->name('sponsors.destroy');
     });
 });

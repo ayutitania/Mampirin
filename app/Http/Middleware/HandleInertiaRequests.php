@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Ad;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -40,6 +41,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'appUrl' => URL::to('/'),
             'auth' => [
                 'user' => $request->user(),
             ],

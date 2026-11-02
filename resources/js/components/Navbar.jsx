@@ -7,9 +7,7 @@ const INACTIVE = 'hover:text-gray-500';
 export default function Navbar() {
     const { url, props } = usePage();
     const categories = props.siteCategories ?? [];
-    const path = (
-        url.split('?')[0].replace(/\/+$/, '') || '/'
-    ).toLowerCase();
+    const path = (url.split('?')[0].replace(/\/+$/, '') || '/').toLowerCase();
 
     const isArticle = path === '/article' || path.startsWith('/article/');
     const linkClass = (isActive) => (isActive ? ACTIVE : INACTIVE);
@@ -52,10 +50,7 @@ export default function Navbar() {
                 </div>
             </div>
 
-            <Link
-                href="/write-us"
-                className={linkClass(path === '/write-us')}
-            >
+            <Link href="/write-us" className={linkClass(path === '/write-us')}>
                 Write Us
             </Link>
             <Link href="/ads" className={linkClass(path === '/ads')}>

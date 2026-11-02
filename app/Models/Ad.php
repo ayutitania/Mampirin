@@ -22,6 +22,17 @@ use Illuminate\Support\Carbon;
 class Ad extends Model
 {
     /**
+     * Available ad placements and their Indonesian labels.
+     *
+     * @var array<string, string>
+     */
+    public const PLACEMENTS = [
+        'top' => 'Banner Atas',
+        'sidebar' => 'Sidebar',
+        'article_sidebar' => 'Sidebar Artikel',
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

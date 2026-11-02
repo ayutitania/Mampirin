@@ -17,6 +17,16 @@ const NAV = [
         label: 'Kiriman Pembaca',
         match: (path) => path.startsWith('/admin/submissions'),
     },
+    {
+        href: '/admin/ads',
+        label: 'Iklan',
+        match: (path) => path.startsWith('/admin/ads'),
+    },
+    {
+        href: '/admin/sponsors',
+        label: 'Sponsor',
+        match: (path) => path.startsWith('/admin/sponsors'),
+    },
 ];
 
 export default function AdminLayout({ title, children }) {
