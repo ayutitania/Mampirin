@@ -48,10 +48,11 @@ const labelClass =
     'mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase';
 
 function AdApproveForm({ inquiry, placements }) {
-    const [adTitle, setAdTitle] = useState(inquiry.company);
-    const [adImageUrl, setAdImageUrl] = useState('');
+    const defaultTitle = inquiry.ad_title || inquiry.company;
+    const [adTitle, setAdTitle] = useState(defaultTitle);
+    const [adImageUrl, setAdImageUrl] = useState(inquiry.ad_image_url ?? '');
     const [adImage, setAdImage] = useState(null);
-    const [adTargetUrl, setAdTargetUrl] = useState('');
+    const [adTargetUrl, setAdTargetUrl] = useState(inquiry.ad_target_url ?? '');
     const [adPlacement, setAdPlacement] = placements[0]?.value ?? 'top';
     const [adStartsAt, setAdStartsAt] = useState('');
     const [adEndsAt, setAdEndsAt] = useState('');
@@ -61,10 +62,10 @@ function AdApproveForm({ inquiry, placements }) {
     const imageInputRef = useRef(null);
 
     const resetForm = () => {
-        setAdTitle(inquiry.company);
-        setAdImageUrl('');
+        setAdTitle(defaultTitle);
+        setAdImageUrl(inquiry.ad_image_url ?? '');
         setAdImage(null);
-        setAdTargetUrl('');
+        setAdTargetUrl(inquiry.ad_target_url ?? '');
         setAdPlacement(placements[0]?.value ?? 'top');
         setAdStartsAt('');
         setAdEndsAt('');
@@ -130,7 +131,8 @@ function AdApproveForm({ inquiry, placements }) {
                     Iklan yang Akan Dibuat
                 </h3>
                 <span className="text-[10px] text-gray-400">
-                    Langsung masuk tabel iklan, tanpa input manual
+                    Judul, URL tujuan & gambar sudah terisi dari form sponsor —
+                    langsung masuk tabel iklan
                 </span>
             </div>
 

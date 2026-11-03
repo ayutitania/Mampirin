@@ -9,7 +9,6 @@ use App\Models\Category;
 use App\Support\Slug;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -68,10 +67,7 @@ class SubmissionController extends Controller
             'category_id' => $validated['category_id'],
             'title' => $submission->title,
             'slug' => Slug::unique($submission->title, Article::class),
-            'excerpt' => Str::limit(
-                trim((string) preg_replace('/\s+/', ' ', $submission->body)),
-                220,
-            ),
+            'excerpt' => $this->excerptFromFirstParagraph($submission->body),
             'body' => $submission->body,
             'image_url' => $this->resolveArticleImage($request, $submission),
             'author' => $submission->writer_name,
@@ -91,6 +87,24 @@ class SubmissionController extends Controller
                 ? 'Kiriman disetujui dan artikel sudah terbit di situs.'
                 : 'Kiriman disetujui dan disimpan sebagai draft artikel.',
         );
+    }
+
+    /**
+     * Build the excerpt from the first paragraph of the submission body.
+     *
+     * Paragraphs are separated by newlines; the excerpt is the first
+     * non-empty paragraph (whitespace flattened) capped at 600 characters
+     * so it fits the `articles.excerpt` column.
+     */
+    private function excerptFromFirstParagraph(string $body): string
+    {
+        $paragraph = collect(
+            array_filter(array_map('trim', preg_split('/\R+/', $body) ?: [])),
+        )->first();
+
+        $excerpt = trim((string) preg_replace('/\s+/', ' ', (string) $paragraph));
+
+        return mb_substr($excerpt, 0, 600);
     }
 
     /**

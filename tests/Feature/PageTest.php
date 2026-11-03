@@ -10,6 +10,7 @@ beforeEach(function () {
 $pages = [
     'home' => 'Home',
     'ads' => 'Ads',
+    'faq' => 'Faq',
     'write-us' => 'WriteUs',
     'about' => 'About',
     'article.index' => 'ArticleIndex',

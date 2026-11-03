@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SubmissionController as AdminSubmissionController
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleSubmissionController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartnershipController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,9 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // Halaman Ads / Kemitraan
 Route::get('/ads', [AdsController::class, 'index'])->name('ads');
+
+// Halaman FAQ & syarat pengiriman
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
 // Halaman Pengajuan Kemitraan
 Route::get('/partnership', [PartnershipController::class, 'index'])

@@ -16,6 +16,9 @@ use Illuminate\Support\Carbon;
  * @property string $email
  * @property string|null $phone
  * @property string $message
+ * @property string $ad_title
+ * @property string|null $ad_target_url
+ * @property string|null $ad_image_url
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -27,6 +30,9 @@ use Illuminate\Support\Carbon;
     'email',
     'phone',
     'message',
+    'ad_title',
+    'ad_target_url',
+    'ad_image_url',
     'status',
 ])]
 class PartnershipInquiry extends Model

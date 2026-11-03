@@ -45,9 +45,16 @@ class PartnershipController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:30'],
             'message' => ['required', 'string', 'min:20'],
+            'ad_title' => ['required', 'string', 'max:255'],
+            'ad_target_url' => ['nullable', 'string', 'max:2048'],
+            'ad_image_url' => ['nullable', 'string', 'max:2048'],
         ]);
 
-        PartnershipInquiry::create($validated);
+        PartnershipInquiry::create([
+            ...$validated,
+            'ad_target_url' => ($validated['ad_target_url'] ?? null) ?: null,
+            'ad_image_url' => ($validated['ad_image_url'] ?? null) ?: null,
+        ]);
 
         return back()->with(
             'success',

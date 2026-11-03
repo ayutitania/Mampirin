@@ -29,6 +29,9 @@ export default function Partnership({ packages = [], selectedPackage = null }) {
         email: '',
         phone: '',
         message: '',
+        ad_title: '',
+        ad_target_url: '',
+        ad_image_url: '',
     });
 
     const chosenPackage = packages.find(
@@ -229,6 +232,74 @@ export default function Partnership({ packages = [], selectedPackage = null }) {
                             className="w-full border border-gray-300 bg-white p-4 text-sm focus:border-black focus:outline-none"
                         ></textarea>
                         <FieldError message={errors.message} />
+                    </div>
+
+                    {/* Detail Iklan */}
+                    <div className="border border-gray-300 bg-gray-50 p-5">
+                        <div className="mb-4 text-[10px] font-bold tracking-widest text-gray-500 uppercase">
+                            Detail Iklan
+                        </div>
+                        <div className="space-y-6">
+                            <div>
+                                <label
+                                    htmlFor="ad_title"
+                                    className="mb-2 block text-sm text-gray-800"
+                                >
+                                    Judul Iklan *
+                                </label>
+                                <input
+                                    id="ad_title"
+                                    type="text"
+                                    value={data.ad_title}
+                                    onChange={(event) =>
+                                        setData('ad_title', event.target.value)
+                                    }
+                                    placeholder="Contoh: Promo Kopi Senja Jimbaran"
+                                    className="w-full border-b border-gray-300 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                                />
+                                <FieldError message={errors.ad_title} />
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor="ad_target_url"
+                                    className="mb-2 block text-sm text-gray-800"
+                                >
+                                    URL Tujuan Iklan (opsional):
+                                </label>
+                                <input
+                                    id="ad_target_url"
+                                    type="text"
+                                    value={data.ad_target_url}
+                                    onChange={(event) =>
+                                        setData('ad_target_url', event.target.value)
+                                    }
+                                    placeholder="https://instagram.com/... atau /partnership"
+                                    className="w-full border-b border-gray-300 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                                />
+                                <FieldError message={errors.ad_target_url} />
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor="ad_image_url"
+                                    className="mb-2 block text-sm text-gray-800"
+                                >
+                                    URL Gambar Iklan (opsional):
+                                </label>
+                                <input
+                                    id="ad_image_url"
+                                    type="text"
+                                    value={data.ad_image_url}
+                                    onChange={(event) =>
+                                        setData('ad_image_url', event.target.value)
+                                    }
+                                    placeholder="https://... (admin bisa mengganti dengan unggahan saat approve)"
+                                    className="w-full border-b border-gray-300 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                                />
+                                <FieldError message={errors.ad_image_url} />
+                            </div>
+                        </div>
                     </div>
 
                     {/* Submit */}

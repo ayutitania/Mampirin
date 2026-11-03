@@ -64,9 +64,9 @@ export default function WriteUs() {
                 <p className="mb-10 border-b border-gray-300 pb-6 text-sm text-gray-700">
                     Pastikan kamu membaca syarat dan FAQ pengiriman artikel yang
                     ada di{' '}
-                    <a href="#" className="underline">
+                    <Link href="/faq" className="underline">
                         sini
-                    </a>
+                    </Link>
                 </p>
 
                 {flash?.success && (

@@ -31,6 +31,9 @@ test('a partnership inquiry can be stored', function () {
             'email' => 'ayu@example.com',
             'phone' => '081234567890',
             'message' => 'Kami ingin mempromosikan menu baru untuk mahasiswa bulan depan.',
+            'ad_title' => 'Banner Kopi Senja',
+            'ad_target_url' => 'https://instagram.com/kopisenja',
+            'ad_image_url' => 'https://example.com/banner.jpg',
         ]);
 
     $response
@@ -41,24 +44,43 @@ test('a partnership inquiry can be stored', function () {
         'partnership_package_id' => $package->id,
         'company' => 'Kopi Senja Jimbaran',
         'email' => 'ayu@example.com',
+        'ad_title' => 'Banner Kopi Senja',
+        'ad_target_url' => 'https://instagram.com/kopisenja',
+        'ad_image_url' => 'https://example.com/banner.jpg',
         'status' => 'pending',
     ]);
 
     expect(PartnershipInquiry::count())->toBe(1);
 });
 
-test('the phone number and package are optional', function () {
+test('the phone number is optional but the package is required', function () {
+    $this->seed(PartnershipPackageSeeder::class);
+    $package = PartnershipPackage::query()->where('code', '03')->firstOrFail();
+
     $this->post(route('partnership.store'), [
+        'partnership_package_id' => $package->id,
         'company' => 'Warung Makan Sederhana',
         'contact_name' => 'Budi',
         'email' => 'budi@example.com',
         'message' => 'Ingin konsultasi dulu sebelum memilih paket kemitraan.',
+        'ad_title' => 'Banner Warung Makan',
     ])->assertSessionHasNoErrors();
 
     $inquiry = PartnershipInquiry::first();
 
     expect($inquiry->phone)->toBeNull()
-        ->and($inquiry->partnership_package_id)->toBeNull();
+        ->and($inquiry->partnership_package_id)->toBe($package->id);
+});
+
+test('a missing package is rejected', function () {
+    $this->post(route('partnership.store'), [
+        'company' => 'Warung Makan Sederhana',
+        'contact_name' => 'Budi',
+        'email' => 'budi@example.com',
+        'message' => 'Ingin konsultasi dulu sebelum memilih paket kemitraan.',
+    ])->assertSessionHasErrors('partnership_package_id');
+
+    expect(PartnershipInquiry::count())->toBe(0);
 });
 
 test('required fields are validated', function (array $payload, string $invalidField) {

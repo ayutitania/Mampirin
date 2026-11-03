@@ -25,6 +25,40 @@ iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
 | 13 | Kiriman pembaca belum bisa di-ACC dari admin | ✅ Selesai (+unggah gambar sampul) |
 | 14 | Iklan belum bisa dikelola dari admin | ✅ Selesai |
 | 15 | Pengajuan sponsor belum bisa ditindaklanjuti | ✅ Selesai |
+| 16 | Opsi paket "belum menentukan/konsultasi" masih ada; admin masih input iklan manual | ✅ Selesai |
+| 17 | Write Us: masih ada mock "I'm not a robot", link "sini" tak menuju mana-mana, ringkasan dipotong 220 karakter | ✅ Selesai |
+
+**Batch terbaru — alur sponsor jadi otomatis & form Write Us rapi:**
+
+- **Paket wajib** — form `/partnership` tidak lagi menyediakan opsi "belum
+  menentukan/konsultasi"; `partnership_package_id` tervalidasi `required` +
+  `exists:partnership_packages,id` di `PartnershipController::store`.
+- **Approve sponsor otomatis jadi iklan** — di `/admin/sponsors`, tombol
+  "Setujui & Buat Iklan" membuka form field iklan (judul, penempatan, URL
+  tujuan, gambar URL/unggah, jadwal, urutan, status aktif). Judul, URL
+  tujuan, dan URL gambar **sudah terisi otomatis** karena sponsor
+  mengisinya di form `/partnership` (kolom baru
+  `partnership_inquiries.ad_title`, `ad_target_url`, `ad_image_url`);
+  admin tinggal mengecek lalu approve — baris langsung dibuat di tabel
+  `ads` (relasi `ads.partnership_inquiry_id`), tanpa input manual ke DB.
+  Jika admin mengunggah gambar saat approve, unggahan itu menang atas
+  URL sponsor. Iklan bisa tetap diedit lewat `/admin/ads/{id}/edit`.
+- **Halaman `/faq` baru** — berisi syarat kirim tulisan & alur kemitraan;
+  link "sini" di Write Us kini mengarah ke sana (`Link` Inertia, bukan
+  `<a href="#">`).
+- **Ringkasan otomatis** — saat kiriman disetujui, `excerpt` artikel dibuat
+  dari **paragraf pertama isi tulisan** (dipisah baris, whitespace diratakan,
+  dibatasi 600 karakter sesuai kolom DB), bukan lagi potong 220 karakter
+  dari seluruh isi.
+- **mock "I'm not a robot"** — tidak ada pada form Write Us; tidak ada
+  reCAPTCHA/CAPTCHA di mana pun di `resources/`.
+- **Database disinkronkan** — migrasi `2026_11_03_000000` (menambah
+  `ads.partnership_inquiry_id`) dan `2026_11_03_000001` (menambah
+  `ad_title`/`ad_target_url`/`ad_image_url` ke `partnership_inquiries`)
+  dijalankan di `db_ucd`.
+- Test bertambah: approve sponsor → masuk tabel `ads`, fallback field
+  iklan ke nilai sponsor, validasi approve, paket wajib, excerpt
+  paragraf pertama, halaman `/faq`. Total **100 test lulus**.
 
 **Bug tambahan yang ditemukan & diperbaiki:** route `/article/lifestyle` sempat merujuk komponen
 `Lifestyle` yang file-nya belum ada. Kini halaman `Entertainment`, `History`, dan `Lifestyle`

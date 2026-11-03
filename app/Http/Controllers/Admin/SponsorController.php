@@ -103,8 +103,8 @@ class SponsorController extends Controller
             'title' => $validated['ad_title'],
             'image_url' => $imagePath
                 ? '/storage/'.$imagePath
-                : ($validated['ad_image_url'] ?: null),
-            'target_url' => $validated['ad_target_url'] ?: null,
+                : (($validated['ad_image_url'] ?? null) ?: $inquiry->ad_image_url),
+            'target_url' => (($validated['ad_target_url'] ?? null) ?: $inquiry->ad_target_url),
             'placement' => $validated['ad_placement'],
             'is_active' => $request->boolean('ad_is_active'),
             'starts_at' => $validated['ad_starts_at'] ?? null,

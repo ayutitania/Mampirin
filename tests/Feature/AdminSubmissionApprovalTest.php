@@ -50,6 +50,8 @@ test('the submission index can be filtered by status', function () {
 
 test('approving a submission creates a published article', function () {
     $submission = pendingSubmission([
+        'body' => 'Paragraf pertama kiriman pembaca yang menjadi excerpt.'."\n\n"
+            .str_repeat('Isi paragraf kedua yang tidak dipakai untuk ringkasan. ', 3),
         'image_path' => 'submissions/foto-pendukung.jpg',
     ]);
     $category = Category::query()->where('slug', 'lifestyle')->firstOrFail();
@@ -73,6 +75,7 @@ test('approving a submission creates a published article', function () {
         ->and($article->image_url)->toBe('/storage/submissions/foto-pendukung.jpg')
         ->and($article->is_published)->toBeTrue()
         ->and($article->is_featured)->toBeFalse()
+        ->and($article->excerpt)->toBe('Paragraf pertama kiriman pembaca yang menjadi excerpt.')
         ->and($submission->article_id)->toBe($article->id)
         ->and($submission->status)->toBe('approved');
 });
