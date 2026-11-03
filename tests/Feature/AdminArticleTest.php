@@ -4,6 +4,8 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
 use Database\Seeders\CategorySeeder;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 beforeEach(function () {
@@ -66,6 +68,45 @@ test('an admin can create an article', function () {
     expect($article->slug)->toBe('artikel-baru-dari-admin')
         ->and($article->is_featured)->toBeTrue()
         ->and($article->is_published)->toBeTrue();
+});
+
+test('an admin can upload a cover image when creating an article', function () {
+    Storage::fake('public');
+
+    $this->actingAs($this->admin)
+        ->post(route('admin.articles.store'), articlePayload([
+            'image_url' => '',
+            'article_image' => UploadedFile::fake()->create('sampul-berita.jpg', 200, 'image/jpeg'),
+        ]))
+        ->assertRedirect(route('admin.articles.index'))
+        ->assertSessionHas('success');
+
+    $article = Article::query()->firstOrFail();
+
+    expect($article->image_url)->toStartWith('/storage/articles/');
+    Storage::disk('public')->assertExists(
+        substr($article->image_url, strlen('/storage/')),
+    );
+});
+
+test('an uploaded image replaces the url when editing an article', function () {
+    Storage::fake('public');
+
+    $article = Article::query()->create([
+        ...articlePayload(),
+        'slug' => 'artikel-gambar',
+    ]);
+
+    $this->actingAs($this->admin)
+        ->put(route('admin.articles.update', $article), articlePayload([
+            'slug' => 'artikel-gambar',
+            'image_url' => '',
+            'article_image' => UploadedFile::fake()->create('gambar-baru.jpg', 200, 'image/jpeg'),
+        ]))
+        ->assertRedirect(route('admin.articles.index'))
+        ->assertSessionHas('success');
+
+    expect($article->fresh()->image_url)->toStartWith('/storage/articles/');
 });
 
 test('article slugs stay unique when titles collide', function () {

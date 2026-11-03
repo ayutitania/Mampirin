@@ -39,7 +39,7 @@ class PartnershipController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'partnership_package_id' => ['nullable', 'integer', 'exists:partnership_packages,id'],
+            'partnership_package_id' => ['required', 'integer', 'exists:partnership_packages,id'],
             'company' => ['required', 'string', 'max:255'],
             'contact_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],

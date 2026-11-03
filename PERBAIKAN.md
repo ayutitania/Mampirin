@@ -3,8 +3,8 @@
 Hasil audit singkat proyek (`D:\ucd\ucd`) — Laravel 13 + Inertia 3 + React 19.
 
 Status saat ini: **CMS selesai**. Konten artikel/kategori sudah dari MySQL, panel admin
-tersedia lengkap dengan persetujuan kiriman pembaca, pengelolaan iklan, dan sponsor masuk,
-serta form Write Us mendukung unggah foto pendukung.
+tersedia lengkap dengan persetujuan kiriman pembaca (+unggah gambar sampul), pengelolaan
+iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
 
 ## Status perbaikan
 
@@ -12,17 +12,17 @@ serta form Write Us mendukung unggah foto pendukung.
 |---|---|---|
 | 1 | `@vite` memuat halaman `.tsx` yang tidak ada | ✅ Selesai |
 | 2 | Form "Write Us" tidak berfungsi | ✅ Selesai |
-| 3 | Navbar/header/footer diduplikasi | 🟡 Navbar selesai |
+| 3 | Navbar/header/footer diduplikasi | ✅ Selesai (`AppLayout`) |
 | 4 | Kategori Home tidak konsisten dengan route | ✅ Selesai (satu sumber dari DB) |
 | 5 | Belum ada backend / CMS | ✅ Selesai (artikel, kategori, admin) |
 | 6 | Konfigurasi & lokasi database | ✅ Selesai (pindah ke MySQL) |
 | 7 | `welcome.tsx` sisa starter kit | ✅ Selesai |
-| 8 | Test masih kosong | ✅ Selesai (66 test) |
-| 9 | `APP_NAME`, SEO, metadata | 🟡 Sebagian |
+| 8 | Test masih kosong | ✅ Selesai (94 test) |
+| 9 | `APP_NAME`, SEO, metadata | ✅ Selesai |
 | 10 | Halaman Ads & slot iklan belum dari database | ✅ Selesai |
 | 11 | Konten artikel masih array dummy & belum ada admin | ✅ Selesai |
 | 12 | Write Us belum bisa unggah foto | ✅ Selesai |
-| 13 | Kiriman pembaca belum bisa di-ACC dari admin | ✅ Selesai |
+| 13 | Kiriman pembaca belum bisa di-ACC dari admin | ✅ Selesai (+unggah gambar sampul) |
 | 14 | Iklan belum bisa dikelola dari admin | ✅ Selesai |
 | 15 | Pengajuan sponsor belum bisa ditindaklanjuti | ✅ Selesai |
 
@@ -47,18 +47,22 @@ yang masih berisi array dummy sudah dihapus; semuanya memakai satu halaman
   `/article/entertainment|history|lifestyle` tetap berfungsi, ditambah URL generik
   `/article/category/{slug}` dan detail `/article/{slug}`.
 - **Panel admin** di `/admin` — login/logout dengan session Laravel, dashboard statistik,
-  CRUD artikel (buat, edit, hapus, toggle terbit/draft, filter pencarian/kategori/status),
-  CRUD kategori, persetujuan/penolakan kiriman pembaca, CRUD iklan + toggle aktif, serta
-  pengelolaan status sponsor/pengajuan kemitraan.
+  CRUD artikel (buat, edit, hapus, toggle terbit/draft, filter pencarian/kategori/status,
+  +unggah gambar sampul), CRUD kategori, persetujuan/penolakan kiriman pembaca
+  (+unggah gambar sampul & opsi unggulan), CRUD iklan + toggle aktif, serta pengelolaan
+  status sponsor/pengajuan kemitraan.
+- **`AppLayout`** — satu layout bersama untuk header, navbar, dan footer; semua halaman
+  publik memakainya. Juga menjadi sumber SEO per halaman (description, Open Graph,
+  Twitter card, canonical) lewat `<Head>`.
 - **Foto pendukung Write Us** — kolom baru `article_submissions.image_path`; foto tampil di
   halaman admin kiriman pembaca dan bisa dibuka ukuran asli.
 - `.gitignore` — `db_ucd` dan `database/*.sqlite` diabaikan; `db_ucd` di-untrack dari git.
 - **Database dipindah ke MySQL/MariaDB XAMPP** (`db_ucd`), semua migrasi dijalankan; phpMyAdmin
   siap dipakai di <http://localhost/phpmyadmin>.
 - `welcome.tsx` dihapus; `APP_NAME` menjadi "Mampirin Magazine".
-- Test: **89 test lulus** (halaman publik, artikel & kategori, auth admin, CRUD admin,
-  persetujuan kiriman pembaca, CRUD/toggle iklan, status sponsor, foto Write Us, pengajuan
-  artikel/kemitraan, serta data iklan/paket).
+- Test: **94 test lulus** (halaman publik, artikel & kategori, auth admin, CRUD admin
+  +upload gambar, persetujuan kiriman pembaca +upload/unggulan, CRUD/toggle iklan, status
+  sponsor, foto Write Us, pengajuan artikel/kemitraan, serta data iklan/paket).
 - `npm run build` berhasil untuk semua halaman.
 
 ---
@@ -120,22 +124,19 @@ browser melakukan submit default (reload halaman) dan seluruh isian hilang.
 
 ---
 
-## 3. 🟡 Navbar sudah dipusatkan, header/footer belum
+## 3. ✅ Layout bersama: navbar, header & footer dipusatkan
 
-**Navbar: ✅ selesai.** Sebelumnya nav disalin manual di tiap halaman dengan status aktif
-yang berbeda-beda. Sekarang ada satu komponen:
+Semua elemen bersama kini ada di dua komponen:
 
 - `resources/js/components/Navbar.jsx` — satu sumber untuk menu Home / About / Article
-  (dropdown Entertainment, History, Lifestyle) / Write Us / Ads / Contact.
-- Status link aktif ditentukan otomatis dari `usePage().url`, jadi tidak perlu prop manual:
-  `/about` → About aktif, `/article/*` → Article aktif, dst.
-- Kedelapan halaman memakai `<Navbar />`: Home, About, Ads, WriteUs, ArticleIndex,
-  Entertainment, History, Lifestyle.
-- Verifikasi: build sukses dan 16 test tetap lulus.
+  (dropdown kategori dari database) / Write Us / Ads / Contact. Status link aktif
+  ditentukan otomatis dari `usePage().url`, jadi tidak perlu prop manual.
+- `resources/js/components/AppLayout.jsx` — membungkus `<BannerAds />` + `<Navbar />`
+  + header "Mampirin Magazine" + konten + footer tunggal (`id="footer-contact"`).
+  Footer dan header tidak lagi ditulis ulang di tiap halaman (dulunya dua varian footer).
 
-**Belum:** header (judul "Mampirin Magazine") dan footer masih ditulis ulang di setiap
-halaman, dan footer punya dua varian berbeda. Langkah berikutnya: buat `AppLayout` yang
-membungkus header + `<Navbar />` + konten + footer.
+Kesembilan halaman publik memakai `<AppLayout />`: Home, About, Ads, WriteUs,
+Partnership, ArticleIndex, ArticleCategory, ArticleShow, dan NotFound.
 
 ---
 
@@ -214,20 +215,25 @@ Hanya ada `tests/Feature/ExampleTest.php` dan `tests/Unit/ExampleTest.php` bawaa
   (`assertInertia(fn ($page) => $page->component('Home'))`).
 - Submit form Write Us: validasi gagal & sukses.
 
-**Status sekarang:** 89 test lulus, mencakup halaman publik, artikel & kategori, auth admin,
-CRUD admin, persetujuan kiriman pembaca, CRUD/toggle iklan, status sponsor, unggah foto
-Write Us, pengajuan artikel/kemitraan, dan data iklan/paket.
+**Status sekarang:** 94 test lulus, mencakup halaman publik, artikel & kategori, auth admin,
+CRUD admin (+upload gambar sampul), persetujuan kiriman pembaca (+upload/unggulan),
+CRUD/toggle iklan, status sponsor, unggah foto Write Us, pengajuan artikel/kemitraan,
+dan data iklan/paket.
 
 ---
 
-## 9. 🟡 SEO, metadata, dan detail kecil
+## 9. ✅ SEO, metadata, dan detail kecil
 
-- `APP_NAME=Laravel` di `.env` → ganti menjadi `Mampirin Magazine`.
-- Belum ada meta description / Open Graph / canonical per halaman.
-- Semua gambar memakai placeholder `picsum.photos` dengan `alt` generik.
-- Tautan `Contact` memakai anchor `#footer-contact` — pastikan `id` tersebut ada di semua page
-  (saat ini bergantung pada footer yang diduplikasi).
-- Tidak ada halaman 404 kustom.
+- `APP_NAME=Mampirin Magazine` di `.env` dan `.env.example`.
+- SEO per halaman lewat `AppLayout`: meta description, Open Graph (judul/deskripsi/tipe/
+  situs/URL/gambar), Twitter card, dan tautan canonical di-emit dari `<Head>`; tiap
+  halaman melewati `title`/`description`/`image` (mis. `ArticleShow` memakai
+  `type="article"` + `og:image` dari artikel).
+- Tautan `Contact` memakai anchor `#footer-contact` yang kini ada di footer tunggal
+  `AppLayout`, jadi semua halaman publik memilikinya.
+- Halaman 404 kustom: `resources/js/pages/NotFound.jsx` dirender lewat handler
+  exception di `bootstrap/app.php` (kode status 404, status HTTP 404).
+- Gambar konten masih memakai placeholder `picsum.photos` (sengaja, data seeder).
 
 ---
 
@@ -345,11 +351,18 @@ halaman langsung mengikuti tanpa mengubah kode. Isi `target_url` iklan dengan UR
 
 - Halaman `/admin/submissions` menampilkan isi tulisan, foto pendukung, dan filter status
   (Menunggu / Disetujui / Ditolak) beserta jumlahnya.
-- Admin memilih kategori lalu menekan **Setujui & Buat Artikel**; opsi **Langsung terbitkan**
-  menentukan apakah artikel langsung tampil atau disimpan sebagai draft.
-- Sistem membuat artikel baru (slug otomatis, excerpt dari isi tulisan, penulis = nama pengirim)
-  dan menyimpan relasinya di kolom baru `article_submissions.article_id`.
-- Kiriman yang sudah disetujui menampilkan tautan **Edit Artikel** dan **Lihat di Situs**.
+- Admin memilih kategori, opsi **Langsung terbitkan** (tampil langsung / draft), dan
+  **Tandai sebagai unggulan** (hero + atas rubrik), lalu menekan **Setujui & Buat Artikel**.
+- **Unggah gambar sampul** (opsional) di halaman yang sama: JPG/PNG/WEBP maks 4 MB,
+  dipratinjau dan dikirim sebagai `FormData` (`forceFormData`). Jika diunggah, gambar itu
+  mengalahkan foto pembaca dan disimpan ke `storage/app/public/articles`; jika tidak,
+  foto pembaca (`image_path`) yang dipakai. Artikel langsung masuk tabel `articles` dan
+  tampil di situs (Home, rubrik, sidebar, popular) begitu terbit.
+- Sistem membuat artikel baru (slug otomatis, excerpt dari isi tulisan, penulis = nama
+  pengirim) dan menyimpan relasinya di kolom `article_submissions.article_id`.
+- Kiriman yang sudah disetujui menampilkan tautan **Edit Artikel** dan **Lihat di Situs**;
+  gambar sampul juga bisa diganti lewat **Edit Artikel** (form artikel kini punya input
+  unggah yang menggantikan URL lama dan menghapus file yang sudah tidak dipakai).
 - Tombol **Tolak** hanya tersedia untuk kiriman yang belum menjadi artikel.
 
 **Manajemen iklan (`/admin/ads`):**
@@ -387,15 +400,16 @@ halaman langsung mengikuti tanpa mengubah kode. Isi `target_url` iklan dengan UR
 | 3 | Navbar bersama | ✅ |
 | 4 | Ads, banner berputar, & paket kemitraan dari database | ✅ |
 | 4b | Halaman `/partnership` + simpan pengajuan kemitraan | ✅ |
-| 5 | Layout bersama untuk header/footer | ⏳ |
+| 5 | Layout bersama untuk header/footer (`AppLayout`) | ✅ |
 | 6 | Migrasi + model artikel/kategori, ganti data dummy | ✅ |
 | 7 | Samakan daftar kategori (satu sumber) | ✅ |
 | 8 | Halaman admin / CMS | ✅ |
-| 9 | SEO & aksesibilitas | 🟡 |
+| 9 | SEO & metadata per halaman + 404 kustom | ✅ |
 | 10 | Unggah foto pendukung di Write Us | ✅ |
 | 11 | Persetujuan kiriman pembaca dari dashboard admin | ✅ |
 | 12 | Manajemen iklan + toggle aktif | ✅ |
 | 13 | Pengelolaan sponsor/pengajuan kemitraan | ✅ |
+| 14 | Unggah gambar sampul saat setujui kiriman & form artikel | ✅ |
 
 ---
 

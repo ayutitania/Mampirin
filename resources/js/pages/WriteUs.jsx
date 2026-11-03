@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import AppLayout from '../components/AppLayout';
 
 function FieldError({ message }) {
@@ -285,29 +285,6 @@ export default function WriteUs() {
                         </div>
 
                         <FieldError message={errors.photo} />
-                    </div>
-
-                    {/* reCAPTCHA Mockup */}
-                    <div className="mt-4 flex w-72 items-center justify-between rounded-sm border border-gray-300 bg-gray-50 p-4 shadow-sm">
-                        <div className="flex items-center gap-3">
-                            <input
-                                type="checkbox"
-                                className="h-6 w-6 cursor-pointer rounded-sm border-gray-400"
-                            />
-                            <span className="text-sm text-gray-800">
-                                I'm not a robot
-                            </span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <img
-                                src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
-                                alt="reCAPTCHA logo"
-                                className="h-8 w-8 opacity-80"
-                            />
-                            <span className="mt-1 text-[8px] text-gray-500">
-                                reCAPTCHA
-                            </span>
-                        </div>
                     </div>
 
                     {/* Submit Button */}

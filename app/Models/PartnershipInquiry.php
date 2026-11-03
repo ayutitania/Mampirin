@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -48,5 +49,15 @@ class PartnershipInquiry extends Model
     public function package(): BelongsTo
     {
         return $this->belongsTo(PartnershipPackage::class);
+    }
+
+    /**
+     * Get the ad created when this inquiry was approved.
+     *
+     * @return HasOne<Ad, $this>
+     */
+    public function ad(): HasOne
+    {
+        return $this->hasOne(Ad::class);
     }
 }

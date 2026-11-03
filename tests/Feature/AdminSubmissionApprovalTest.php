@@ -5,6 +5,8 @@ use App\Models\ArticleSubmission;
 use App\Models\Category;
 use App\Models\User;
 use Database\Seeders\CategorySeeder;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 beforeEach(function () {
@@ -154,4 +156,64 @@ test('an approved submission cannot be rejected', function () {
         ->assertSessionHas('error');
 
     expect($submission->fresh()->status)->toBe('approved');
+});
+
+test('an admin upload of a cover image wins over the reader photo', function () {
+    Storage::fake('public');
+
+    $submission = pendingSubmission([
+        'image_path' => 'submissions/foto-pembaca.jpg',
+    ]);
+    $category = Category::query()->where('slug', 'history')->firstOrFail();
+
+    $this->actingAs($this->admin)
+        ->patch(route('admin.submissions.approve', $submission), [
+            'category_id' => $category->id,
+            'is_published' => true,
+            'article_image' => UploadedFile::fake()->create('sampul-admin.jpg', 200, 'image/jpeg'),
+        ])
+        ->assertRedirect()
+        ->assertSessionHas('success');
+
+    $article = $submission->fresh()->article;
+
+    expect($article)->not->toBeNull()
+        ->and($article->image_url)->toStartWith('/storage/articles/')
+        ->and($article->is_published)->toBeTrue();
+
+    $path = substr($article->image_url, strlen('/storage/'));
+    Storage::disk('public')->assertExists($path);
+});
+
+test('an approved submission can be marked as featured', function () {
+    $submission = pendingSubmission();
+    $category = Category::query()->value('id');
+
+    $this->actingAs($this->admin)
+        ->patch(route('admin.submissions.approve', $submission), [
+            'category_id' => $category,
+            'is_published' => true,
+            'is_featured' => true,
+        ])
+        ->assertSessionHas('success');
+
+    expect($submission->fresh()->article->is_featured)->toBeTrue();
+});
+
+test('a non-image upload is rejected on approval', function () {
+    Storage::fake('public');
+
+    $submission = pendingSubmission();
+    $category = Category::query()->value('id');
+
+    $this->actingAs($this->admin)
+        ->patch(route('admin.submissions.approve', $submission), [
+            'category_id' => $category,
+            'is_published' => true,
+            'article_image' => UploadedFile::fake()->create('dokumen.pdf', 20, 'application/pdf'),
+        ])
+        ->assertSessionHasErrors('article_image');
+
+    expect($submission->fresh()->article_id)->toBeNull()
+        ->and($submission->fresh()->status)->toBe('pending');
 });

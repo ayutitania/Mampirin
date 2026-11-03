@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, router } from '@inertiajs/react';
 import AdminLayout from '../../../components/AdminLayout';
 import Pagination from '../../../components/Pagination';
@@ -15,11 +15,26 @@ function SubmissionCard({ submission, categories, statuses }) {
         categories[0]?.id ? String(categories[0].id) : '',
     );
     const [publishNow, setPublishNow] = useState(true);
+    const [featureIt, setFeatureIt] = useState(false);
+    const [coverImage, setCoverImage] = useState(null);
+    const coverInputRef = useRef(null);
 
     const statusLabel =
         statuses.find((item) => item.value === submission.status)?.label ??
         submission.status;
     const isApproved = Boolean(submission.article_id);
+
+    const selectCover = (event) => {
+        setCoverImage(event.target.files?.[0] ?? null);
+    };
+
+    const clearCover = () => {
+        setCoverImage(null);
+
+        if (coverInputRef.current) {
+            coverInputRef.current.value = '';
+        }
+    };
 
     const approve = () => {
         if (!categoryId) {
@@ -30,12 +45,18 @@ function SubmissionCard({ submission, categories, statuses }) {
             return;
         }
 
+        const formData = new FormData();
+        formData.append('category_id', categoryId);
+        formData.append('is_published', publishNow ? '1' : '0');
+        formData.append('is_featured', featureIt ? '1' : '0');
+
+        if (coverImage) {
+            formData.append('article_image', coverImage);
+        }
+
         router.patch(
             `/admin/submissions/${submission.id}/approve`,
-            {
-                category_id: categoryId,
-                is_published: publishNow,
-            },
+            formData,
             { preserveScroll: true },
         );
     };
@@ -156,60 +177,112 @@ function SubmissionCard({ submission, categories, statuses }) {
                         kiriman.
                     </p>
                 ) : (
-                    <div className="flex flex-wrap items-end gap-3">
-                        <div>
-                            <label
-                                htmlFor={`category-${submission.id}`}
-                                className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
-                            >
-                                Kategori Artikel
+                    <div className="space-y-4">
+                        <div className="flex flex-wrap items-end gap-3">
+                            <div>
+                                <label
+                                    htmlFor={`category-${submission.id}`}
+                                    className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
+                                >
+                                    Kategori Artikel
+                                </label>
+                                <select
+                                    id={`category-${submission.id}`}
+                                    value={categoryId}
+                                    onChange={(event) =>
+                                        setCategoryId(event.target.value)
+                                    }
+                                    className="border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none"
+                                >
+                                    {categories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <label className="flex items-center gap-2 pb-2 text-xs text-gray-600">
+                                <input
+                                    type="checkbox"
+                                    checked={publishNow}
+                                    onChange={(event) =>
+                                        setPublishNow(event.target.checked)
+                                    }
+                                    className="h-4 w-4 border-gray-400"
+                                />
+                                Langsung terbitkan
                             </label>
-                            <select
-                                id={`category-${submission.id}`}
-                                value={categoryId}
-                                onChange={(event) =>
-                                    setCategoryId(event.target.value)
-                                }
-                                className="border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none"
-                            >
-                                {categories.map((category) => (
-                                    <option
-                                        key={category.id}
-                                        value={category.id}
-                                    >
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </select>
+
+                            <label className="flex items-center gap-2 pb-2 text-xs text-gray-600">
+                                <input
+                                    type="checkbox"
+                                    checked={featureIt}
+                                    onChange={(event) =>
+                                        setFeatureIt(event.target.checked)
+                                    }
+                                    className="h-4 w-4 border-gray-400"
+                                />
+                                Tandai sebagai unggulan
+                            </label>
                         </div>
 
-                        <label className="flex items-center gap-2 pb-2 text-xs text-gray-600">
-                            <input
-                                type="checkbox"
-                                checked={publishNow}
-                                onChange={(event) =>
-                                    setPublishNow(event.target.checked)
-                                }
-                                className="h-4 w-4 border-gray-400"
-                            />
-                            Langsung terbitkan
-                        </label>
+                        <div>
+                            <span className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase">
+                                Gambar Sampul Artikel (opsional)
+                            </span>
+                            <p className="mb-2 text-xs text-gray-500">
+                                {submission.image_path
+                                    ? 'Foto pembaca akan dipakai jika kamu tidak mengunggah gambar lain.'
+                                    : 'Unggah gambar sampul agar artikel tampil lebih rapi (JPG/PNG/WEBP, maks 4 MB).'}
+                            </p>
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+                                <input
+                                    ref={coverInputRef}
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    onChange={selectCover}
+                                    className="block w-full text-sm text-gray-600 file:mr-3 file:border file:border-black file:bg-white file:px-3 file:py-1.5 file:text-[10px] file:font-bold file:text-black file:uppercase hover:file:bg-black hover:file:text-white"
+                                />
+                                {coverImage && (
+                                    <div className="relative w-full max-w-[180px] shrink-0 border border-gray-300 bg-gray-100 p-1">
+                                        <img
+                                            src={URL.createObjectURL(coverImage)}
+                                            alt="Pratinjau gambar sampul"
+                                            className="h-24 w-full object-cover"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={clearCover}
+                                            className="mt-1 w-full border border-gray-400 px-2 py-1 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white"
+                                        >
+                                            Hapus Gambar
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
 
-                        <button
-                            type="button"
-                            onClick={approve}
-                            className="bg-black px-4 py-2 text-[10px] font-bold tracking-widest text-white uppercase hover:bg-gray-800"
-                        >
-                            Setujui &amp; Buat Artikel
-                        </button>
+                        <div className="flex flex-wrap gap-3">
+                            <button
+                                type="button"
+                                onClick={approve}
+                                className="bg-black px-4 py-2 text-[10px] font-bold tracking-widest text-white uppercase hover:bg-gray-800"
+                            >
+                                Setujui &amp; Buat Artikel
+                            </button>
 
-                        <button
-                            type="button"
-                            onClick={reject}
-                            className="border border-red-300 px-4 py-2 text-[10px] font-bold tracking-widest text-red-600 uppercase hover:border-red-600 hover:bg-red-50"
-                        >
-                            Tolak
-                        </button>
+                            <button
+                                type="button"
+                                onClick={reject}
+                                className="border border-red-300 px-4 py-2 text-[10px] font-bold tracking-widest text-red-600 uppercase hover:border-red-600 hover:bg-red-50"
+                            >
+                                Tolak
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>

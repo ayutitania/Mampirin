@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,8 +18,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $starts_at
  * @property Carbon|null $ends_at
  * @property int $sort_order
+ * @property int|null $partnership_inquiry_id
  */
-#[Fillable(['title', 'image_url', 'target_url', 'placement', 'is_active', 'starts_at', 'ends_at', 'sort_order'])]
+#[Fillable(['title', 'image_url', 'target_url', 'placement', 'is_active', 'starts_at', 'ends_at', 'sort_order', 'partnership_inquiry_id'])]
 class Ad extends Model
 {
     /**
@@ -45,6 +47,14 @@ class Ad extends Model
             'ends_at' => 'datetime',
             'sort_order' => 'integer',
         ];
+    }
+
+    /**
+     * @return BelongsTo<PartnershipInquiry, $this>
+     */
+    public function partnershipInquiry(): BelongsTo
+    {
+        return $this->belongsTo(PartnershipInquiry::class);
     }
 
     /**

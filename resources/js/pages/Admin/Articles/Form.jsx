@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import AdminLayout from '../../../components/AdminLayout';
 
@@ -47,15 +47,46 @@ export default function ArticleForm({ article = null, categories = [] }) {
         published_at: toDateTimeLocal(article?.published_at),
         is_featured: Boolean(article?.is_featured),
         is_published: article ? Boolean(article.is_published) : true,
+        article_image: null,
     });
+
+    const imageInputRef = useRef(null);
+    const [imagePreview, setImagePreview] = useState(article?.image_url ?? null);
+
+    const selectImage = (event) => {
+        const file = event.target.files?.[0] ?? null;
+
+        setData('article_image', file);
+        setImagePreview(
+            file ? URL.createObjectURL(file) : (article?.image_url ?? null),
+        );
+    };
+
+    const clearImage = () => {
+        setData('article_image', null);
+        setImagePreview(article?.image_url ?? null);
+
+        if (imageInputRef.current) {
+            imageInputRef.current.value = '';
+        }
+    };
 
     const submit = (event) => {
         event.preventDefault();
 
+        const options = {
+            forceFormData: Boolean(data.article_image),
+            onSuccess: () => {
+                if (data.article_image) {
+                    clearImage();
+                }
+            },
+        };
+
         if (isEdit) {
-            put(`/admin/articles/${article.id}`);
+            put(`/admin/articles/${article.id}`, options);
         } else {
-            post('/admin/articles');
+            post('/admin/articles', options);
         }
     };
 
@@ -193,26 +224,51 @@ export default function ArticleForm({ article = null, categories = [] }) {
                                 id="image_url"
                                 type="url"
                                 value={data.image_url}
-                                onChange={(event) =>
-                                    setData('image_url', event.target.value)
-                                }
-                                placeholder="https://..."
+                                onChange={(event) => {
+                                    setData('image_url', event.target.value);
+                                    setImagePreview(event.target.value || null);
+                                }}
+                                placeholder="https://... (atau unggah di bawah)"
                                 className={inputClass}
                             />
                             <FieldError message={errors.image_url} />
                         </div>
 
-                        {data.image_url && (
+                        <div className="mb-4">
+                            <label htmlFor="article_image" className={labelClass}>
+                                Unggah Gambar (opsional)
+                            </label>
+                            <input
+                                ref={imageInputRef}
+                                id="article_image"
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp"
+                                onChange={selectImage}
+                                className="block w-full text-sm text-gray-600 file:mr-3 file:border file:border-black file:bg-white file:px-3 file:py-1.5 file:text-[10px] file:font-bold file:text-black file:uppercase hover:file:bg-black hover:file:text-white"
+                            />
+                            <p className="mt-1 text-xs text-gray-500">
+                                JPG, PNG, atau WEBP, maksimal 4 MB. Unggahan
+                                menggantikan URL di atas.
+                            </p>
+                            <FieldError message={errors.article_image} />
+                        </div>
+
+                        {imagePreview && (
                             <div className="mb-4 overflow-hidden border border-gray-200 bg-gray-100">
                                 <img
-                                    src={data.image_url}
+                                    src={imagePreview}
                                     alt="Pratinjau"
                                     className="h-32 w-full object-cover"
-                                    onError={(event) => {
-                                        event.currentTarget.style.display =
-                                            'none';
-                                    }}
                                 />
+                                {data.article_image && (
+                                    <button
+                                        type="button"
+                                        onClick={clearImage}
+                                        className="mt-2 w-full border border-gray-400 bg-white px-3 py-1.5 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white"
+                                    >
+                                        Hapus Gambar
+                                    </button>
+                                )}
                             </div>
                         )}
 

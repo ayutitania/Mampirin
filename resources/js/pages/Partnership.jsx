@@ -18,7 +18,9 @@ function FieldError({ message }) {
 export default function Partnership({ packages = [], selectedPackage = null }) {
     const { flash } = usePage().props;
     const preselected =
-        packages.find((pkg) => pkg.code === selectedPackage)?.id ?? '';
+        packages.find((pkg) => pkg.code === selectedPackage)?.id ??
+        packages[0]?.id ??
+        '';
 
     const { data, setData, post, processing, errors, reset } = useForm({
         partnership_package_id: preselected,
@@ -81,7 +83,7 @@ export default function Partnership({ packages = [], selectedPackage = null }) {
                             htmlFor="partnership_package_id"
                             className="mb-2 block text-sm text-gray-800"
                         >
-                            Paket yang Diminati:
+                            Paket yang Diminati *
                         </label>
                         <select
                             id="partnership_package_id"
@@ -94,8 +96,8 @@ export default function Partnership({ packages = [], selectedPackage = null }) {
                             }
                             className="w-full border-b border-gray-300 bg-transparent py-2 text-sm focus:border-black focus:outline-none"
                         >
-                            <option value="">
-                                Belum menentukan / konsultasi dulu
+                            <option value="" disabled>
+                                Pilih paket kemitraan...
                             </option>
                             {packages.map((pkg) => (
                                 <option key={pkg.id} value={pkg.id}>

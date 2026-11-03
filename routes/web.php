@@ -105,6 +105,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/sponsors', [AdminSponsorController::class, 'index'])
             ->name('sponsors.index');
+        Route::post('/sponsors/{inquiry}/approve', [AdminSponsorController::class, 'approve'])
+            ->name('sponsors.approve');
         Route::patch('/sponsors/{inquiry}/status', [AdminSponsorController::class, 'updateStatus'])
             ->name('sponsors.status');
         Route::delete('/sponsors/{inquiry}', [AdminSponsorController::class, 'destroy'])

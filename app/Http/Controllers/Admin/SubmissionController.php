@@ -60,6 +60,8 @@ class SubmissionController extends Controller
         $validated = $request->validate([
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'is_published' => ['boolean'],
+            'is_featured' => ['boolean'],
+            'article_image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ]);
 
         $article = Article::query()->create([
@@ -71,11 +73,9 @@ class SubmissionController extends Controller
                 220,
             ),
             'body' => $submission->body,
-            'image_url' => $submission->image_path
-                ? '/storage/'.$submission->image_path
-                : null,
+            'image_url' => $this->resolveArticleImage($request, $submission),
             'author' => $submission->writer_name,
-            'is_featured' => false,
+            'is_featured' => $request->boolean('is_featured'),
             'is_published' => $request->boolean('is_published'),
             'published_at' => now(),
         ]);
@@ -88,9 +88,26 @@ class SubmissionController extends Controller
         return back()->with(
             'success',
             $request->boolean('is_published')
-                ? 'Kiriman disetujui dan artikel sudah terbit.'
+                ? 'Kiriman disetujui dan artikel sudah terbit di situs.'
                 : 'Kiriman disetujui dan disimpan sebagai draft artikel.',
         );
+    }
+
+    /**
+     * Choose the article cover image.
+     *
+     * An image the admin uploads wins; otherwise the reader's supporting
+     * photo is used; otherwise the article has no cover.
+     */
+    private function resolveArticleImage(Request $request, ArticleSubmission $submission): ?string
+    {
+        if ($request->hasFile('article_image')) {
+            return '/storage/'.$request->file('article_image')->store('articles', 'public');
+        }
+
+        return $submission->image_path
+            ? '/storage/'.$submission->image_path
+            : null;
     }
 
     /**
