@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ad;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -95,7 +96,7 @@ class AdController extends Controller
     {
         $validated = $request->validate($this->rules());
 
-        $ad->update($this->payload($validated, $request));
+        $ad->update($this->payload($validated, $request, $ad));
 
         return redirect()->route('admin.ads.index')
             ->with('success', 'Iklan berhasil diperbarui.');
@@ -137,6 +138,7 @@ class AdController extends Controller
         return [
             'title' => ['required', 'string', 'max:255'],
             'image_url' => ['nullable', 'string', 'max:2048'],
+            'ad_image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'target_url' => ['nullable', 'string', 'max:2048'],
             'placement' => ['required', 'string', Rule::in(array_keys(Ad::PLACEMENTS))],
             'starts_at' => ['nullable', 'date'],
@@ -152,10 +154,25 @@ class AdController extends Controller
      * @param  array<string, mixed>  $validated
      * @return array<string, mixed>
      */
-    private function payload(array $validated, Request $request): array
+    private function payload(array $validated, Request $request, ?Ad $ad = null): array
     {
+        $imageUrl = $validated['image_url'] ?? null;
+        unset($validated['ad_image'], $validated['image_url']);
+
+        if ($request->hasFile('ad_image')) {
+            if ($ad && $ad->image_url && str_starts_with($ad->image_url, '/storage/')) {
+                $oldPath = str_replace('/storage/', '', $ad->image_url);
+                Storage::disk('public')->delete($oldPath);
+            }
+
+            $path = $request->file('ad_image')->store('ads', 'public');
+
+            $imageUrl = '/storage/'.$path;
+        }
+
         return [
             ...$validated,
+            'image_url' => $imageUrl ?: null,
             'is_active' => $request->boolean('is_active'),
             'starts_at' => $validated['starts_at'] ?? null,
             'ends_at' => $validated['ends_at'] ?? null,

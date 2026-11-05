@@ -17,7 +17,7 @@ iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
 | 5 | Belum ada backend / CMS | ✅ Selesai (artikel, kategori, admin) |
 | 6 | Konfigurasi & lokasi database | ✅ Selesai (pindah ke MySQL) |
 | 7 | `welcome.tsx` sisa starter kit | ✅ Selesai |
-| 8 | Test masih kosong | ✅ Selesai (94 test) |
+| 8 | Test masih kosong | ✅ Selesai (107 test) |
 | 9 | `APP_NAME`, SEO, metadata | ✅ Selesai |
 | 10 | Halaman Ads & slot iklan belum dari database | ✅ Selesai |
 | 11 | Konten artikel masih array dummy & belum ada admin | ✅ Selesai |
@@ -59,6 +59,20 @@ iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
 - Test bertambah: approve sponsor → masuk tabel `ads`, fallback field
   iklan ke nilai sponsor, validasi approve, paket wajib, excerpt
   paragraf pertama, halaman `/faq`. Total **100 test lulus**.
+
+**Batch terbaru — gambar iklan sponsor diunggah, bukan URL:**
+
+- Form `/partnership` kini memakai **input unggah gambar** (dengan pratinjau
+  dan tombol hapus) seperti form Write Us, bukan lagi kolom URL. Format
+  JPG/PNG/WEBP maksimal 4 MB.
+- File disimpan ke disk `public` pada folder `partnership-images/`, lalu
+  URL-nya (`/storage/partnership-images/...`) disimpan di kolom
+  `partnership_inquiries.ad_image_url`. Alur approve sponsor di admin tidak
+  berubah — gambar sponsor otomatis dipakai sebagai gambar iklan.
+- Halaman `/admin/sponsors` menampilkan pratinjau gambar yang diunggah
+  sponsor sebelum admin menyetujui.
+- Test: unggah gambar sponsor tersimpan, gambar opsional, dan file non-gambar
+  ditolak. Total **108 test lulus**.
 
 **Bug tambahan yang ditemukan & diperbaiki:** route `/article/lifestyle` sempat merujuk komponen
 `Lifestyle` yang file-nya belum ada. Kini halaman `Entertainment`, `History`, dan `Lifestyle`
@@ -167,7 +181,8 @@ Semua elemen bersama kini ada di dua komponen:
   ditentukan otomatis dari `usePage().url`, jadi tidak perlu prop manual.
 - `resources/js/components/AppLayout.jsx` — membungkus `<BannerAds />` + `<Navbar />`
   + header "Mampirin Magazine" + konten + footer tunggal (`id="footer-contact"`).
-  Footer dan header tidak lagi ditulis ulang di tiap halaman (dulunya dua varian footer).
+  Footer memuat tautan About, FAQ, Partnership, Ads, dan Contact; header/footer tidak lagi
+  ditulis ulang di tiap halaman (dulunya dua varian footer).
 
 Kesembilan halaman publik memakai `<AppLayout />`: Home, About, Ads, WriteUs,
 Partnership, ArticleIndex, ArticleCategory, ArticleShow, dan NotFound.
@@ -249,10 +264,10 @@ Hanya ada `tests/Feature/ExampleTest.php` dan `tests/Unit/ExampleTest.php` bawaa
   (`assertInertia(fn ($page) => $page->component('Home'))`).
 - Submit form Write Us: validasi gagal & sukses.
 
-**Status sekarang:** 94 test lulus, mencakup halaman publik, artikel & kategori, auth admin,
-CRUD admin (+upload gambar sampul), persetujuan kiriman pembaca (+upload/unggulan),
-CRUD/toggle iklan, status sponsor, unggah foto Write Us, pengajuan artikel/kemitraan,
-dan data iklan/paket.
+**Status sekarang:** 107 test lulus, mencakup halaman publik, artikel & kategori, auth admin,
+CRUD admin (+upload gambar sampul), persetujuan kiriman pembaca (+upload/unggulan), CRUD/toggle
+iklan, status sponsor, unggah foto Write Us, pengajuan artikel/kemitraan, data iklan/paket,
+serta 404 kustom dan publikasi artikel yang langsung tampil di situs.
 
 ---
 
@@ -262,11 +277,14 @@ dan data iklan/paket.
 - SEO per halaman lewat `AppLayout`: meta description, Open Graph (judul/deskripsi/tipe/
   situs/URL/gambar), Twitter card, dan tautan canonical di-emit dari `<Head>`; tiap
   halaman melewati `title`/`description`/`image` (mis. `ArticleShow` memakai
-  `type="article"` + `og:image` dari artikel).
+  `type="article"` + `og:image` dari artikel). Canonical memakai path tanpa query string.
+- `app.tsx` memakai fallback `VITE_APP_NAME`/`Mampirin Magazine`, dan `.env` sudah
+  menyetel `APP_NAME="Mampirin Magazine"`.
 - Tautan `Contact` memakai anchor `#footer-contact` yang kini ada di footer tunggal
-  `AppLayout`, jadi semua halaman publik memilikinya.
+  `AppLayout`, jadi semua halaman publik memilikinya. FAQ tersedia di footer, dan halaman
+  Partnership menautkan "ketentuan Ads" ke halaman FAQ.
 - Halaman 404 kustom: `resources/js/pages/NotFound.jsx` dirender lewat handler
-  exception di `bootstrap/app.php` (kode status 404, status HTTP 404).
+  exception di `bootstrap/app.php` (kode status 404, status HTTP 404) dan sudah diuji.
 - Gambar konten masih memakai placeholder `picsum.photos` (sengaja, data seeder).
 
 ---
@@ -275,8 +293,8 @@ dan data iklan/paket.
 
 **Tabel baru:**
 
-- `ads` — `title`, `image_url`, `target_url`, `placement` (`top`, `sidebar`,
-  `article_sidebar`), `is_active`, `starts_at`, `ends_at`, `sort_order`.
+- `ads` — `title`, `image_url`, `target_url`, `placement` (`top`, `home_inline`, `article_inline`,
+  `sidebar`, `article_sidebar`), `is_active`, `starts_at`, `ends_at`, `sort_order`.
 - `partnership_packages` — `code`, `label`, `name`, `description`, `price`,
   `price_suffix`, `features` (JSON), `cta_label`, `cta_url`, `is_featured`, `is_active`,
   `sort_order`.
@@ -290,14 +308,18 @@ dan data iklan/paket.
 - `resources/js/components/BannerAds.jsx` — banner gambar di atas navbar yang **berputar otomatis**
   tiap 5 detik (berhenti saat kursor di atasnya, ada titik navigasi, label "Iklan"). Setiap banner
   membuka `target_url`-nya sendiri; URL eksternal dibuka di tab baru.
+- `resources/js/components/BannerAds.jsx` juga dipakai sebagai **banner tengah**: penempatan
+  `home_inline` (di bawah "Read More" halaman Home) dan `article_inline` (di atas "Baca Juga"
+  halaman detail artikel), agar ruang kosong di kedua halaman terisi iklan yang bisa berputar.
 - `resources/js/components/SidebarAd.jsx` — slot iklan sidebar 300x250 dan 300x400 dengan perilaku
   tautan yang sama (menggantikan placeholder di Home, About, Entertainment, History, Lifestyle).
 - `AdsController` + route `GET /ads` mengirim `packages` dari database.
 - Halaman `Ads.jsx` merender kartu paket secara dinamis: label, nama, deskripsi, harga
   (`Rp 750.000`), daftar fitur (✓/✕), badge unggulan, dan CTA dari `cta_url`.
 - **Halaman `/partnership`** (`PartnershipController`) — form pengajuan kemitraan dengan pilihan
-  paket (otomatis terpilih lewat `?package=01|02|03`), validasi, dan konfirmasi sukses. Data masuk
-  ke tabel `partnership_inquiries` dan bisa dilihat lewat phpMyAdmin.
+  paket yang otomatis terpilih saat datang dari halaman Ads (`?package=01|02|03` atau id paket),
+  lengkap dengan validasi dan konfirmasi sukses. Data masuk ke tabel `partnership_inquiries` dan
+  bisa dilihat lewat phpMyAdmin.
 - Seeder tersedia: `AdsSeeder`, `PartnershipPackageSeeder` (memakai `updateOrCreate`, jadi aman
   dijalankan ulang).
 
@@ -392,8 +414,15 @@ halaman langsung mengikuti tanpa mengubah kode. Isi `target_url` iklan dengan UR
   mengalahkan foto pembaca dan disimpan ke `storage/app/public/articles`; jika tidak,
   foto pembaca (`image_path`) yang dipakai. Artikel langsung masuk tabel `articles` dan
   tampil di situs (Home, rubrik, sidebar, popular) begitu terbit.
-- Sistem membuat artikel baru (slug otomatis, excerpt dari isi tulisan, penulis = nama
-  pengirim) dan menyimpan relasinya di kolom `article_submissions.article_id`.
+- Sistem membuat artikel baru (slug otomatis, excerpt dari paragraf pertama isi tulisan,
+  penulis = nama pengirim) dan menyimpan relasinya di kolom `article_submissions.article_id`.
+  Jika **Langsung terbitkan** dicentang, `published_at` diisi otomatis dan artikel langsung
+  muncul di Home, halaman kategori/rubrik, sidebar, dan halaman detail; jumlah artikel pada
+  kategori ikut bertambah. Jika tidak dicentang, artikel disimpan sebagai draft dengan
+  `published_at = null` sampai diterbitkan lewat toggle/edit.
+- **Dashboard** kini punya pilihan kategori + tombol **ACC & Simpan** pada daftar
+  "Artikel Menunggu ACC", sehingga admin bisa menyetujui kiriman tanpa pindah halaman;
+  statistik dan daftar artikel terbaru ikut ter-refresh setelah aksi.
 - Kiriman yang sudah disetujui menampilkan tautan **Edit Artikel** dan **Lihat di Situs**;
   gambar sampul juga bisa diganti lewat **Edit Artikel** (form artikel kini punya input
   unggah yang menggantikan URL lama dan menghapus file yang sudah tidak dipakai).
@@ -411,8 +440,12 @@ halaman langsung mengikuti tanpa mengubah kode. Isi `target_url` iklan dengan UR
 **Sponsor masuk (`/admin/sponsors`):**
 
 - Menampilkan pengajuan dari halaman `/partnership`: perusahaan, kontak, email/telepon, pesan,
-  paket yang dipilih, dan tanggal masuk.
+  paket yang dipilih (relasi `package` memakai foreign key `partnership_package_id`), dan
+  tanggal masuk.
 - Filter berdasarkan status dan pencarian perusahaan/kontak/email.
+- Tombol **Setujui & Buat Iklan** langsung membuat baris di tabel `ads` dari data sponsor
+  (judul, gambar, URL tujuan, penempatan, jadwal, status aktif), lalu mengubah status jadi
+  `approved`. Satu pengajuan hanya bisa membuat satu iklan.
 - Status dapat diubah menjadi `pending`, `contacted`, `approved`, atau `rejected`; pengajuan
   juga bisa dihapus.
 - Dashboard menampilkan statistik iklan, jumlah kiriman/sponsor yang menunggu, serta daftar

@@ -13,27 +13,27 @@ export default function About({ popular = [] }) {
             {/* Layout Utama: Content Kiri & Sidebar Kanan */}
             <div className="grid grid-cols-1 border-t-[4px] border-black pt-8 md:grid-cols-3">
                 {/* Konten Kiri (About) */}
-                <div className="space-y-6 md:col-span-2 md:border-r md:border-gray-400 md:pr-8">
+                <div className="space-y-6 md:col-span-2 md:border-r md:border-gray-400 dark:border-gray-600 md:pr-8">
                     <div className="mb-8 text-center">
                         <h2 className="text-[4rem] leading-none font-black tracking-tighter uppercase">
                             About
                         </h2>
-                        <p className="mt-2 font-serif text-gray-500 italic">
+                        <p className="mt-2 font-serif text-gray-500 dark:text-gray-400 italic">
                             Get to know more about us
                         </p>
                     </div>
 
-                    <div className="pb-10 text-justify text-base leading-relaxed text-gray-800">
+                    <div className="pb-10 text-justify text-base leading-relaxed text-gray-800 dark:text-gray-200">
                         {/* Gambar Mengambang (Float Left) */}
                         <div className="float-left mr-6 mb-4 w-64">
-                            <div className="mb-2 h-48 w-full overflow-hidden bg-gray-200">
+                            <div className="mb-2 h-48 w-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                                 <img
                                     src="https://picsum.photos/300/400?random=about"
                                     alt="Suasana redaksi Mampirin Magazine"
                                     className="h-full w-full object-cover"
                                 />
                             </div>
-                            <p className="text-[10px] leading-tight text-gray-500 italic">
+                            <p className="text-[10px] leading-tight text-gray-500 dark:text-gray-400 italic">
                                 Got time and tired. Town to town, up and down
                                 the dial.
                             </p>

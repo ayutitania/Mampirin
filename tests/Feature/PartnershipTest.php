@@ -3,10 +3,14 @@
 use App\Models\PartnershipInquiry;
 use App\Models\PartnershipPackage;
 use Database\Seeders\PartnershipPackageSeeder;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('the partnership page receives packages and the preselected package', function () {
     $this->seed(PartnershipPackageSeeder::class);
+
+    $preselected = PartnershipPackage::query()->where('code', '02')->firstOrFail();
 
     $this->get(route('partnership.index', ['package' => '02']))
         ->assertOk()
@@ -15,12 +19,34 @@ test('the partnership page receives packages and the preselected package', funct
             ->has('packages', 3)
             ->where('packages.0.code', '01')
             ->where('selectedPackage', '02')
+            ->where('selectedPackageId', $preselected->id)
+        );
+});
+
+test('the preselected package also works with a package id and falls back to nothing for unknown values', function () {
+    $this->seed(PartnershipPackageSeeder::class);
+
+    $package = PartnershipPackage::query()->where('code', '03')->firstOrFail();
+
+    $this->get(route('partnership.index', ['package' => $package->id]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('selectedPackageId', $package->id)
+        );
+
+    $this->get(route('partnership.index', ['package' => 'tidak-ada']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('selectedPackageId', null)
         );
 });
 
 test('a partnership inquiry can be stored', function () {
+    Storage::fake('public');
+
     $this->seed(PartnershipPackageSeeder::class);
     $package = PartnershipPackage::query()->where('code', '02')->firstOrFail();
+    $image = UploadedFile::fake()->create('banner.jpg', 200, 'image/jpeg');
 
     $response = $this
         ->from(route('partnership.index'))
@@ -33,24 +59,50 @@ test('a partnership inquiry can be stored', function () {
             'message' => 'Kami ingin mempromosikan menu baru untuk mahasiswa bulan depan.',
             'ad_title' => 'Banner Kopi Senja',
             'ad_target_url' => 'https://instagram.com/kopisenja',
-            'ad_image_url' => 'https://example.com/banner.jpg',
+            'ad_image' => $image,
         ]);
 
     $response
         ->assertRedirect(route('partnership.index'))
         ->assertSessionHas('success');
 
-    $this->assertDatabaseHas('partnership_inquiries', [
-        'partnership_package_id' => $package->id,
-        'company' => 'Kopi Senja Jimbaran',
-        'email' => 'ayu@example.com',
-        'ad_title' => 'Banner Kopi Senja',
-        'ad_target_url' => 'https://instagram.com/kopisenja',
-        'ad_image_url' => 'https://example.com/banner.jpg',
-        'status' => 'pending',
-    ]);
+    $inquiry = PartnershipInquiry::firstOrFail();
 
-    expect(PartnershipInquiry::count())->toBe(1);
+    expect($inquiry->partnership_package_id)->toBe($package->id)
+        ->and($inquiry->company)->toBe('Kopi Senja Jimbaran')
+        ->and($inquiry->email)->toBe('ayu@example.com')
+        ->and($inquiry->ad_title)->toBe('Banner Kopi Senja')
+        ->and($inquiry->ad_target_url)->toBe('https://instagram.com/kopisenja')
+        ->and($inquiry->status)->toBe('pending')
+        ->and($inquiry->ad_image_url)->toStartWith('/storage/partnership-images/');
+
+    Storage::disk('public')->assertExists(
+        str_replace('/storage/', '', $inquiry->ad_image_url),
+    );
+});
+
+test('the ad image is optional but must be a valid image when uploaded', function () {
+    $this->seed(PartnershipPackageSeeder::class);
+    $package = PartnershipPackage::query()->where('code', '02')->firstOrFail();
+
+    $payload = [
+        'partnership_package_id' => $package->id,
+        'company' => 'Warung Makan Sederhana',
+        'contact_name' => 'Budi',
+        'email' => 'budi@example.com',
+        'message' => 'Ingin mempromosikan menu baru untuk mahasiswa.',
+        'ad_title' => 'Banner Warung Makan',
+    ];
+
+    $this->post(route('partnership.store'), $payload)
+        ->assertSessionHasNoErrors();
+
+    expect(PartnershipInquiry::first()->ad_image_url)->toBeNull();
+
+    $this->post(route('partnership.store'), [
+        ...$payload,
+        'ad_image' => UploadedFile::fake()->create('dokumen.pdf', 100, 'application/pdf'),
+    ])->assertSessionHasErrors('ad_image');
 });
 
 test('the phone number is optional but the package is required', function () {

@@ -37,11 +37,34 @@ class DashboardController extends Controller
                 ->latest('created_at')
                 ->take(5)
                 ->get(['id', 'category_id', 'title', 'slug', 'is_published', 'published_at', 'created_at']),
+            'featuredArticles' => Article::query()
+                ->published()
+                ->where('is_featured', true)
+                ->with('category:id,name,slug')
+                ->latest('published_at')
+                ->take(5)
+                ->get(['id', 'category_id', 'title', 'slug', 'views', 'published_at']),
+            'popularArticles' => Article::query()
+                ->published()
+                ->with('category:id,name,slug')
+                ->orderByDesc('views')
+                ->take(5)
+                ->get(['id', 'category_id', 'title', 'slug', 'views', 'published_at']),
+            'featuredPopularArticles' => Article::query()
+                ->published()
+                ->where('is_featured', true)
+                ->with('category:id,name,slug')
+                ->orderByDesc('views')
+                ->take(5)
+                ->get(['id', 'category_id', 'title', 'slug', 'views', 'published_at']),
             'pendingSubmissions' => ArticleSubmission::query()
                 ->where('status', 'pending')
                 ->latest()
                 ->take(3)
                 ->get(['id', 'title', 'writer_name', 'created_at']),
+            'categories' => Category::query()
+                ->orderBy('sort_order')
+                ->get(['id', 'name', 'slug']),
             'pendingInquiries' => PartnershipInquiry::query()
                 ->with('package:id,name')
                 ->where('status', 'pending')

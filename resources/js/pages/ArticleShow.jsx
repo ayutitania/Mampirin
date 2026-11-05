@@ -24,9 +24,9 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
             image={article.image_url}
             type="article"
         >
-            <div className="grid grid-cols-1 border-t border-gray-400 pt-8 md:grid-cols-3">
+            <div className="grid grid-cols-1 border-t border-gray-400 dark:border-gray-600 pt-8 md:grid-cols-3">
                 {/* Article */}
-                <article className="md:col-span-2 md:border-r md:border-gray-400 md:pr-8">
+                <article className="md:col-span-2 md:border-r md:border-gray-400 dark:border-gray-600 md:pr-8">
                     <div className="mb-4 flex flex-wrap items-center gap-2 text-[10px] font-bold tracking-widest uppercase">
                         {article.category && (
                             <Link
@@ -36,7 +36,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                                 {article.category.name}
                             </Link>
                         )}
-                        <span className="text-gray-500">
+                        <span className="text-gray-500 dark:text-gray-400">
                             {formatDate(article.published_at)}
                         </span>
                         <span className="text-gray-400">
@@ -48,13 +48,13 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                         {article.title}
                     </h1>
 
-                    <div className="mb-6 flex items-center gap-2 text-[10px] font-bold tracking-widest text-gray-500 uppercase">
+                    <div className="mb-6 flex items-center gap-2 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
                         <span className="inline-block h-4 w-4 rounded-full bg-gray-400"></span>
                         {article.author} &bull; {article.views} kali dibaca
                     </div>
 
                     {article.image_url && (
-                        <div className="mb-8 w-full overflow-hidden bg-gray-200">
+                        <div className="mb-8 w-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                             <img
                                 src={article.image_url}
                                 alt={article.title}
@@ -63,17 +63,17 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                         </div>
                     )}
 
-                    <p className="mb-8 border-l-[3px] border-gray-300 pl-4 font-serif text-lg leading-relaxed text-gray-700">
+                    <p className="mb-8 border-l-[3px] border-gray-300 dark:border-gray-700 pl-4 font-serif text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                         {article.excerpt}
                     </p>
 
-                    <div className="space-y-5 font-serif text-base leading-relaxed text-gray-800">
+                    <div className="space-y-5 font-serif text-base leading-relaxed text-gray-800 dark:text-gray-200">
                         {paragraphs.map((paragraph, index) => (
                             <p key={index}>{paragraph}</p>
                         ))}
                     </div>
 
-                    <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-gray-300 pt-6">
+                    <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-gray-300 dark:border-gray-700 pt-6">
                         {article.category && (
                             <Link
                                 href={categoryUrl(article.category)}
@@ -84,7 +84,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                         )}
                         <Link
                             href="/article"
-                            className="text-[10px] font-bold tracking-widest text-gray-500 uppercase hover:text-black"
+                            className="text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase hover:text-black"
                         >
                             Hub Artikel
                         </Link>
@@ -111,7 +111,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                         {related.map((post) => (
                             <article key={post.id} className="group">
                                 <Link href={articleUrl(post)}>
-                                    <div className="mb-3 h-44 w-full overflow-hidden bg-gray-200">
+                                    <div className="mb-3 h-44 w-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                                         {post.image_url && (
                                             <img
                                                 src={post.image_url}
@@ -121,7 +121,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                                             />
                                         )}
                                     </div>
-                                    <div className="mb-1 text-[9px] font-bold tracking-widest text-gray-500 uppercase">
+                                    <div className="mb-1 text-[9px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
                                         {formatDate(post.published_at)}
                                     </div>
                                     <h3 className="text-xl leading-tight font-black group-hover:underline">
@@ -133,7 +133,6 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                     </div>
                 </section>
             )}
-
         </AppLayout>
     );
 }

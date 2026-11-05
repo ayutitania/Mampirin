@@ -53,6 +53,7 @@ class SponsorController extends Controller
                 'search' => $search,
                 'status' => $status,
             ],
+            'bankAccount' => config('bank'),
         ]);
     }
 
@@ -81,6 +82,13 @@ class SponsorController extends Controller
      */
     public function approve(Request $request, PartnershipInquiry $inquiry): RedirectResponse
     {
+        if ($inquiry->ad()->exists()) {
+            return back()->with(
+                'error',
+                'Pengajuan ini sudah disetujui dan iklannya sudah dibuat.',
+            );
+        }
+
         $validated = $request->validate([
             'ad_title' => ['required', 'string', 'max:255'],
             'ad_image_url' => ['nullable', 'string', 'max:2048'],

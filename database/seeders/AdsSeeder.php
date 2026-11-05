@@ -48,6 +48,34 @@ class AdsSeeder extends Seeder
                 'placement' => 'article_sidebar',
                 'sort_order' => 1,
             ],
+            [
+                'title' => 'Promo Spesial Mahasiswa',
+                'image_url' => 'https://picsum.photos/1200/300?random=ad-home-inline',
+                'target_url' => 'https://example.com/promo-home',
+                'placement' => 'home_inline',
+                'sort_order' => 1,
+            ],
+            [
+                'title' => 'Diskon Kafe Mahasiswa',
+                'image_url' => 'https://picsum.photos/1200/300?random=ad-home-inline-2',
+                'target_url' => 'https://example.com/diskon-kafe',
+                'placement' => 'home_inline',
+                'sort_order' => 2,
+            ],
+            [
+                'title' => 'Event Kampus Minggu Ini',
+                'image_url' => 'https://picsum.photos/1200/300?random=ad-home-inline-3',
+                'target_url' => 'https://example.com/event-kampus',
+                'placement' => 'home_inline',
+                'sort_order' => 3,
+            ],
+            [
+                'title' => 'Iklan Anda di Mampirin',
+                'image_url' => 'https://picsum.photos/1200/300?random=ad-article-inline',
+                'target_url' => 'https://example.com/promo-article-inline',
+                'placement' => 'article_inline',
+                'sort_order' => 1,
+            ],
         ];
 
         foreach ($ads as $ad) {

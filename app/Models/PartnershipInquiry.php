@@ -54,7 +54,10 @@ class PartnershipInquiry extends Model
      */
     public function package(): BelongsTo
     {
-        return $this->belongsTo(PartnershipPackage::class);
+        return $this->belongsTo(
+            PartnershipPackage::class,
+            'partnership_package_id',
+        );
     }
 
     /**

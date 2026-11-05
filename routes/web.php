@@ -20,6 +20,9 @@ use Inertia\Inertia;
 // Halaman Utama (Home)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Pencarian artikel
+Route::get('/search', [ArticleController::class, 'search'])->name('search');
+
 // Halaman About
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 

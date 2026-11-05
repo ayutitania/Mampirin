@@ -74,7 +74,7 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
     return (
         <AdminLayout title="Iklan">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                     Kelola banner dan iklan sidebar. Iklan aktif langsung tampil
                     di situs sesuai jadwal.
                 </p>
@@ -88,12 +88,12 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
 
             <form
                 onSubmit={applyFilters}
-                className="mb-4 grid grid-cols-1 gap-3 border border-gray-300 bg-white p-4 sm:grid-cols-2 lg:grid-cols-4"
+                className="mb-4 grid grid-cols-1 gap-3 border border-gray-300 bg-white p-4 sm:grid-cols-2 lg:grid-cols-4 dark:border-gray-700 dark:bg-gray-800"
             >
                 <div>
                     <label
                         htmlFor="search"
-                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
+                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400"
                     >
                         Cari Judul
                     </label>
@@ -103,14 +103,14 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                         placeholder="Ketik judul iklan..."
-                        className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none"
+                        className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none dark:border-gray-700"
                     />
                 </div>
 
                 <div>
                     <label
                         htmlFor="placement"
-                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
+                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400"
                     >
                         Penempatan
                     </label>
@@ -118,7 +118,7 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                         id="placement"
                         value={placement}
                         onChange={(event) => setPlacement(event.target.value)}
-                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none"
+                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none dark:border-gray-700 dark:bg-gray-800"
                     >
                         <option value="">Semua Penempatan</option>
                         {placements.map((item) => (
@@ -132,7 +132,7 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                 <div>
                     <label
                         htmlFor="status"
-                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
+                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400"
                     >
                         Status
                     </label>
@@ -140,7 +140,7 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                         id="status"
                         value={status}
                         onChange={(event) => setStatus(event.target.value)}
-                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none"
+                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none dark:border-gray-700 dark:bg-gray-800"
                     >
                         {STATUS_OPTIONS.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -160,22 +160,22 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                     <button
                         type="button"
                         onClick={resetFilters}
-                        className="border border-gray-300 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:border-black"
+                        className="border border-gray-300 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:border-black dark:border-gray-700"
                     >
                         Reset
                     </button>
                 </div>
             </form>
 
-            <div className="border border-gray-300 bg-white">
+            <div className="border border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-800">
                 {ads.data.length === 0 ? (
-                    <p className="px-5 py-10 text-center text-sm text-gray-500">
+                    <p className="px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                         Tidak ada iklan yang cocok dengan filter.
                     </p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm">
-                            <thead className="bg-gray-50 text-[10px] tracking-widest text-gray-500 uppercase">
+                            <thead className="bg-gray-50 text-[10px] tracking-widest text-gray-500 uppercase dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th className="px-4 py-3">Iklan</th>
                                     <th className="px-4 py-3">Penempatan</th>
@@ -196,10 +196,10 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                                                     <img
                                                         src={ad.image_url}
                                                         alt={ad.title}
-                                                        className="h-12 w-20 border border-gray-200 bg-gray-100 object-cover"
+                                                        className="h-12 w-20 border border-gray-200 bg-gray-100 object-cover dark:border-gray-700 dark:bg-gray-900"
                                                     />
                                                 ) : (
-                                                    <div className="flex h-12 w-20 items-center justify-center border border-dashed border-gray-300 text-[9px] text-gray-400">
+                                                    <div className="flex h-12 w-20 items-center justify-center border border-dashed border-gray-300 text-[9px] text-gray-400 dark:border-gray-700">
                                                         Tanpa gambar
                                                     </div>
                                                 )}
@@ -208,23 +208,23 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                                                         {ad.title}
                                                     </div>
                                                     {ad.target_url && (
-                                                        <div className="max-w-xs truncate text-[10px] text-gray-500">
+                                                        <div className="max-w-xs truncate text-[10px] text-gray-500 dark:text-gray-400">
                                                             {ad.target_url}
                                                         </div>
                                                     )}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-3 text-gray-600">
+                                        <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
                                             {placementLabel(
                                                 placements,
                                                 ad.placement,
                                             )}
                                         </td>
-                                        <td className="px-4 py-3 text-xs text-gray-500">
+                                        <td className="px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
                                             {scheduleLabel(ad)}
                                         </td>
-                                        <td className="px-4 py-3 text-gray-500">
+                                        <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
                                             {ad.sort_order}
                                         </td>
                                         <td className="px-4 py-3">
@@ -235,7 +235,7 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                                                 className={`px-2 py-1 text-[10px] font-bold uppercase ${
                                                     ad.is_active
                                                         ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300'
                                                 }`}
                                             >
                                                 {ad.is_active

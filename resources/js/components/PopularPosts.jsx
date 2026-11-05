@@ -15,7 +15,7 @@ export default function PopularPosts({ posts = [], className = '' }) {
                 {posts.map((post, index) => (
                     <article key={post.id} className="group">
                         <Link href={articleUrl(post)}>
-                            <div className="relative mb-3 overflow-hidden bg-gray-200">
+                            <div className="relative mb-3 overflow-hidden bg-gray-200 dark:bg-gray-700">
                                 {post.image_url && (
                                     <img
                                         src={post.image_url}
@@ -32,7 +32,7 @@ export default function PopularPosts({ posts = [], className = '' }) {
                                 {post.title}
                             </h5>
                         </Link>
-                        <p className="border-b border-gray-400 pb-6 font-serif text-sm leading-relaxed text-gray-800">
+                        <p className="border-b border-gray-400 dark:border-gray-600 pb-6 font-serif text-sm leading-relaxed text-gray-800 dark:text-gray-200">
                             {post.excerpt}
                         </p>
                     </article>

@@ -9,9 +9,9 @@ export default function CategoryList({ className = '' }) {
             <div className="mb-2 bg-black py-1 text-center text-[11px] font-bold tracking-widest text-white uppercase">
                 Categories
             </div>
-            <ul className="font-serif text-sm text-gray-800">
+            <ul className="font-serif text-sm text-gray-800 dark:text-gray-200">
                 {categories.length === 0 && (
-                    <li className="border-b border-gray-400 py-2 text-gray-500">
+                    <li className="border-b border-gray-400 dark:border-gray-600 py-2 text-gray-500 dark:text-gray-400">
                         Belum ada kategori.
                     </li>
                 )}
@@ -19,7 +19,7 @@ export default function CategoryList({ className = '' }) {
                 {categories.map((category) => (
                     <li
                         key={category.id}
-                        className="border-b border-gray-400 py-2"
+                        className="border-b border-gray-400 dark:border-gray-600 py-2"
                     >
                         <Link
                             href={categoryUrl(category)}

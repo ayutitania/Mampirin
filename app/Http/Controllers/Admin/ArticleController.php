@@ -67,10 +67,26 @@ class ArticleController extends Controller
         $payload = $this->payload($validated, $request);
         $payload['image_url'] = $this->resolveImageUrl($request, $payload['image_url']);
 
-        Article::query()->create($payload);
+        $article = Article::query()->create($payload);
 
-        return redirect()->route('admin.articles.index')
+        $redirect = redirect()->route('admin.articles.index')
             ->with('success', 'Artikel berhasil dibuat.');
+
+        if ($article->is_featured && $article->is_published) {
+            $featuredCount = Article::query()
+                ->where('is_featured', true)
+                ->where('is_published', true)
+                ->count();
+
+            if ($featuredCount > 5) {
+                $redirect->with(
+                    'warning',
+                    'Artikel ditandai unggulan. Peringatan: sudah ada lebih dari 5 artikel unggulan, tampilan di Home akan diacak (hanya 5 yang tampil).',
+                );
+            }
+        }
+
+        return $redirect;
     }
 
     /**
@@ -108,8 +124,24 @@ class ArticleController extends Controller
 
         $article->update($payload);
 
-        return redirect()->route('admin.articles.index')
+        $redirect = redirect()->route('admin.articles.index')
             ->with('success', 'Artikel berhasil diperbarui.');
+
+        if ($article->is_featured && $article->is_published) {
+            $featuredCount = Article::query()
+                ->where('is_featured', true)
+                ->where('is_published', true)
+                ->count();
+
+            if ($featuredCount > 5) {
+                $redirect->with(
+                    'warning',
+                    'Artikel ditandai unggulan. Peringatan: sudah ada lebih dari 5 artikel unggulan, tampilan di Home akan diacak (hanya 5 yang tampil).',
+                );
+            }
+        }
+
+        return $redirect;
     }
 
     /**
@@ -117,12 +149,19 @@ class ArticleController extends Controller
      */
     public function toggle(Article $article): RedirectResponse
     {
-        $article->update(['is_published' => ! $article->is_published]);
+        $publishing = ! $article->is_published;
+
+        $article->update([
+            'is_published' => $publishing,
+            'published_at' => $publishing
+                ? ($article->published_at ?? now())
+                : $article->published_at,
+        ]);
 
         return back()->with(
             'success',
-            $article->is_published
-                ? 'Artikel berhasil dipublikasikan.'
+            $publishing
+                ? 'Artikel berhasil dipublikasikan dan langsung tampil di situs.'
                 : 'Artikel diubah menjadi draft.',
         );
     }
@@ -173,16 +212,27 @@ class ArticleController extends Controller
      */
     private function payload(array $validated, Request $request, ?Article $article = null): array
     {
+        $imageUrl = $validated['image_url'] ?? null;
+        $isPublished = $request->boolean('is_published');
+        $publishedAt = $validated['published_at'] ?? null;
+
+        unset($validated['article_image'], $validated['image_url']);
+
+        if ($isPublished && ! $publishedAt) {
+            $publishedAt = $article?->published_at ?? now();
+        }
+
         return [
             ...$validated,
+            'image_url' => $imageUrl,
             'slug' => Slug::unique(
                 (string) ($validated['slug'] ?: $validated['title']),
                 Article::class,
                 $article?->id,
             ),
             'is_featured' => $request->boolean('is_featured'),
-            'is_published' => $request->boolean('is_published'),
-            'published_at' => $validated['published_at'] ?? null,
+            'is_published' => $isPublished,
+            'published_at' => $publishedAt,
         ];
     }
 
@@ -195,7 +245,7 @@ class ArticleController extends Controller
     private function resolveImageUrl(Request $request, ?string $imageUrl, ?Article $article = null): ?string
     {
         if ($request->hasFile('article_image')) {
-            $this->deleteStoredImage($imageUrl);
+            $this->deleteStoredImage($article?->image_url);
 
             $path = $request->file('article_image')->store('articles', 'public');
 

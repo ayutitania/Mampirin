@@ -48,7 +48,7 @@ export default function Faq() {
                 <h2 className="mb-4 text-[3rem] leading-none font-black tracking-tighter uppercase">
                     Syarat &amp; FAQ
                 </h2>
-                <p className="mb-10 border-b border-gray-300 pb-6 text-sm text-gray-700">
+                <p className="mb-10 border-b border-gray-300 dark:border-gray-700 pb-6 text-sm text-gray-700 dark:text-gray-300">
                     Semua yang perlu kamu ketahui sebelum mengirim tulisan atau
                     mengajukan kemitraan iklan.
                 </p>
@@ -59,14 +59,14 @@ export default function Faq() {
                             <dt className="text-lg font-black tracking-tight uppercase">
                                 {item.question}
                             </dt>
-                            <dd className="font-serif text-sm leading-relaxed text-gray-700">
+                            <dd className="font-serif text-sm leading-relaxed text-gray-700 dark:text-gray-300">
                                 {item.answer}
                             </dd>
                         </div>
                     ))}
                 </dl>
 
-                <div className="flex flex-wrap gap-4 border-t border-gray-300 pt-6">
+                <div className="flex flex-wrap gap-4 border-t border-gray-300 dark:border-gray-700 pt-6">
                     <Link
                         href="/write-us"
                         className="bg-black px-6 py-3 text-[10px] font-bold tracking-widest text-white uppercase hover:bg-gray-800"

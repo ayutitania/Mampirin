@@ -20,7 +20,7 @@ export default function CategoriesIndex({ categories = [] }) {
     return (
         <AdminLayout title="Kategori">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                     Kategori dipakai oleh menu navigasi dan halaman rubrik.
                 </p>
                 <Link
@@ -31,15 +31,15 @@ export default function CategoriesIndex({ categories = [] }) {
                 </Link>
             </div>
 
-            <div className="border border-gray-300 bg-white">
+            <div className="border border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-800">
                 {categories.length === 0 ? (
-                    <p className="px-5 py-10 text-center text-sm text-gray-500">
+                    <p className="px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                         Belum ada kategori. Buat kategori pertama kamu.
                     </p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm">
-                            <thead className="bg-gray-50 text-[10px] tracking-widest text-gray-500 uppercase">
+                            <thead className="bg-gray-50 text-[10px] tracking-widest text-gray-500 uppercase dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th className="w-16 px-4 py-3">Urutan</th>
                                     <th className="px-4 py-3">Nama</th>
@@ -54,7 +54,7 @@ export default function CategoriesIndex({ categories = [] }) {
                             <tbody className="divide-y divide-gray-200">
                                 {categories.map((category) => (
                                     <tr key={category.id}>
-                                        <td className="px-4 py-3 text-gray-500">
+                                        <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
                                             {category.sort_order}
                                         </td>
                                         <td className="px-4 py-3">
@@ -63,23 +63,23 @@ export default function CategoriesIndex({ categories = [] }) {
                                                     <img
                                                         src={category.image_url}
                                                         alt={category.name}
-                                                        className="h-10 w-14 border border-gray-200 object-cover"
+                                                        className="h-10 w-14 border border-gray-200 object-cover dark:border-gray-700"
                                                     />
                                                 ) : (
-                                                    <div className="h-10 w-14 border border-dashed border-gray-300 bg-gray-50" />
+                                                    <div className="h-10 w-14 border border-dashed border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-700" />
                                                 )}
                                                 <div>
                                                     <div className="font-bold">
                                                         {category.name}
                                                     </div>
-                                                    <div className="max-w-md truncate text-xs text-gray-500">
+                                                    <div className="max-w-md truncate text-xs text-gray-500 dark:text-gray-400">
                                                         {category.description ??
                                                             'Belum ada deskripsi'}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-3 font-mono text-xs text-gray-500">
+                                        <td className="px-4 py-3 font-mono text-xs text-gray-500 dark:text-gray-400">
                                             {category.slug}
                                         </td>
                                         <td className="px-4 py-3">
@@ -90,7 +90,7 @@ export default function CategoriesIndex({ categories = [] }) {
                                                 className={`px-2 py-1 text-[10px] font-bold uppercase ${
                                                     category.is_active
                                                         ? 'bg-green-100 text-green-800'
-                                                        : 'bg-gray-200 text-gray-700'
+                                                        : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
                                                 }`}
                                             >
                                                 {category.is_active
@@ -125,7 +125,7 @@ export default function CategoriesIndex({ categories = [] }) {
                 )}
             </div>
 
-            <p className="mt-3 text-xs text-gray-500">
+            <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
                 Kategori yang masih memiliki artikel tidak dapat dihapus.
                 Pindahkan artikelnya terlebih dahulu.
             </p>

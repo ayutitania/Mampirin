@@ -48,6 +48,21 @@ test('the sponsor index lists incoming inquiries with counts', function () {
         );
 });
 
+test('the sponsor index includes the package chosen by the sponsor', function () {
+    $package = PartnershipPackage::query()->where('code', '02')->firstOrFail();
+
+    sponsorInquiry(['partnership_package_id' => $package->id]);
+
+    $this->actingAs($this->admin)
+        ->get(route('admin.sponsors.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('inquiries.data.0.package.id', $package->id)
+            ->where('inquiries.data.0.package.code', '02')
+            ->where('inquiries.data.0.package.name', $package->name)
+        );
+});
+
 test('the sponsor index can be filtered by status and search', function () {
     sponsorInquiry();
     sponsorInquiry([
@@ -125,6 +140,50 @@ test('approving an inquiry creates its ad in the ads table', function () {
         ->and($ad->target_url)->toBe('https://instagram.com/kopisenja')
         ->and($ad->partnership_inquiry_id)->toBe($inquiry->id)
         ->and($inquiry->fresh()->status)->toBe('approved');
+});
+
+test('approving with empty optional fields still creates the ad', function () {
+    $inquiry = sponsorInquiry([
+        'ad_target_url' => null,
+        'ad_image_url' => null,
+    ]);
+
+    $this->actingAs($this->admin)
+        ->post(route('admin.sponsors.approve', $inquiry), [
+            'ad_title' => 'Banner Promo',
+            'ad_image_url' => '',
+            'ad_target_url' => '',
+            'ad_placement' => 'top',
+            'ad_starts_at' => '',
+            'ad_ends_at' => '',
+            'ad_sort_order' => '0',
+            'ad_is_active' => '1',
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertSessionHas('success');
+
+    expect(Ad::query()->count())->toBe(1)
+        ->and($inquiry->fresh()->status)->toBe('approved');
+});
+
+test('an inquiry cannot create two ads', function () {
+    $inquiry = sponsorInquiry();
+
+    $payload = [
+        'ad_title' => 'Promo Kopi Senja',
+        'ad_placement' => 'top',
+        'ad_is_active' => '1',
+    ];
+
+    $this->actingAs($this->admin)
+        ->post(route('admin.sponsors.approve', $inquiry), $payload)
+        ->assertSessionHas('success');
+
+    $this->actingAs($this->admin)
+        ->post(route('admin.sponsors.approve', $inquiry), $payload)
+        ->assertSessionHas('error');
+
+    expect(Ad::query()->count())->toBe(1);
 });
 
 test('image and target url fall back to the sponsor-provided values', function () {

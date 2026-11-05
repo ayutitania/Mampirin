@@ -15,7 +15,7 @@ export default function NotFound() {
                 <h2 className="mb-4 text-4xl leading-none font-black tracking-tighter uppercase">
                     Halaman Tidak Ditemukan
                 </h2>
-                <p className="mx-auto mb-8 max-w-md font-serif text-base leading-relaxed text-gray-600">
+                <p className="mx-auto mb-8 max-w-md font-serif text-base leading-relaxed text-gray-600 dark:text-gray-300">
                     Sepertinya tautan yang kamu buka sudah dipindahkan, dihapus,
                     atau tidak pernah ada. Kembali ke beranda untuk melanjutkan
                     membaca.
@@ -29,7 +29,7 @@ export default function NotFound() {
                     </Link>
                     <Link
                         href="/article"
-                        className="border border-gray-400 px-5 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black"
+                        className="border border-gray-400 dark:border-gray-600 px-5 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black"
                     >
                         Jelajahi Artikel
                     </Link>

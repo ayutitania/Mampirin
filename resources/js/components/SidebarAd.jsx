@@ -12,12 +12,12 @@ export default function SidebarAd({
     if (!ad) {
         return (
             <div
-                className={`${className} ${heightClass} flex flex-col items-center justify-center border border-gray-300 bg-gray-100`}
+                className={`${className} ${heightClass} flex flex-col items-center justify-center border border-gray-300 bg-gray-100 dark:border-gray-700 dark:bg-black`}
             >
-                <span className="text-xs font-bold text-gray-400 uppercase">
+                <span className="text-xs font-bold text-gray-400 uppercase dark:text-white">
                     {label}
                 </span>
-                <span className="mt-2 text-2xl text-gray-300">[Iklan]</span>
+                <span className="mt-2 text-2xl text-gray-300">[Ads]</span>
             </div>
         );
     }
@@ -32,7 +32,7 @@ export default function SidebarAd({
                     ? `${ad.title} (buka di tab baru)`
                     : ad.title
             }
-            className={`${className} ${heightClass} relative block overflow-hidden border border-gray-300 bg-gray-100`}
+            className={`${className} ${heightClass} relative block overflow-hidden border border-gray-300 bg-gray-100 dark:border-gray-700 dark:bg-black`}
         >
             {ad.image_url ? (
                 <img
@@ -42,11 +42,11 @@ export default function SidebarAd({
                     loading="lazy"
                 />
             ) : (
-                <span className="flex h-full items-center justify-center px-4 text-center text-sm text-gray-600">
+                <span className="flex h-full items-center justify-center px-4 text-center text-sm text-gray-600 dark:text-gray-300">
                     {ad.title}
                 </span>
             )}
-            <span className="absolute bottom-3 left-3 bg-white/85 px-2 py-1 text-[10px] font-bold text-black uppercase">
+            <span className="absolute bottom-3 left-3 bg-white px-2 py-1 text-[10px] font-bold text-black uppercase dark:bg-gray-800/85 dark:text-white">
                 {label}
             </span>
         </a>

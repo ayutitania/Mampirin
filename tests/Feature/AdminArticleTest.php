@@ -70,6 +70,19 @@ test('an admin can create an article', function () {
         ->and($article->is_published)->toBeTrue();
 });
 
+test('publishing an article without a date fills the publish date automatically', function () {
+    $this->actingAs($this->admin)
+        ->post(route('admin.articles.store'), articlePayload([
+            'published_at' => '',
+        ]))
+        ->assertSessionHasNoErrors();
+
+    $article = Article::query()->firstOrFail();
+
+    expect($article->is_published)->toBeTrue()
+        ->and($article->published_at)->not->toBeNull();
+});
+
 test('an admin can upload a cover image when creating an article', function () {
     Storage::fake('public');
 

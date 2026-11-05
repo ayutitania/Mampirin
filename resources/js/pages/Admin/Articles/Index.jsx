@@ -69,7 +69,7 @@ export default function ArticlesIndex({
     return (
         <AdminLayout title="Artikel">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                     Kelola semua artikel yang tampil di situs.
                 </p>
                 <Link
@@ -82,12 +82,12 @@ export default function ArticlesIndex({
 
             <form
                 onSubmit={applyFilters}
-                className="mb-4 grid grid-cols-1 gap-3 border border-gray-300 bg-white p-4 sm:grid-cols-2 lg:grid-cols-4"
+                className="mb-4 grid grid-cols-1 gap-3 border border-gray-300 bg-white p-4 sm:grid-cols-2 lg:grid-cols-4 dark:border-gray-700 dark:bg-gray-800"
             >
                 <div>
                     <label
                         htmlFor="search"
-                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
+                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400"
                     >
                         Cari Judul
                     </label>
@@ -97,14 +97,14 @@ export default function ArticlesIndex({
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                         placeholder="Ketik judul artikel..."
-                        className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none"
+                        className="w-full border border-gray-300 px-3 py-2 text-sm focus:border-black focus:outline-none dark:border-gray-700"
                     />
                 </div>
 
                 <div>
                     <label
                         htmlFor="category"
-                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
+                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400"
                     >
                         Kategori
                     </label>
@@ -112,7 +112,7 @@ export default function ArticlesIndex({
                         id="category"
                         value={category}
                         onChange={(event) => setCategory(event.target.value)}
-                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none"
+                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none dark:border-gray-700 dark:bg-gray-800"
                     >
                         <option value="">Semua Kategori</option>
                         {categories.map((item) => (
@@ -126,7 +126,7 @@ export default function ArticlesIndex({
                 <div>
                     <label
                         htmlFor="status"
-                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase"
+                        className="mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400"
                     >
                         Status
                     </label>
@@ -134,7 +134,7 @@ export default function ArticlesIndex({
                         id="status"
                         value={status}
                         onChange={(event) => setStatus(event.target.value)}
-                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none"
+                        className="w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none dark:border-gray-700 dark:bg-gray-800"
                     >
                         {STATUS_OPTIONS.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -154,22 +154,22 @@ export default function ArticlesIndex({
                     <button
                         type="button"
                         onClick={resetFilters}
-                        className="border border-gray-300 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:border-black"
+                        className="border border-gray-300 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:border-black dark:border-gray-700"
                     >
                         Reset
                     </button>
                 </div>
             </form>
 
-            <div className="border border-gray-300 bg-white">
+            <div className="border border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-800">
                 {articles.data.length === 0 ? (
-                    <p className="px-5 py-10 text-center text-sm text-gray-500">
+                    <p className="px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
                         Tidak ada artikel yang cocok dengan filter.
                     </p>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm">
-                            <thead className="bg-gray-50 text-[10px] tracking-widest text-gray-500 uppercase">
+                            <thead className="bg-gray-50 text-[10px] tracking-widest text-gray-500 uppercase dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th className="px-4 py-3">Judul</th>
                                     <th className="px-4 py-3">Kategori</th>
@@ -194,7 +194,7 @@ export default function ArticlesIndex({
                                                 /{article.slug}
                                             </div>
                                         </td>
-                                        <td className="px-4 py-3 text-gray-600">
+                                        <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
                                             {article.category?.name ?? '-'}
                                         </td>
                                         <td className="px-4 py-3">
@@ -207,7 +207,7 @@ export default function ArticlesIndex({
                                                 className={`px-2 py-1 text-[10px] font-bold uppercase ${
                                                     article.is_published
                                                         ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300'
                                                 }`}
                                             >
                                                 {article.is_published
@@ -215,7 +215,7 @@ export default function ArticlesIndex({
                                                     : 'Draft'}
                                             </button>
                                         </td>
-                                        <td className="px-4 py-3 text-gray-500">
+                                        <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
                                             {formatDate(
                                                 article.published_at ??
                                                     article.created_at,

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import AdminLayout from '../../../components/AdminLayout';
+import DropZone from '../../../components/DropZone';
 
 function toDateTimeLocal(value) {
     if (!value) {
@@ -29,16 +30,19 @@ function FieldError({ message }) {
 }
 
 const inputClass =
-    'w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none';
+    'w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm focus:border-black focus:outline-none dark:text-gray-100';
 const labelClass =
-    'mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase';
+    'mb-1 block text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase';
 
 export default function AdForm({ ad = null, placements = [] }) {
     const isEdit = Boolean(ad?.id);
+    const imageInputRef = useRef(null);
+    const [imagePreview, setImagePreview] = useState(ad?.image_url ?? null);
 
     const { data, setData, post, put, processing, errors } = useForm({
         title: ad?.title ?? '',
         image_url: ad?.image_url ?? '',
+        ad_image: null,
         target_url: ad?.target_url ?? '',
         placement: ad?.placement ?? placements[0]?.value ?? 'top',
         starts_at: toDateTimeLocal(ad?.starts_at),
@@ -47,20 +51,42 @@ export default function AdForm({ ad = null, placements = [] }) {
         is_active: ad ? Boolean(ad.is_active) : true,
     });
 
+    const selectImage = (input) => {
+        const file =
+            input instanceof File ? input : (input?.target?.files?.[0] ?? null);
+
+        setData('ad_image', file);
+        setImagePreview(
+            file ? URL.createObjectURL(file) : (ad?.image_url ?? null),
+        );
+    };
+
+    const clearImage = () => {
+        setData('ad_image', null);
+        setData('image_url', '');
+        setImagePreview(null);
+
+        if (imageInputRef.current) {
+            imageInputRef.current.value = '';
+        }
+    };
+
     const submit = (event) => {
         event.preventDefault();
 
+        const options = data.ad_image ? { forceFormData: true } : {};
+
         if (isEdit) {
-            put(`/admin/ads/${ad.id}`);
+            put(`/admin/ads/${ad.id}`, options);
         } else {
-            post('/admin/ads');
+            post('/admin/ads', options);
         }
     };
 
     return (
         <AdminLayout title={isEdit ? 'Edit Iklan' : 'Iklan Baru'}>
             <form onSubmit={submit} className="max-w-3xl space-y-4" noValidate>
-                <div className="space-y-4 border border-gray-300 bg-white p-5">
+                <div className="space-y-4 border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                     <div>
                         <label htmlFor="title" className={labelClass}>
                             Judul Iklan *
@@ -92,14 +118,50 @@ export default function AdForm({ ad = null, placements = [] }) {
                             className={inputClass}
                         />
                         <FieldError message={errors.image_url} />
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                             Kosongkan untuk menampilkan judul sebagai teks
                             banner.
                         </p>
                     </div>
 
+                    <div>
+                        <label className={labelClass}>
+                            Unggah Gambar (opsional)
+                        </label>
+                        <DropZone
+                            inputRef={imageInputRef}
+                            onFile={selectImage}
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                Seret &amp; lepas gambar di sini, atau klik
+                                tombol di bawah. Unggahan menggantikan URL di
+                                atas.
+                            </p>
+                            <FieldError message={errors.ad_image} />
+                        </DropZone>
+                        {imagePreview && (
+                            <div className="mt-3 overflow-hidden border border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-gray-900">
+                                <img
+                                    src={imagePreview}
+                                    alt="Pratinjau"
+                                    className="h-32 w-full object-cover"
+                                />
+                                {data.ad_image && (
+                                    <button
+                                        type="button"
+                                        onClick={clearImage}
+                                        className="mt-2 w-full border border-gray-400 bg-white px-3 py-1.5 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                                    >
+                                        Hapus Gambar
+                                    </button>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
                     {data.image_url && (
-                        <div className="overflow-hidden border border-gray-200 bg-gray-100">
+                        <div className="overflow-hidden border border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-gray-900">
                             <img
                                 src={data.image_url}
                                 alt="Pratinjau iklan"
@@ -126,7 +188,7 @@ export default function AdForm({ ad = null, placements = [] }) {
                             className={inputClass}
                         />
                         <FieldError message={errors.target_url} />
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                             Iklan akan membuka URL ini saat diklik, bukan
                             halaman /ads.
                         </p>
@@ -213,11 +275,11 @@ export default function AdForm({ ad = null, placements = [] }) {
                             onChange={(event) =>
                                 setData('is_active', event.target.checked)
                             }
-                            className="h-4 w-4 border-gray-400"
+                            className="h-4 w-4 border-gray-400 dark:border-gray-600"
                         />
                         <span>
                             <span className="font-bold">Aktifkan iklan</span>
-                            <span className="block text-xs text-gray-500">
+                            <span className="block text-xs text-gray-500 dark:text-gray-400">
                                 Iklan nonaktif tidak akan tampil di situs.
                             </span>
                         </span>
@@ -238,7 +300,7 @@ export default function AdForm({ ad = null, placements = [] }) {
                     </button>
                     <Link
                         href="/admin/ads"
-                        className="border border-gray-400 px-5 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black"
+                        className="border border-gray-400 px-5 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black dark:border-gray-600"
                     >
                         Batal
                     </Link>

@@ -30,6 +30,8 @@ class Ad extends Model
      */
     public const PLACEMENTS = [
         'top' => 'Banner Atas',
+        'home_inline' => 'Banner Tengah Home',
+        'article_inline' => 'Banner Atas Baca Juga',
         'sidebar' => 'Sidebar',
         'article_sidebar' => 'Sidebar Artikel',
     ];

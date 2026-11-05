@@ -1,5 +1,6 @@
 import React from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
+import BackToTop from './BackToTop';
 import BannerAds from './BannerAds';
 import Navbar from './Navbar';
 
@@ -18,18 +19,19 @@ export default function AppLayout({
         /\/+$/,
         '',
     );
-    const canonical = `${appUrl}${url.startsWith('/') ? url : `/${url}`}`;
+    const path = url.split('?')[0] || '/';
+    const canonical = `${appUrl}${path.startsWith('/') ? path : `/${path}`}`;
     const fullTitle = title
         ? `${title} - Mampirin Magazine`
         : 'Mampirin Magazine';
     const imageUrl = image
-        ? image.startsWith('http')
-            ? image
-            : `${appUrl}${image}`
+        ? String(image).startsWith('http')
+            ? String(image)
+            : `${appUrl}${String(image)}`
         : null;
 
     return (
-        <div className="mx-auto max-w-6xl px-4 pb-10 font-sans text-gray-900">
+        <div className="mx-auto max-w-6xl px-4 pb-10 font-sans text-gray-900 dark:text-white">
             <Head>
                 <title>{fullTitle}</title>
                 <meta
@@ -37,7 +39,11 @@ export default function AppLayout({
                     name="description"
                     content={description}
                 />
-                <meta head-key="og:title" property="og:title" content={fullTitle} />
+                <meta
+                    head-key="og:title"
+                    property="og:title"
+                    content={fullTitle}
+                />
                 <meta
                     head-key="og:description"
                     property="og:description"
@@ -49,11 +55,7 @@ export default function AppLayout({
                     property="og:site_name"
                     content="Mampirin Magazine"
                 />
-                <meta
-                    head-key="og:url"
-                    property="og:url"
-                    content={canonical}
-                />
+                <meta head-key="og:url" property="og:url" content={canonical} />
                 <meta
                     head-key="twitter:card"
                     name="twitter:card"
@@ -86,7 +88,7 @@ export default function AppLayout({
                         Mampirin Magazine
                     </h1>
                 </Link>
-                <p className="mt-2 text-xs tracking-[0.3em] text-gray-500 uppercase">
+                <p className="mt-2 text-xs tracking-[0.3em] text-gray-500 dark:text-gray-400 uppercase">
                     Mampir Dulu, Baca Berita
                 </p>
             </header>
@@ -100,12 +102,15 @@ export default function AppLayout({
                 <h2 className="mb-2 text-4xl font-black tracking-tighter uppercase">
                     Mampirin Magazine
                 </h2>
-                <p className="mb-4 text-xs tracking-widest text-gray-500 uppercase">
+                <p className="mb-4 text-xs tracking-widest text-gray-500 dark:text-gray-400 uppercase">
                     Mampir Dulu, Sukses Kemudian
                 </p>
-                <div className="mb-4 flex justify-center space-x-4 text-xs font-bold text-gray-600">
+                <div className="mb-4 flex justify-center space-x-4 text-xs font-bold text-gray-600 dark:text-gray-300">
                     <Link href="/about" className="hover:text-black">
                         About
+                    </Link>
+                    <Link href="/faq" className="hover:text-black">
+                        FAQ
                     </Link>
                     <Link href="/partnership" className="hover:text-black">
                         Partnership
@@ -121,6 +126,8 @@ export default function AppLayout({
                     &copy; 2026 Mampirin Magazine. All rights reserved.
                 </p>
             </footer>
+
+            <BackToTop />
         </div>
     );
 }

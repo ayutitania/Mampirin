@@ -63,6 +63,8 @@ class SubmissionController extends Controller
             'article_image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ]);
 
+        $publishNow = $request->boolean('is_published');
+
         $article = Article::query()->create([
             'category_id' => $validated['category_id'],
             'title' => $submission->title,
@@ -72,8 +74,8 @@ class SubmissionController extends Controller
             'image_url' => $this->resolveArticleImage($request, $submission),
             'author' => $submission->writer_name,
             'is_featured' => $request->boolean('is_featured'),
-            'is_published' => $request->boolean('is_published'),
-            'published_at' => now(),
+            'is_published' => $publishNow,
+            'published_at' => $publishNow ? now() : null,
         ]);
 
         $submission->update([
@@ -83,8 +85,8 @@ class SubmissionController extends Controller
 
         return back()->with(
             'success',
-            $request->boolean('is_published')
-                ? 'Kiriman disetujui dan artikel sudah terbit di situs.'
+            $publishNow
+                ? 'Kiriman disetujui dan artikel langsung terbit di Mampirin.'
                 : 'Kiriman disetujui dan disimpan sebagai draft artikel.',
         );
     }

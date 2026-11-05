@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import AppLayout from '../components/AppLayout';
+import DropZone from '../components/DropZone';
 
 function FieldError({ message }) {
     if (!message) return null;
@@ -21,8 +22,9 @@ export default function WriteUs() {
         photo: null,
     });
 
-    const selectPhoto = (event) => {
-        const file = event.target.files?.[0] ?? null;
+    const selectPhoto = (input) => {
+        const file =
+            input instanceof File ? input : (input?.target?.files?.[0] ?? null);
 
         setData('photo', file);
         setPhotoPreview(file ? URL.createObjectURL(file) : null);
@@ -61,7 +63,7 @@ export default function WriteUs() {
                 <h2 className="mb-4 text-[3rem] leading-none font-black tracking-tighter uppercase">
                     Share Your Idea
                 </h2>
-                <p className="mb-10 border-b border-gray-300 pb-6 text-sm text-gray-700">
+                <p className="mb-10 border-b border-gray-300 dark:border-gray-700 pb-6 text-sm text-gray-700 dark:text-gray-300">
                     Pastikan kamu membaca syarat dan FAQ pengiriman artikel yang
                     ada di{' '}
                     <Link href="/faq" className="underline">
@@ -83,7 +85,7 @@ export default function WriteUs() {
                     <div>
                         <label
                             htmlFor="title"
-                            className="mb-2 block text-sm text-gray-800"
+                            className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
                             Article Title:
                         </label>
@@ -94,7 +96,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('title', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
                         />
                         <FieldError message={errors.title} />
                     </div>
@@ -103,71 +105,11 @@ export default function WriteUs() {
                     <div>
                         <label
                             htmlFor="body"
-                            className="mb-2 block text-sm text-gray-800"
+                            className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
                             Article Body:
                         </label>
-                        <div className="border border-gray-300 bg-white">
-                            {/* Tabs Visual / Text */}
-                            <div className="flex justify-end space-x-1 border-b border-gray-300 bg-gray-50 px-2 py-1">
-                                <button
-                                    type="button"
-                                    className="border border-gray-300 bg-white px-3 py-1 text-xs text-gray-700 shadow-sm"
-                                >
-                                    Visual
-                                </button>
-                                <button
-                                    type="button"
-                                    className="px-3 py-1 text-xs text-gray-500 hover:text-gray-800"
-                                >
-                                    Text
-                                </button>
-                            </div>
-
-                            {/* Formatting Toolbar */}
-                            <div className="flex items-center space-x-4 border-b border-gray-300 bg-gray-50 px-4 py-2 font-serif text-sm text-gray-600">
-                                <div className="flex space-x-3">
-                                    <button
-                                        type="button"
-                                        className="font-bold hover:text-black"
-                                    >
-                                        B
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="italic hover:text-black"
-                                    >
-                                        I
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="underline hover:text-black"
-                                    >
-                                        U
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="line-through hover:text-black"
-                                    >
-                                        S
-                                    </button>
-                                </div>
-                                <div className="h-4 border-l border-gray-300"></div>
-                                <div className="flex cursor-pointer items-center space-x-1 hover:text-black">
-                                    <span className="font-sans text-xs">
-                                        16
-                                    </span>
-                                    <span className="text-[10px]">▼</span>
-                                </div>
-                                <div className="h-4 border-l border-gray-300"></div>
-                                <button
-                                    type="button"
-                                    className="bg-yellow-100 px-1 font-bold text-yellow-500"
-                                >
-                                    A ▼
-                                </button>
-                            </div>
-
+                        <div className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
                             {/* Textarea */}
                             <textarea
                                 id="body"
@@ -177,7 +119,7 @@ export default function WriteUs() {
                                     setData('body', event.target.value)
                                 }
                                 placeholder="Tulis isi artikelmu di sini..."
-                                className="w-full bg-white p-4 text-sm focus:outline-none"
+                                className="w-full bg-white dark:bg-gray-800 p-4 text-sm focus:outline-none"
                             ></textarea>
                         </div>
                         <FieldError message={errors.body} />
@@ -187,7 +129,7 @@ export default function WriteUs() {
                     <div>
                         <label
                             htmlFor="writer_name"
-                            className="mb-2 block text-sm text-gray-800"
+                            className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
                             Writer Name:
                         </label>
@@ -198,7 +140,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('writer_name', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
                         />
                         <FieldError message={errors.writer_name} />
                     </div>
@@ -207,7 +149,7 @@ export default function WriteUs() {
                     <div>
                         <label
                             htmlFor="writer_email"
-                            className="mb-2 block text-sm text-gray-800"
+                            className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
                             Writer Email:
                         </label>
@@ -218,7 +160,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('writer_email', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
                         />
                         <FieldError message={errors.writer_email} />
                     </div>
@@ -227,7 +169,7 @@ export default function WriteUs() {
                     <div>
                         <label
                             htmlFor="writer_phone"
-                            className="mb-2 block text-sm text-gray-800"
+                            className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
                             Writer Phone:
                         </label>
@@ -238,7 +180,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('writer_phone', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
                         />
                         <FieldError message={errors.writer_phone} />
                     </div>
@@ -247,27 +189,29 @@ export default function WriteUs() {
                     <div>
                         <label
                             htmlFor="photo"
-                            className="mb-2 block text-sm text-gray-800"
+                            className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
                             Foto Pendukung (opsional):
                         </label>
-                        <p className="mb-3 text-xs text-gray-500">
+                        <p className="mb-3 text-xs text-gray-500 dark:text-gray-400">
                             Unggah foto suasana, tempat, atau ilustrasi
                             pendukung. Format JPG, PNG, atau WEBP maksimal 4 MB.
                         </p>
 
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-                            <input
-                                ref={fileInput}
-                                id="photo"
-                                type="file"
+                            <DropZone
+                                inputRef={fileInput}
+                                onFile={selectPhoto}
                                 accept="image/jpeg,image/png,image/webp"
-                                onChange={selectPhoto}
-                                className="block w-full text-sm text-gray-600 file:mr-4 file:border file:border-black file:bg-white file:px-4 file:py-2 file:text-xs file:font-bold file:text-black file:uppercase hover:file:bg-black hover:file:text-white"
-                            />
+                            >
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    Seret &amp; lepas foto di sini, atau klik
+                                    tombol di bawah.
+                                </p>
+                            </DropZone>
 
                             {photoPreview && (
-                                <div className="relative w-full max-w-[220px] shrink-0 border border-gray-300 bg-gray-100 p-1">
+                                <div className="relative w-full max-w-[220px] shrink-0 border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 p-1">
                                     <img
                                         src={photoPreview}
                                         alt="Pratinjau foto"
@@ -276,7 +220,7 @@ export default function WriteUs() {
                                     <button
                                         type="button"
                                         onClick={clearPhoto}
-                                        className="mt-1 w-full border border-gray-400 px-2 py-1 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white"
+                                        className="mt-1 w-full border border-gray-400 dark:border-gray-600 px-2 py-1 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white"
                                     >
                                         Hapus Foto
                                     </button>
@@ -288,7 +232,7 @@ export default function WriteUs() {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="border-b border-gray-300 pb-10">
+                    <div className="border-b border-gray-300 dark:border-gray-700 pb-10">
                         <button
                             type="submit"
                             disabled={processing}
@@ -299,7 +243,6 @@ export default function WriteUs() {
                     </div>
                 </form>
             </div>
-
         </AppLayout>
     );
 }

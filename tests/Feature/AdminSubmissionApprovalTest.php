@@ -90,7 +90,50 @@ test('a submission can be approved as a draft article', function () {
         ])
         ->assertSessionHas('success');
 
-    expect($submission->fresh()->article->is_published)->toBeFalse();
+    $article = $submission->fresh()->article;
+
+    expect($article->is_published)->toBeFalse()
+        ->and($article->published_at)->toBeNull();
+});
+
+test('an approved submission immediately appears on the public site', function () {
+    $submission = pendingSubmission([
+        'title' => 'Cerita Baru yang Langsung Terbit',
+        'body' => 'Paragraf pertama yang akan tampil sebagai ringkasan. '.str_repeat('Isi lengkap cerita pembaca. ', 4),
+    ]);
+    $category = Category::query()->where('slug', 'lifestyle')->firstOrFail();
+
+    $this->actingAs($this->admin)
+        ->patch(route('admin.submissions.approve', $submission), [
+            'category_id' => $category->id,
+            'is_published' => true,
+        ])
+        ->assertSessionHas('success');
+
+    $slug = $submission->fresh()->article->slug;
+
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('latest.0.slug', $slug)
+            ->where('siteCategories.2.slug', 'lifestyle')
+            ->where('siteCategories.2.articles_count', 1)
+        );
+
+    $this->get(route('article.category', ['slug' => 'lifestyle']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('ArticleCategory')
+            ->where('articles.0.slug', $slug)
+        );
+
+    $this->get(route('article.show', ['slug' => $slug]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('ArticleShow')
+            ->where('article.slug', $slug)
+            ->where('article.category.slug', 'lifestyle')
+        );
 });
 
 test('a submission cannot be approved twice', function () {

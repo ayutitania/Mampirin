@@ -16,20 +16,32 @@ class PartnershipController extends Controller
      */
     public function index(Request $request): Response
     {
+        $packages = PartnershipPackage::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get([
+                'id',
+                'code',
+                'label',
+                'name',
+                'description',
+                'price',
+                'price_suffix',
+            ]);
+
+        $requested = trim((string) $request->query('package'));
+
+        // Terima ?package=02 (kode paket) maupun ?package=2 (id paket).
+        $selectedPackageId = $packages
+            ->first(fn (PartnershipPackage $package) => $requested !== ''
+                && ((string) $package->code === $requested
+                    || (string) $package->id === $requested))
+            ?->id;
+
         return Inertia::render('Partnership', [
-            'packages' => PartnershipPackage::query()
-                ->where('is_active', true)
-                ->orderBy('sort_order')
-                ->get([
-                    'id',
-                    'code',
-                    'label',
-                    'name',
-                    'description',
-                    'price',
-                    'price_suffix',
-                ]),
-            'selectedPackage' => $request->query('package'),
+            'packages' => $packages,
+            'selectedPackage' => $requested !== '' ? $requested : null,
+            'selectedPackageId' => $selectedPackageId,
         ]);
     }
 
@@ -47,8 +59,14 @@ class PartnershipController extends Controller
             'message' => ['required', 'string', 'min:20'],
             'ad_title' => ['required', 'string', 'max:255'],
             'ad_target_url' => ['nullable', 'string', 'max:2048'],
-            'ad_image_url' => ['nullable', 'string', 'max:2048'],
+            'ad_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ]);
+
+        unset($validated['ad_image']);
+
+        if ($request->hasFile('ad_image')) {
+            $validated['ad_image_url'] = '/storage/'.$request->file('ad_image')->store('partnership-images', 'public');
+        }
 
         PartnershipInquiry::create([
             ...$validated,
