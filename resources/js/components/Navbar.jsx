@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { categoryUrl } from '../lib/articles';
 
@@ -34,29 +34,6 @@ export default function Navbar() {
         document.documentElement.classList.toggle('dark', dark);
         window.localStorage.setItem('site-dark-mode', String(dark));
     }, [dark, mounted]);
-
-    const [articleOpen, setArticleOpen] = useState(false);
-    const articleRef = useRef(null);
-
-    useEffect(() => {
-        const onClickOutside = (event) => {
-            if (
-                articleRef.current &&
-                !articleRef.current.contains(event.target)
-            ) {
-                setArticleOpen(false);
-            }
-        };
-        const onKey = (event) => {
-            if (event.key === 'Escape') setArticleOpen(false);
-        };
-        document.addEventListener('mousedown', onClickOutside);
-        document.addEventListener('keydown', onKey);
-        return () => {
-            document.removeEventListener('mousedown', onClickOutside);
-            document.removeEventListener('keydown', onKey);
-        };
-    }, []);
     const linkClass = (isActive) => (isActive ? ACTIVE : INACTIVE);
 
     return (
@@ -72,28 +49,14 @@ export default function Navbar() {
             </Link>
 
             {/* Dropdown Article */}
-            <div className="group relative cursor-pointer" ref={articleRef}>
-                <button
-                    type="button"
-                    onClick={() => setArticleOpen((open) => !open)}
-                    aria-expanded={articleOpen}
-                    aria-haspopup="true"
+            <div className="group relative cursor-pointer">
+                <Link
+                    href="/article"
                     className={`${linkClass(isArticle)} flex items-center`}
                 >
                     ARTICLE
-                </button>
-                <div
-                    className={`absolute left-0 z-30 mt-2 w-48 border border-gray-300 bg-white shadow-xl group-hover:block dark:border-gray-700 dark:bg-gray-800 ${
-                        articleOpen ? 'block' : 'hidden'
-                    }`}
-                >
-                    <Link
-                        href="/article"
-                        onClick={() => setArticleOpen(false)}
-                        className="block border-b border-gray-200 px-4 py-3 text-xs text-gray-800 last:border-0 hover:bg-gray-200 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
-                    >
-                        Semua Artikel
-                    </Link>
+                </Link>
+                <div className="absolute left-0 z-30 mt-2 hidden w-48 border border-gray-300 bg-white shadow-xl group-hover:block dark:border-gray-700 dark:bg-gray-800">
                     {categories.length === 0 && (
                         <span className="block px-4 py-3 text-xs text-gray-400 dark:text-gray-400 dark:text-gray-500">
                             Belum ada kategori
@@ -103,7 +66,6 @@ export default function Navbar() {
                         <Link
                             key={category.id}
                             href={categoryUrl(category)}
-                            onClick={() => setArticleOpen(false)}
                             className="block border-b border-gray-200 px-4 py-3 text-xs text-gray-800 last:border-0 hover:bg-gray-200 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
                         >
                             {category.name}
