@@ -10,15 +10,11 @@ export default function Navbar() {
     const { url, props } = usePage();
     const categories = props.siteCategories ?? [];
     const path = (url.split('?')[0].replace(/\/+$/, '') || '/').toLowerCase();
-    const component = usePage().component;
 
     const isArticle = path === '/article' || path.startsWith('/article/');
 
     const showSearch =
-        component === 'Home' ||
-        component === 'ArticleIndex' ||
-        component === 'ArticleCategory' ||
-        component === 'ArticleShow';
+        path === '/' || path === '/article' || path.startsWith('/article/');
 
     const [dark, setDark] = useState(false);
     const [mounted, setMounted] = useState(false);
