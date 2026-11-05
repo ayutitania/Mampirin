@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { categoryUrl } from '../lib/articles';
 
 const ACTIVE =
-    'hover:text-black text-black dark:text-white dark:hover:text-white';
+    'hover:text-black dark:hover:text-white text-black dark:text-white dark:hover:text-white';
 const INACTIVE = 'hover:text-gray-500 dark:text-gray-300 dark:hover:text-white';
 
 export default function Navbar() {
@@ -11,6 +11,8 @@ export default function Navbar() {
     const categories = props.siteCategories ?? [];
     const path = (url.split('?')[0].replace(/\/+$/, '') || '/').toLowerCase();
     const component = usePage().component;
+
+    const isArticle = path === '/article' || path.startsWith('/article/');
 
     const showSearch =
         component === 'Home' ||
@@ -37,7 +39,28 @@ export default function Navbar() {
         window.localStorage.setItem('site-dark-mode', String(dark));
     }, [dark, mounted]);
 
-    const isArticle = path === '/article' || path.startsWith('/article/');
+    const [articleOpen, setArticleOpen] = useState(false);
+    const articleRef = useRef(null);
+
+    useEffect(() => {
+        const onClickOutside = (event) => {
+            if (
+                articleRef.current &&
+                !articleRef.current.contains(event.target)
+            ) {
+                setArticleOpen(false);
+            }
+        };
+        const onKey = (event) => {
+            if (event.key === 'Escape') setArticleOpen(false);
+        };
+        document.addEventListener('mousedown', onClickOutside);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('mousedown', onClickOutside);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, []);
     const linkClass = (isActive) => (isActive ? ACTIVE : INACTIVE);
 
     return (
@@ -53,16 +76,30 @@ export default function Navbar() {
             </Link>
 
             {/* Dropdown Article */}
-            <div className="group relative cursor-pointer">
-                <Link
-                    href="/article"
+            <div className="group relative cursor-pointer" ref={articleRef}>
+                <button
+                    type="button"
+                    onClick={() => setArticleOpen((open) => !open)}
+                    aria-expanded={articleOpen}
+                    aria-haspopup="true"
                     className={`${linkClass(isArticle)} flex items-center`}
                 >
-                    Article
-                </Link>
-                <div className="absolute left-0 z-30 mt-2 hidden w-48 border border-gray-300 bg-white shadow-xl group-hover:block">
+                    ARTICLE
+                </button>
+                <div
+                    className={`absolute left-0 z-30 mt-2 w-48 border border-gray-300 bg-white shadow-xl group-hover:block dark:border-gray-700 dark:bg-gray-800 ${
+                        articleOpen ? 'block' : 'hidden'
+                    }`}
+                >
+                    <Link
+                        href="/article"
+                        onClick={() => setArticleOpen(false)}
+                        className="block border-b border-gray-200 px-4 py-3 text-xs text-gray-800 last:border-0 hover:bg-gray-200 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
+                    >
+                        Semua Artikel
+                    </Link>
                     {categories.length === 0 && (
-                        <span className="block px-4 py-3 text-xs text-gray-400">
+                        <span className="block px-4 py-3 text-xs text-gray-400 dark:text-gray-400 dark:text-gray-500">
                             Belum ada kategori
                         </span>
                     )}
@@ -70,7 +107,8 @@ export default function Navbar() {
                         <Link
                             key={category.id}
                             href={categoryUrl(category)}
-                            className="block border-b border-gray-200 px-4 py-3 text-xs last:border-0 hover:bg-gray-200"
+                            onClick={() => setArticleOpen(false)}
+                            className="block border-b border-gray-200 px-4 py-3 text-xs text-gray-800 last:border-0 hover:bg-gray-200 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
                         >
                             {category.name}
                         </Link>
@@ -86,7 +124,10 @@ export default function Navbar() {
             </Link>
 
             {/* Tombol Contact untuk Scroll */}
-            <a href="#footer-contact" className="hover:text-gray-500">
+            <a
+                href="#footer-contact"
+                className="hover:text-gray-500 dark:text-gray-400"
+            >
                 Contact
             </a>
 
@@ -107,7 +148,7 @@ export default function Navbar() {
                             name="q"
                             placeholder="Cari..."
                             aria-label="Cari artikel"
-                            className="w-28 border border-gray-300 bg-white py-1 pr-2 pl-7 text-xs text-gray-900 transition-all placeholder:text-gray-500 focus:w-40 focus:border-black focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-400"
+                            className="w-28 border border-gray-300 bg-white py-1 pr-2 pl-7 text-xs text-gray-900 transition-all placeholder:text-gray-500 focus:w-40 focus:border-black focus:outline-none dark:border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:text-gray-400 dark:placeholder:text-gray-400"
                         />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +159,7 @@ export default function Navbar() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             aria-hidden="true"
-                            className="pointer-events-none absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500"
+                            className="pointer-events-none absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                         >
                             <circle cx="8.5" cy="8.5" r="5.5" />
                             <line x1="12.5" y1="12.5" x2="17" y2="17" />

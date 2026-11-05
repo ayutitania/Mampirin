@@ -97,7 +97,7 @@ export default function AppLayout({
 
             <footer
                 id="footer-contact"
-                className="mt-12 border-t-[4px] border-black pt-8 text-center"
+                className="mt-12 border-t-[4px] border-black dark:border-gray-400 pt-8 text-center"
             >
                 <h2 className="mb-2 text-4xl font-black tracking-tighter uppercase">
                     Mampirin Magazine
@@ -106,19 +106,19 @@ export default function AppLayout({
                     Mampir Dulu, Sukses Kemudian
                 </p>
                 <div className="mb-4 flex justify-center space-x-4 text-xs font-bold text-gray-600 dark:text-gray-300">
-                    <Link href="/about" className="hover:text-black">
+                    <Link href="/about" className="hover:text-black dark:hover:text-white">
                         About
                     </Link>
-                    <Link href="/faq" className="hover:text-black">
+                    <Link href="/faq" className="hover:text-black dark:hover:text-white">
                         FAQ
                     </Link>
-                    <Link href="/partnership" className="hover:text-black">
+                    <Link href="/partnership" className="hover:text-black dark:hover:text-white">
                         Partnership
                     </Link>
-                    <Link href="/ads" className="hover:text-black">
+                    <Link href="/ads" className="hover:text-black dark:hover:text-white">
                         Ads
                     </Link>
-                    <a href="#footer-contact" className="hover:text-black">
+                    <a href="#footer-contact" className="hover:text-black dark:hover:text-white">
                         Contact
                     </a>
                 </div>

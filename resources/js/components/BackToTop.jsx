@@ -22,7 +22,7 @@ export default function BackToTop() {
             onClick={scrollToTop}
             aria-label="Kembali ke atas"
             title="Kembali ke atas"
-            className={`fixed right-5 bottom-5 z-50 flex h-11 w-11 items-center justify-center border-2 border-black bg-white text-black shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:-translate-y-0.5 hover:bg-black hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 ${
+            className={`fixed right-5 bottom-5 z-50 flex h-11 w-11 items-center justify-center border-2 border-black dark:border-gray-400 bg-white text-black shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:-translate-y-0.5 hover:bg-black dark:hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 ${
                 visible
                     ? 'pointer-events-auto translate-y-0 opacity-100'
                     : 'pointer-events-none translate-y-4 opacity-0'

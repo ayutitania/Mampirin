@@ -37,9 +37,9 @@ export default function Ads({ packages = [] }) {
             description="Peluang kemitraan dan paket publikasi Mampirin Magazine untuk bisnis, kafe, dan UMKM di sekitar kampus."
         >
             {/* Section 1: Hero Kemitraan */}
-            <section className="mb-16 grid grid-cols-1 gap-10 border-t-[4px] border-black pt-8 md:grid-cols-2">
+            <section className="mb-16 grid grid-cols-1 gap-10 border-t-[4px] border-black dark:border-gray-400 pt-8 md:grid-cols-2">
                 {/* Kiri: Gambar Ilustrasi */}
-                <div className="relative border-[3px] border-black p-2">
+                <div className="relative border-[3px] border-black dark:border-gray-400 p-2">
                     <div className="absolute top-4 left-4 z-10 bg-black px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
                         Tahap Dokumentasi Artikel
                     </div>
@@ -70,7 +70,7 @@ export default function Ads({ packages = [] }) {
                             <div className="text-4xl font-black tracking-tighter">
                                 94.2%
                             </div>
-                            <div className="mt-1 text-[9px] tracking-widest text-gray-500 uppercase dark:text-gray-400">
+                            <div className="mt-1 text-[9px] tracking-widest text-gray-500 dark:text-gray-400 uppercase dark:text-gray-400">
                                 Tingkat Retensi Pembaca Aktif
                             </div>
                         </div>
@@ -78,7 +78,7 @@ export default function Ads({ packages = [] }) {
                             <div className="text-4xl font-black tracking-tighter">
                                 28.5K+
                             </div>
-                            <div className="mt-1 text-[9px] tracking-widest text-gray-500 uppercase dark:text-gray-400">
+                            <div className="mt-1 text-[9px] tracking-widest text-gray-500 dark:text-gray-400 uppercase dark:text-gray-400">
                                 Jangkauan Mahasiswa Area Bukit
                             </div>
                         </div>
@@ -90,14 +90,14 @@ export default function Ads({ packages = [] }) {
             <section className="mb-16 border-t border-gray-300 pt-12 dark:border-gray-700">
                 <div className="mb-8 flex flex-col items-end justify-between md:flex-row">
                     <div>
-                        <div className="mb-2 text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
+                        <div className="mb-2 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase dark:text-gray-400">
                             Value Proposition
                         </div>
                         <h3 className="text-3xl font-black tracking-tighter uppercase">
                             Mengapa Berpartner Dengan Mampirin?
                         </h3>
                     </div>
-                    <p className="text-right font-serif text-sm text-gray-600 md:w-1/3 dark:text-gray-300">
+                    <p className="text-right font-serif text-sm text-gray-600 dark:text-gray-300 md:w-1/3 dark:text-gray-300">
                         Pendekatan kuratorial murni tanpa algoritma bayaran
                         pelan. Menghubungkan meja kosong Anda dengan pembeli
                         loyal harian.
@@ -164,7 +164,7 @@ export default function Ads({ packages = [] }) {
             {/* Section 3: Pricing Packages (dari database) */}
             <section className="mb-16 border-t border-gray-300 pt-12 dark:border-gray-700">
                 <div className="mb-12 text-center">
-                    <div className="mb-2 text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
+                    <div className="mb-2 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase dark:text-gray-400">
                         Transparansi Struktur Tarif
                     </div>
                     <h3 className="mb-2 text-4xl font-black tracking-tighter uppercase">
@@ -186,7 +186,7 @@ export default function Ads({ packages = [] }) {
                         {packages.map((pkg) => (
                             <div
                                 key={pkg.id}
-                                className="group relative border border-gray-400 bg-white p-8 transition-all duration-300 hover:z-10 hover:scale-105 hover:border-black hover:shadow-xl dark:border-gray-600 dark:bg-gray-800 dark:hover:border-white"
+                                className="group relative border border-gray-400 bg-white p-8 transition-all duration-300 hover:z-10 hover:scale-105 hover:border-black dark:border-gray-400 hover:shadow-xl dark:border-gray-600 dark:bg-gray-800 dark:hover:border-white"
                             >
                                 {pkg.is_featured && (
                                     <div className="absolute top-0 left-1/2 w-max -translate-x-1/2 -translate-y-1/2 transform bg-black px-4 py-1 text-[9px] font-bold tracking-widest text-white uppercase opacity-70 transition-opacity group-hover:opacity-100">
@@ -194,7 +194,7 @@ export default function Ads({ packages = [] }) {
                                     </div>
                                 )}
 
-                                <div className="mb-1 text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
+                                <div className="mb-1 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase dark:text-gray-400">
                                     {pkg.label}
                                 </div>
                                 <h4 className="mb-6 text-2xl font-black tracking-tight uppercase transition-colors group-hover:text-black dark:group-hover:text-white">
@@ -205,7 +205,7 @@ export default function Ads({ packages = [] }) {
                                 </p>
 
                                 <div className="mb-6">
-                                    <div className="text-[10px] tracking-widest text-gray-500 uppercase dark:text-gray-400">
+                                    <div className="text-[10px] tracking-widest text-gray-500 dark:text-gray-400 uppercase dark:text-gray-400">
                                         Investasi Publikasi
                                     </div>
                                     <div className="text-4xl font-black tracking-tighter">
@@ -236,7 +236,7 @@ export default function Ads({ packages = [] }) {
 
                                 <CtaLink
                                     href={pkg.cta_url}
-                                    className="block w-full border-[2px] border-black py-3 text-center text-xs font-bold text-black uppercase transition-colors hover:bg-black hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black"
+                                    className="block w-full border-[2px] border-black dark:border-gray-400 py-3 text-center text-xs font-bold text-black uppercase transition-colors hover:bg-black dark:hover:bg-gray-700 hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black dark:hover:text-white"
                                 >
                                     {pkg.cta_label}
                                 </CtaLink>

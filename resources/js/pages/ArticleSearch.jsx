@@ -18,7 +18,7 @@ export default function ArticleSearch({ query = '', results = [] }) {
             title={query ? `Pencarian: ${query}` : 'Pencarian Artikel'}
             description="Cari artikel di Mampirin Magazine berdasarkan judul atau isi."
         >
-            <div className="mx-auto max-w-4xl border-t-[4px] border-black pt-8">
+            <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 <div className="mb-4 w-max bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
                     Pencarian
                 </div>
@@ -45,7 +45,7 @@ export default function ArticleSearch({ query = '', results = [] }) {
                             defaultValue={query}
                             placeholder="Ketik judul atau isi artikel..."
                             aria-label="Kata kunci pencarian"
-                            className="w-full border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm focus:border-black focus:outline-none"
+                            className="w-full border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                     </div>
                     <button
@@ -73,19 +73,19 @@ export default function ArticleSearch({ query = '', results = [] }) {
                         <div className="mt-6 flex flex-wrap justify-center gap-3">
                             <Link
                                 href="/article/category/entertainment"
-                                className="border border-black px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black hover:text-white"
+                                className="border border-black dark:border-gray-400 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                             >
                                 Entertainment
                             </Link>
                             <Link
                                 href="/article/category/history"
-                                className="border border-black px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black hover:text-white"
+                                className="border border-black dark:border-gray-400 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                             >
                                 History
                             </Link>
                             <Link
                                 href="/article/category/lifestyle"
-                                className="border border-black px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black hover:text-white"
+                                className="border border-black dark:border-gray-400 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                             >
                                 Lifestyle
                             </Link>

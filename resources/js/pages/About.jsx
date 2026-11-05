@@ -11,7 +11,7 @@ export default function About({ popular = [] }) {
             description="Mampirin Magazine lahir dari kebiasaan sederhana: mampir sebentar, duduk, lalu membaca cerita yang jujur dan dekat dengan keseharian."
         >
             {/* Layout Utama: Content Kiri & Sidebar Kanan */}
-            <div className="grid grid-cols-1 border-t-[4px] border-black pt-8 md:grid-cols-3">
+            <div className="grid grid-cols-1 border-t-[4px] border-black dark:border-gray-400 pt-8 md:grid-cols-3">
                 {/* Konten Kiri (About) */}
                 <div className="space-y-6 md:col-span-2 md:border-r md:border-gray-400 dark:border-gray-600 md:pr-8">
                     <div className="mb-8 text-center">

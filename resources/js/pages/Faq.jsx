@@ -41,7 +41,7 @@ export default function Faq() {
             title="FAQ & Syarat Pengiriman"
             description="Syarat kirim tulisan, alur tinjauan kiriman pembaca, dan alur kemitraan iklan di Mampirin Magazine."
         >
-            <div className="mx-auto max-w-4xl border-t-[4px] border-black pt-8">
+            <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 <div className="mb-4 w-max bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
                     FAQ
                 </div>
@@ -75,7 +75,7 @@ export default function Faq() {
                     </Link>
                     <Link
                         href="/partnership"
-                        className="border-[2px] border-black px-6 py-3 text-[10px] font-bold tracking-widest uppercase transition-colors hover:bg-black hover:text-white"
+                        className="border-[2px] border-black dark:border-gray-400 px-6 py-3 text-[10px] font-bold tracking-widest uppercase transition-colors hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                     >
                         Ajukan Kemitraan
                     </Link>

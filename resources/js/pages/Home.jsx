@@ -34,7 +34,7 @@ function ArticleGrid({ posts }) {
                                 />
                             )}
                         </div>
-                        <div className="mb-2 text-[9px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
+                        <div className="mb-2 text-[9px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
                             {formatDate(post.published_at)}
                         </div>
                         <h4 className="mb-2 text-xl leading-tight font-bold group-hover:underline">
@@ -89,7 +89,7 @@ export default function Home({
                     </Link>
                 </section>
             ) : (
-                <section className="mb-12 border-y border-gray-300 dark:border-gray-700 py-16 text-center font-serif text-gray-500 dark:text-gray-400">
+                <section className="mb-12 border-y border-gray-300 py-16 text-center font-serif text-gray-500 dark:border-gray-700 dark:text-gray-400">
                     Belum ada artikel yang dipublikasikan. Tambahkan lewat panel
                     admin.
                 </section>
@@ -97,7 +97,7 @@ export default function Home({
 
             {/* Featured / Unggulan */}
             {featured.length > 1 && (
-                <section className="mb-12 border-t-[4px] border-black pt-8">
+                <section className="mb-12 border-t-[4px] border-black pt-8 dark:border-gray-400">
                     <h3 className="mb-8 scale-y-110 text-center text-[4rem] leading-none font-black tracking-tighter uppercase">
                         Unggulan
                     </h3>
@@ -106,7 +106,7 @@ export default function Home({
             )}
 
             {/* The Entertainment Section */}
-            <section className="mb-12 border-t-[4px] border-black pt-8">
+            <section className="mb-12 border-t-[4px] border-black pt-8 dark:border-gray-400">
                 <h3 className="mb-8 scale-y-110 text-center text-[5rem] leading-none font-black tracking-tighter uppercase">
                     The Entertainment
                 </h3>
@@ -114,15 +114,15 @@ export default function Home({
                 <div className="mt-10 mb-4 flex justify-center">
                     <Link
                         href="/article/category/entertainment"
-                        className="border border-gray-400 dark:border-gray-600 px-10 py-3 text-[10px] font-bold tracking-widest text-gray-600 dark:text-gray-300 uppercase transition-colors hover:border-black hover:text-black"
+                        className="border border-gray-400 px-10 py-3 text-[10px] font-bold tracking-widest text-gray-600 uppercase transition-colors hover:border-black hover:text-black dark:border-gray-400 dark:border-gray-600 dark:text-gray-300 dark:hover:text-white"
                     >
-                        View All &rarr;
+                        View All
                     </Link>
                 </div>
             </section>
 
             {/* History Section */}
-            <section className="mb-12 border-t-[4px] border-black pt-8">
+            <section className="mb-12 border-t-[4px] border-black pt-8 dark:border-gray-400">
                 <h3 className="mb-8 scale-y-110 text-center text-[5rem] leading-none font-black tracking-tighter uppercase">
                     History
                 </h3>
@@ -130,15 +130,15 @@ export default function Home({
                 <div className="mt-10 mb-4 flex justify-center">
                     <Link
                         href="/article/category/history"
-                        className="border border-gray-400 dark:border-gray-600 px-10 py-3 text-[10px] font-bold tracking-widest text-gray-600 dark:text-gray-300 uppercase transition-colors hover:border-black hover:text-black"
+                        className="border border-gray-400 px-10 py-3 text-[10px] font-bold tracking-widest text-gray-600 uppercase transition-colors hover:border-black hover:text-black dark:border-gray-400 dark:border-gray-600 dark:text-gray-300 dark:hover:text-white"
                     >
-                        View All &rarr;
+                        View All
                     </Link>
                 </div>
             </section>
 
             {/* Lifestyle Section */}
-            <section className="mb-12 border-t-[4px] border-black pt-8">
+            <section className="mb-12 border-t-[4px] border-black pt-8 dark:border-gray-400">
                 <h3 className="mb-8 scale-y-110 text-center text-[5rem] leading-none font-black tracking-tighter uppercase">
                     Lifestyle
                 </h3>
@@ -146,22 +146,22 @@ export default function Home({
                 <div className="mt-10 mb-4 flex justify-center">
                     <Link
                         href="/article/category/lifestyle"
-                        className="border border-gray-400 dark:border-gray-600 px-10 py-3 text-[10px] font-bold tracking-widest text-gray-600 dark:text-gray-300 uppercase transition-colors hover:border-black hover:text-black"
+                        className="border border-gray-400 px-10 py-3 text-[10px] font-bold tracking-widest text-gray-600 uppercase transition-colors hover:border-black hover:text-black dark:border-gray-400 dark:border-gray-600 dark:text-gray-300 dark:hover:text-white"
                     >
-                        View All &rarr;
+                        View All
                     </Link>
                 </div>
             </section>
 
             {/* Latest Section (With Sidebar) */}
-            <section className="mb-12 border-t-[4px] border-black pt-8">
+            <section className="mb-12 border-t-[4px] border-black pt-8 dark:border-gray-400">
                 <h3 className="mb-8 scale-y-110 text-center text-[5rem] leading-none font-black tracking-tighter uppercase">
                     Latest
                 </h3>
 
-                <div className="grid grid-cols-1 border-t border-gray-400 dark:border-gray-600 pt-8 md:grid-cols-3">
+                <div className="grid grid-cols-1 border-t border-gray-400 pt-8 md:grid-cols-3 dark:border-gray-600">
                     {/* Left Column: Latest Articles List */}
-                    <div className="space-y-6 md:col-span-2 md:border-r md:border-gray-400 dark:border-gray-600 md:pr-8">
+                    <div className="space-y-6 md:col-span-2 md:border-r md:border-gray-400 md:pr-8 dark:border-gray-600">
                         {latest.length === 0 && (
                             <p className="font-serif text-sm text-gray-500 dark:text-gray-400">
                                 Belum ada artikel terbaru.
@@ -171,7 +171,7 @@ export default function Home({
                         {latest.map((post) => (
                             <div
                                 key={post.id}
-                                className="group flex gap-4 border-b border-gray-400 dark:border-gray-600 pb-6 last:border-0"
+                                className="group flex gap-4 border-b border-gray-400 pb-6 last:border-0 dark:border-gray-600"
                             >
                                 <div className="h-32 w-48 flex-shrink-0 overflow-hidden bg-gray-200 dark:bg-gray-700">
                                     <Link href={articleUrl(post)}>
@@ -186,7 +186,7 @@ export default function Home({
                                     </Link>
                                 </div>
                                 <div className="flex flex-col justify-center">
-                                    <div className="mb-1 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
+                                    <div className="mb-1 text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
                                         {post.category?.name ?? 'Artikel'}
                                     </div>
                                     <Link href={articleUrl(post)}>

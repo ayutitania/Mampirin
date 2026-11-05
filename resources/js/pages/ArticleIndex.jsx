@@ -30,7 +30,7 @@ export default function ArticleIndex() {
                             <Link
                                 key={category.id}
                                 href={categoryUrl(category)}
-                                className="group block border border-gray-300 dark:border-gray-700 text-left transition-colors hover:border-black"
+                                className="group block border border-gray-300 dark:border-gray-700 text-left transition-colors hover:border-black dark:border-gray-400"
                             >
                                 <div className="h-48 w-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                                     {category.image_url && (
@@ -55,7 +55,7 @@ export default function ArticleIndex() {
                                     <p className="mb-6 font-serif text-sm text-gray-700 dark:text-gray-300">
                                         {category.description}
                                     </p>
-                                    <span className="border border-black px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors group-hover:bg-black group-hover:text-white">
+                                    <span className="border border-black dark:border-gray-400 px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors group-hover:bg-black dark:hover:bg-gray-700 group-hover:text-white">
                                         Jelajahi &rarr;
                                     </span>
                                 </div>

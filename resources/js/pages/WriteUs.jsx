@@ -58,7 +58,7 @@ export default function WriteUs() {
             description="Kirim tulisan, cerita, atau ide liputanmu ke Mampirin Magazine. Sertakan foto pendukung agar ceritamu lebih hidup."
         >
             {/* Form Section */}
-            <div className="mx-auto max-w-4xl border-t-[4px] border-black pt-8">
+            <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 {/* Title & Subtitle */}
                 <h2 className="mb-4 text-[3rem] leading-none font-black tracking-tighter uppercase">
                     Share Your Idea
@@ -96,7 +96,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('title', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.title} />
                     </div>
@@ -140,7 +140,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('writer_name', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.writer_name} />
                     </div>
@@ -160,7 +160,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('writer_email', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.writer_email} />
                     </div>
@@ -180,7 +180,7 @@ export default function WriteUs() {
                             onChange={(event) =>
                                 setData('writer_phone', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.writer_phone} />
                     </div>
@@ -220,7 +220,7 @@ export default function WriteUs() {
                                     <button
                                         type="button"
                                         onClick={clearPhoto}
-                                        className="mt-1 w-full border border-gray-400 dark:border-gray-600 px-2 py-1 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white"
+                                        className="mt-1 w-full border border-gray-400 dark:border-gray-600 px-2 py-1 text-[10px] font-bold uppercase hover:border-black dark:border-gray-400 hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                                     >
                                         Hapus Foto
                                     </button>

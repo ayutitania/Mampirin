@@ -88,7 +88,7 @@ export default function Partnership({
             title="Partnership"
             description="Ajukan kerja sama dan paket publikasi bersama Mampirin Magazine. Tim redaksi akan menghubungi bisnismu."
         >
-            <div className="mx-auto max-w-4xl border-t-[4px] border-black pt-8">
+            <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 <div className="mb-4 w-max bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
                     Kemitraan &amp; Kerja Sama
                 </div>
@@ -130,7 +130,7 @@ export default function Partnership({
                                     event.target.value,
                                 )
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 text-sm focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 text-sm focus:border-black dark:border-gray-400 focus:outline-none"
                         >
                             <option value="" disabled>
                                 Pilih paket kemitraan...
@@ -181,7 +181,7 @@ export default function Partnership({
                             onChange={(event) =>
                                 setData('company', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.company} />
                     </div>
@@ -201,7 +201,7 @@ export default function Partnership({
                             onChange={(event) =>
                                 setData('contact_name', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.contact_name} />
                     </div>
@@ -221,7 +221,7 @@ export default function Partnership({
                             onChange={(event) =>
                                 setData('email', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.email} />
                     </div>
@@ -241,7 +241,7 @@ export default function Partnership({
                             onChange={(event) =>
                                 setData('phone', event.target.value)
                             }
-                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                            className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                         />
                         <FieldError message={errors.phone} />
                     </div>
@@ -262,7 +262,7 @@ export default function Partnership({
                                 setData('message', event.target.value)
                             }
                             placeholder="Contoh: kami ingin promosi menu baru untuk mahasiswa, target rilis bulan depan..."
-                            className="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-sm focus:border-black focus:outline-none"
+                            className="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-sm focus:border-black dark:border-gray-400 focus:outline-none"
                         ></textarea>
                         <FieldError message={errors.message} />
                     </div>
@@ -288,7 +288,7 @@ export default function Partnership({
                                         setData('ad_title', event.target.value)
                                     }
                                     placeholder="Contoh: Promo Kopi Senja Jimbaran"
-                                    className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                                    className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                                 />
                                 <FieldError message={errors.ad_title} />
                             </div>
@@ -311,7 +311,7 @@ export default function Partnership({
                                         )
                                     }
                                     placeholder="https://instagram.com/... atau /partnership"
-                                    className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black focus:outline-none"
+                                    className="w-full border-b border-gray-300 dark:border-gray-700 bg-transparent py-2 transition-colors focus:border-black dark:border-gray-400 focus:outline-none"
                                 />
                                 <FieldError message={errors.ad_target_url} />
                             </div>
@@ -335,7 +335,7 @@ export default function Partnership({
                                         type="file"
                                         accept="image/jpeg,image/png,image/webp"
                                         onChange={selectImage}
-                                        className="block w-full text-sm text-gray-600 dark:text-gray-300 file:mr-4 file:border file:border-black file:bg-white dark:bg-gray-800 file:px-4 file:py-2 file:text-xs file:font-bold file:text-black file:uppercase hover:file:bg-black hover:file:text-white"
+                                        className="block w-full text-sm text-gray-600 dark:text-gray-300 file:mr-4 file:border file:border-black dark:border-gray-400 file:bg-white dark:bg-gray-800 file:px-4 file:py-2 file:text-xs file:font-bold file:text-black file:uppercase hover:file:bg-black hover:file:text-white"
                                     />
 
                                     {imagePreview && (
@@ -348,7 +348,7 @@ export default function Partnership({
                                             <button
                                                 type="button"
                                                 onClick={clearImage}
-                                                className="mt-1 w-full border border-gray-400 dark:border-gray-600 px-2 py-1 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white"
+                                                className="mt-1 w-full border border-gray-400 dark:border-gray-600 px-2 py-1 text-[10px] font-bold uppercase hover:border-black dark:border-gray-400 hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                                             >
                                                 Hapus Gambar
                                             </button>

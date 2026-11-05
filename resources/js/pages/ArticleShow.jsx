@@ -24,9 +24,9 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
             image={article.image_url}
             type="article"
         >
-            <div className="grid grid-cols-1 border-t border-gray-400 dark:border-gray-600 pt-8 md:grid-cols-3">
+            <div className="grid grid-cols-1 border-t border-gray-400 pt-8 md:grid-cols-3 dark:border-gray-600">
                 {/* Article */}
-                <article className="md:col-span-2 md:border-r md:border-gray-400 dark:border-gray-600 md:pr-8">
+                <article className="md:col-span-2 md:border-r md:border-gray-400 md:pr-8 dark:border-gray-600">
                     <div className="mb-4 flex flex-wrap items-center gap-2 text-[10px] font-bold tracking-widest uppercase">
                         {article.category && (
                             <Link
@@ -48,7 +48,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                         {article.title}
                     </h1>
 
-                    <div className="mb-6 flex items-center gap-2 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
+                    <div className="mb-6 flex items-center gap-2 text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
                         <span className="inline-block h-4 w-4 rounded-full bg-gray-400"></span>
                         {article.author} &bull; {article.views} kali dibaca
                     </div>
@@ -63,7 +63,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                         </div>
                     )}
 
-                    <p className="mb-8 border-l-[3px] border-gray-300 dark:border-gray-700 pl-4 font-serif text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                    <p className="mb-8 border-l-[3px] border-gray-300 pl-4 font-serif text-lg leading-relaxed text-gray-700 dark:border-gray-700 dark:text-gray-300">
                         {article.excerpt}
                     </p>
 
@@ -73,18 +73,18 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                         ))}
                     </div>
 
-                    <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-gray-300 dark:border-gray-700 pt-6">
+                    <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-gray-300 pt-6 dark:border-gray-700">
                         {article.category && (
                             <Link
                                 href={categoryUrl(article.category)}
-                                className="border border-black px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black hover:text-white"
+                                className="border border-black px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black hover:text-white dark:border-gray-400 dark:hover:bg-gray-700"
                             >
                                 &larr; Semua {article.category.name}
                             </Link>
                         )}
                         <Link
                             href="/article"
-                            className="text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase hover:text-black"
+                            className="text-[10px] font-bold tracking-widest text-gray-500 uppercase hover:text-black dark:text-gray-400 dark:hover:text-white"
                         >
                             Hub Artikel
                         </Link>
@@ -103,7 +103,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
 
             {/* Related */}
             {related.length > 0 && (
-                <section className="mt-16 border-t-[4px] border-black pt-8">
+                <section className="mt-16 border-t-[4px] border-black pt-8 dark:border-gray-400">
                     <h2 className="mb-8 text-3xl font-black tracking-tighter uppercase">
                         Baca Juga
                     </h2>
@@ -121,7 +121,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                                             />
                                         )}
                                     </div>
-                                    <div className="mb-1 text-[9px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
+                                    <div className="mb-1 text-[9px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
                                         {formatDate(post.published_at)}
                                     </div>
                                     <h3 className="text-xl leading-tight font-black group-hover:underline">

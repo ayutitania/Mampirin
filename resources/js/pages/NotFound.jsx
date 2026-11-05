@@ -8,7 +8,7 @@ export default function NotFound() {
             title="Halaman Tidak Ditemukan"
             description="Halaman yang kamu cari tidak tersedia di Mampirin Magazine."
         >
-            <section className="mx-auto max-w-2xl border-t-[4px] border-black py-20 text-center">
+            <section className="mx-auto max-w-2xl border-t-[4px] border-black dark:border-gray-400 py-20 text-center">
                 <div className="mb-4 text-[6rem] leading-none font-black tracking-tighter text-gray-300">
                     404
                 </div>
@@ -29,7 +29,7 @@ export default function NotFound() {
                     </Link>
                     <Link
                         href="/article"
-                        className="border border-gray-400 dark:border-gray-600 px-5 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black"
+                        className="border border-gray-400 dark:border-gray-600 px-5 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black dark:border-gray-400"
                     >
                         Jelajahi Artikel
                     </Link>

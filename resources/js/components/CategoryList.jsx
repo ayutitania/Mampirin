@@ -23,7 +23,7 @@ export default function CategoryList({ className = '' }) {
                     >
                         <Link
                             href={categoryUrl(category)}
-                            className="flex justify-between hover:text-black hover:underline"
+                            className="flex justify-between hover:text-black dark:hover:text-white hover:underline"
                         >
                             <span className="font-bold uppercase">
                                 {category.name}
