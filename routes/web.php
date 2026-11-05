@@ -1,8 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-use App\Http\Controllers\AdOrderController;
-=======
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AdController as AdminAdController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
@@ -16,7 +13,6 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleSubmissionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartnershipController;
->>>>>>> 62615dd5e97dcd0940efb1f3344e82374a064630
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,24 +22,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Halaman About
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-<<<<<<< HEAD
-// Halaman Ads / Kemitraan (Katalog Paket)
-Route::get('/ads', function () {
-    return Inertia::render('Ads');
-})->name('ads');
-
-// Alur Pemesanan Iklan & Simulasi Pembayaran (Inertia React)
-Route::get('/ads/order', [AdOrderController::class, 'create'])->name('ads.order');
-Route::post('/ads/order', [AdOrderController::class, 'store'])->name('ads.order.store');
-Route::get('/ads/payment/{order}', [AdOrderController::class, 'payment'])->name('ads.payment');
-Route::post('/ads/payment/{order}/simulate', [AdOrderController::class, 'simulatePayment'])->name('ads.payment.simulate');
-
-// Alur Pemesanan Iklan (Versi View Blade)
-Route::get('/blade/ads/order', [AdOrderController::class, 'createBlade'])->name('blade.ads.order');
-Route::post('/blade/ads/order', [AdOrderController::class, 'storeBlade'])->name('blade.ads.order.store');
-Route::get('/blade/ads/payment/{order}', [AdOrderController::class, 'paymentBlade'])->name('blade.ads.payment');
-Route::post('/blade/ads/payment/{order}/simulate', [AdOrderController::class, 'simulatePaymentBlade'])->name('blade.ads.payment.simulate');
-=======
 // Halaman Ads / Kemitraan
 Route::get('/ads', [AdsController::class, 'index'])->name('ads');
 
@@ -54,7 +32,6 @@ Route::get('/partnership', [PartnershipController::class, 'index'])
 // Kirim pengajuan kemitraan
 Route::post('/partnership', [PartnershipController::class, 'store'])
     ->name('partnership.store');
->>>>>>> 62615dd5e97dcd0940efb1f3344e82374a064630
 
 // Halaman Write Us
 Route::get('/write-us', function () {
