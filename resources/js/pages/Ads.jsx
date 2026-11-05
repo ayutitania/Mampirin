@@ -3,18 +3,24 @@ import { Link } from '@inertiajs/react';
 import AppLayout from '../components/AppLayout';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2ea7c58 (sikit)
 const formatRupiah = (value) =>
     new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
         maximumFractionDigits: 0,
     }).format(value);
+<<<<<<< HEAD
 =======
 export default function Ads() {
   const [selectedPackage, setSelectedPackage] = useState('viral-buzz');
   return (
     <div className="max-w-6xl mx-auto px-4 font-sans text-gray-900 pb-10">
 >>>>>>> e350246 (form booking ads)
+=======
+>>>>>>> 2ea7c58 (sikit)
 
 function CtaLink({ href, className, children }) {
     if (/^https?:\/\//i.test(href || '')) {
@@ -150,7 +156,11 @@ export default function Ads({ packages = [] }) {
                     </div>
 
                     {/* Card 3 */}
+<<<<<<< HEAD
                     <div className="flex flex-col justify-between border border-gray-400 p-6 transition-shadow hover:shadow-lg dark:border-gray-600">
+=======
+                    <div className="flex flex-col justify-between border border-gray-400 p-6 transition-shadow hover:shadow-lg">
+>>>>>>> 2ea7c58 (sikit)
                         <div>
                             <div className="mb-4 text-5xl font-black tracking-tighter text-gray-300">
                                 03
@@ -158,13 +168,18 @@ export default function Ads({ packages = [] }) {
                             <h4 className="mb-3 text-lg font-bold tracking-tight uppercase">
                                 Paket Ramah Anggaran UMKM
                             </h4>
+<<<<<<< HEAD
                             <p className="mb-8 font-serif text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+=======
+                            <p className="mb-8 font-serif text-sm leading-relaxed text-gray-700">
+>>>>>>> 2ea7c58 (sikit)
                                 Struktur tarif transparan tanpa biaya siluman.
                                 Diformulasikan khusus untuk skala kafe mandiri
                                 dan UMKM. Dapatkan skala ROI positif agresif
                                 melalui model voucher / sales tie-in.
                             </p>
                         </div>
+<<<<<<< HEAD
                     </div>
                 </div>
             </section>
@@ -366,6 +381,15 @@ export default function Ads({ packages = [] }) {
           </div>
         </div>
       </section>
+=======
+                        <div className="text-[10px] font-bold tracking-widest text-gray-500 uppercase">
+                            &#9654; ROI Positif Lewat Kode Voucher &amp; Sales
+                            Tap
+                        </div>
+                    </div>
+                </div>
+            </section>
+>>>>>>> 2ea7c58 (sikit)
 
       {/* Section 3: Pricing Packages */}
       <section className="mb-16 border-t border-gray-300 pt-12">
@@ -377,6 +401,7 @@ export default function Ads({ packages = [] }) {
           </p>
         </div>
 
+<<<<<<< HEAD
         {/* Visual Cue Hint */}
         <p className="text-center text-xs text-gray-500 font-serif mb-6">
           *Klik kartu paket untuk melihat visualisasi paket terpilih atau langsung klik tombol konfirmasi.
@@ -511,6 +536,29 @@ export default function Ads({ packages = [] }) {
         </div>
 
       </section>
+=======
+                {packages.length === 0 ? (
+                    <p className="text-center font-serif text-sm text-gray-500">
+                        Belum ada paket kemitraan yang aktif. Silakan cek
+                        kembali nanti.
+                    </p>
+                ) : (
+                    <div className="grid grid-cols-1 items-end gap-6 md:grid-cols-3">
+                        {packages.map((pkg) => (
+                            <div
+                                key={pkg.id}
+                                className={
+                                    pkg.is_featured
+                                        ? 'relative z-10 scale-105 border-[4px] border-black bg-white p-8 shadow-xl'
+                                        : 'border border-gray-400 p-8'
+                                }
+                            >
+                                {pkg.is_featured && (
+                                    <div className="absolute top-0 left-1/2 w-max -translate-x-1/2 -translate-y-1/2 transform bg-black px-4 py-1 text-[9px] font-bold tracking-widest text-white uppercase">
+                                        &#9733; Paling Diminati Pemilik Kafe
+                                    </div>
+                                )}
+>>>>>>> 2ea7c58 (sikit)
 
       {/* Footer (Format Sama) */}
       <footer id="footer-contact" className="pt-8 text-center mt-12 border-t-[2px] border-gray-300">
@@ -532,7 +580,66 @@ export default function Ads({ packages = [] }) {
         </div>
       </footer>
 
+<<<<<<< HEAD
     </div>
   );
 >>>>>>> e350246 (form booking ads)
+=======
+                                <ul
+                                    className={`mb-8 space-y-3 font-serif text-sm ${pkg.is_featured ? 'font-bold text-black' : 'text-gray-700'}`}
+                                >
+                                    {(pkg.features ?? []).map(
+                                        (feature, index) => (
+                                            <li
+                                                key={index}
+                                                className={`flex items-start ${feature.included ? '' : 'text-gray-400'}`}
+                                            >
+                                                <span className="mr-2">
+                                                    {feature.included
+                                                        ? pkg.is_featured
+                                                            ? '■'
+                                                            : '✓'
+                                                        : '✕'}
+                                                </span>
+                                                {feature.text}
+                                            </li>
+                                        ),
+                                    )}
+                                </ul>
+
+                                <CtaLink
+                                    href={pkg.cta_url}
+                                    className={
+                                        pkg.is_featured
+                                            ? 'block w-full bg-black py-4 text-center text-xs font-bold text-white uppercase transition-colors hover:bg-gray-800'
+                                            : 'block w-full border-[2px] border-black py-3 text-center text-xs font-bold text-black uppercase transition-colors hover:bg-black hover:text-white'
+                                    }
+                                >
+                                    {pkg.cta_label}
+                                    {pkg.is_featured ? ' \u2192' : ''}
+                                </CtaLink>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Disclaimer Banner */}
+                <div className="mt-12 flex items-center justify-between border border-gray-300 bg-gray-50 p-4 font-serif text-xs text-gray-600">
+                    <div className="flex items-center">
+                        <span className="mr-3 text-lg font-bold">&#8505;</span>
+                        <span>
+                            Semua paket sudah termasuk sesi wawancara mendalam
+                            dengan Anda (owner/founder) untuk merumuskan story
+                            telling yang tepat sesuai visi media.
+                        </span>
+                    </div>
+                    <div className="ml-4 shrink-0 border-l border-gray-400 pl-4 font-bold tracking-widest text-black uppercase">
+                        Tanpa Biaya Tersembunyi
+                    </div>
+                </div>
+            </section>
+
+        </AppLayout>
+    );
+>>>>>>> 2ea7c58 (sikit)
 }

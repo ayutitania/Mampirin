@@ -1,6 +1,9 @@
 <?php
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2ea7c58 (sikit)
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AdController as AdminAdController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
@@ -15,9 +18,12 @@ use App\Http\Controllers\ArticleSubmissionController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartnershipController;
+<<<<<<< HEAD
 =======
 use App\Http\Controllers\AdOrderController;
 >>>>>>> e350246 (form booking ads)
+=======
+>>>>>>> 2ea7c58 (sikit)
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,12 +37,18 @@ Route::get('/search', [ArticleController::class, 'search'])->name('search');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Halaman Ads / Kemitraan
 Route::get('/ads', [AdsController::class, 'index'])->name('ads');
 
 // Halaman FAQ & syarat pengiriman
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
+=======
+// Halaman Ads / Kemitraan
+Route::get('/ads', [AdsController::class, 'index'])->name('ads');
+
+>>>>>>> 2ea7c58 (sikit)
 // Halaman Pengajuan Kemitraan
 Route::get('/partnership', [PartnershipController::class, 'index'])
     ->name('partnership.index');
@@ -44,6 +56,7 @@ Route::get('/partnership', [PartnershipController::class, 'index'])
 // Kirim pengajuan kemitraan
 Route::post('/partnership', [PartnershipController::class, 'store'])
     ->name('partnership.store');
+<<<<<<< HEAD
 =======
 // Halaman Ads / Kemitraan (Katalog Paket)
 Route::get('/ads', function () {
@@ -62,6 +75,8 @@ Route::post('/blade/ads/order', [AdOrderController::class, 'storeBlade'])->name(
 Route::get('/blade/ads/payment/{order}', [AdOrderController::class, 'paymentBlade'])->name('blade.ads.payment');
 Route::post('/blade/ads/payment/{order}/simulate', [AdOrderController::class, 'simulatePaymentBlade'])->name('blade.ads.payment.simulate');
 >>>>>>> e350246 (form booking ads)
+=======
+>>>>>>> 2ea7c58 (sikit)
 
 // Halaman Write Us
 Route::get('/write-us', function () {
