@@ -60,6 +60,7 @@ test('a partnership inquiry can be stored', function () {
             'ad_title' => 'Banner Kopi Senja',
             'ad_target_url' => 'https://instagram.com/kopisenja',
             'ad_image' => $image,
+            'addon_wwc' => true,
         ]);
 
     $response
@@ -73,6 +74,7 @@ test('a partnership inquiry can be stored', function () {
         ->and($inquiry->email)->toBe('ayu@example.com')
         ->and($inquiry->ad_title)->toBe('Banner Kopi Senja')
         ->and($inquiry->ad_target_url)->toBe('https://instagram.com/kopisenja')
+        ->and($inquiry->addon_wwc)->toBeTrue()
         ->and($inquiry->status)->toBe('pending')
         ->and($inquiry->ad_image_url)->toStartWith('/storage/partnership-images/');
 
@@ -98,6 +100,7 @@ test('the ad image is optional but must be a valid image when uploaded', functio
         ->assertSessionHasNoErrors();
 
     expect(PartnershipInquiry::first()->ad_image_url)->toBeNull();
+    expect(PartnershipInquiry::first()->addon_wwc)->toBeFalse();
 
     $this->post(route('partnership.store'), [
         ...$payload,

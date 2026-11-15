@@ -158,7 +158,7 @@ function SubmissionCard({ submission, categories, statuses }) {
                                         href={`/admin/articles/${submission.article.id}/edit`}
                                         className="border border-black px-3 py-2 hover:bg-black hover:text-white dark:border-gray-600 dark:hover:bg-gray-700"
                                     >
-                                        Edit Artikel
+                                        Ubah Artikel
                                     </Link>
                                     <a
                                         href={`/article/${submission.article.slug}`}

@@ -9,11 +9,11 @@ export default function ArticleIndex() {
     return (
         <AppLayout
             title="Artikel"
-            description="Jelajahi rubrik Entertainment, History, dan Lifestyle dari Mampirin Magazine."
+            description="Jelajahi rubrik Hiburan, Sejarah, dan Gaya Hidup dari Mampirin."
         >
             {/* Pemilihan Kategori */}
             <section className="mb-16 text-center">
-                <h2 className="mb-4 text-[3rem] leading-none font-black tracking-tighter uppercase">
+                <h2 className="mb-4 text-4xl leading-none font-black tracking-tighter uppercase sm:text-5xl md:text-[3rem]">
                     Pilih Kategori Artikel
                 </h2>
                 <p className="mb-10 font-serif text-gray-500 dark:text-gray-400 italic">
@@ -25,7 +25,7 @@ export default function ArticleIndex() {
                         Belum ada kategori artikel. Tambahkan lewat panel admin.
                     </p>
                 ) : (
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
                         {categories.map((category) => (
                             <Link
                                 key={category.id}

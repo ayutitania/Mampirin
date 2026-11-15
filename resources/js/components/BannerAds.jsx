@@ -4,7 +4,7 @@ import { adLinkProps } from './adLink';
 
 const ROTATE_MS = 5000;
 
-function SingleBanner({ banner, label = 'Ads', className = '' }) {
+function SingleBanner({ banner, label = 'Iklan', className = '' }) {
     const link = adLinkProps(banner.target_url);
 
     return (
@@ -78,7 +78,7 @@ export default function BannerAds({
 
         return (
             <div className="mb-2 flex h-10 items-center justify-center border-y border-gray-200 text-xs text-gray-400 dark:border-gray-700">
-                [Banner Ads]
+                [Banner Iklan]
             </div>
         );
     }
@@ -145,7 +145,7 @@ export default function BannerAds({
                                 {banner.title}
                             </span>
                             <span className="shrink-0 bg-white px-2 py-1 text-[10px] font-bold tracking-widest text-black uppercase dark:bg-gray-800/90 dark:text-white">
-                                Ads
+                                Iklan
                             </span>
                         </div>
                     </a>

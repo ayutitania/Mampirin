@@ -6,13 +6,13 @@ export default function NotFound() {
     return (
         <AppLayout
             title="Halaman Tidak Ditemukan"
-            description="Halaman yang kamu cari tidak tersedia di Mampirin Magazine."
+            description="Halaman yang kamu cari tidak tersedia di Mampirin."
         >
             <section className="mx-auto max-w-2xl border-t-[4px] border-black dark:border-gray-400 py-20 text-center">
                 <div className="mb-4 text-[6rem] leading-none font-black tracking-tighter text-gray-300">
                     404
                 </div>
-                <h2 className="mb-4 text-4xl leading-none font-black tracking-tighter uppercase">
+                <h2 className="mb-4 text-3xl leading-none font-black tracking-tighter uppercase sm:text-4xl">
                     Halaman Tidak Ditemukan
                 </h2>
                 <p className="mx-auto mb-8 max-w-md font-serif text-base leading-relaxed text-gray-600 dark:text-gray-300">

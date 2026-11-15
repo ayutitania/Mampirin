@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 
 const NAV = [
-    { href: '/admin', label: 'Dashboard', match: (path) => path === '/admin' },
+    { href: '/admin', label: 'Dasbor', match: (path) => path === '/admin' },
     {
         href: '/admin/articles',
         label: 'Artikel',
@@ -156,7 +156,7 @@ export default function AdminLayout({ title, children }) {
                                     {title}
                                 </h1>
                                 <p className="text-[10px] font-bold tracking-widest text-gray-500 uppercase dark:text-gray-400">
-                                    Mampirin Magazine CMS
+                                    Panel Admin Mampirin
                                 </p>
                             </div>
                         </div>

@@ -16,13 +16,13 @@ export default function ArticleSearch({ query = '', results = [] }) {
     return (
         <AppLayout
             title={query ? `Pencarian: ${query}` : 'Pencarian Artikel'}
-            description="Cari artikel di Mampirin Magazine berdasarkan judul atau isi."
+            description="Cari artikel di Mampirin berdasarkan judul atau isi."
         >
             <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 <div className="mb-4 w-max bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
                     Pencarian
                 </div>
-                <h2 className="mb-6 text-[3rem] leading-none font-black tracking-tighter uppercase">
+                <h2 className="mb-6 text-4xl leading-none font-black tracking-tighter uppercase sm:text-5xl md:text-[3rem]">
                     Cari Artikel
                 </h2>
 
@@ -58,8 +58,7 @@ export default function ArticleSearch({ query = '', results = [] }) {
 
                 {query === '' ? (
                     <p className="border-b border-gray-300 dark:border-gray-700 pb-6 font-serif text-sm text-gray-500 dark:text-gray-400">
-                        Masukkan kata kunci untuk mencari artikel di Mampirin
-                        Magazine.
+                        Masukkan kata kunci untuk mencari artikel di Mampirin.
                     </p>
                 ) : results.length === 0 ? (
                     <div className="border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 px-5 py-10 text-center">
@@ -75,19 +74,19 @@ export default function ArticleSearch({ query = '', results = [] }) {
                                 href="/article/category/entertainment"
                                 className="border border-black dark:border-gray-400 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                             >
-                                Entertainment
+                                Hiburan
                             </Link>
                             <Link
                                 href="/article/category/history"
                                 className="border border-black dark:border-gray-400 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                             >
-                                History
+                                Sejarah
                             </Link>
                             <Link
                                 href="/article/category/lifestyle"
                                 className="border border-black dark:border-gray-400 px-4 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-black dark:hover:bg-gray-700 hover:text-white"
                             >
-                                Lifestyle
+                                Gaya Hidup
                             </Link>
                         </div>
                     </div>
@@ -102,7 +101,7 @@ export default function ArticleSearch({ query = '', results = [] }) {
                                     key={article.id}
                                     className="group flex gap-4 border-b border-gray-300 dark:border-gray-700 pb-6 last:border-0"
                                 >
-                                    <div className="h-24 w-36 flex-shrink-0 overflow-hidden bg-gray-200 dark:bg-gray-700">
+                                    <div className="h-24 w-28 flex-shrink-0 overflow-hidden bg-gray-200 sm:w-36 dark:bg-gray-700">
                                         <Link href={articleUrl(article)}>
                                             {article.image_url && (
                                                 <img

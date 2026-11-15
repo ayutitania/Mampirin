@@ -21,9 +21,9 @@ export default function ArticleCategory({
             {/* Category Title Section */}
             <div className="mb-12 text-center">
                 <span className="bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
-                    Category
+                    Kategori
                 </span>
-                <h2 className="mt-4 scale-y-110 text-[4rem] leading-none font-black tracking-tighter uppercase">
+                <h2 className="mt-4 scale-y-110 text-4xl leading-none font-black tracking-tighter uppercase sm:text-5xl md:text-[4rem]">
                     {category.name}
                 </h2>
                 <p className="mx-auto mt-6 max-w-2xl font-serif text-sm leading-relaxed text-gray-600 dark:text-gray-300">
@@ -37,7 +37,7 @@ export default function ArticleCategory({
                     {featured.map((post) => (
                         <article key={post.id} className="group">
                             <Link href={articleUrl(post)}>
-                                <div className="mb-4 h-[350px] w-full overflow-hidden bg-gray-200 dark:bg-gray-700">
+                                <div className="mb-4 h-56 w-full overflow-hidden bg-gray-200 sm:h-80 md:h-[350px] dark:bg-gray-700">
                                     {post.image_url && (
                                         <img
                                             src={post.image_url}
@@ -46,7 +46,7 @@ export default function ArticleCategory({
                                         />
                                     )}
                                 </div>
-                                <h3 className="mb-2 text-3xl leading-tight font-black tracking-tight group-hover:underline">
+                                <h3 className="mb-2 text-2xl leading-tight font-black tracking-tight group-hover:underline sm:text-3xl">
                                     {post.title}
                                 </h3>
                             </Link>
@@ -78,7 +78,7 @@ export default function ArticleCategory({
                             key={post.id}
                             className="group flex flex-col gap-6 border-b border-gray-300 pb-8 last:border-0 sm:flex-row dark:border-gray-700"
                         >
-                            <div className="h-48 flex-shrink-0 overflow-hidden bg-gray-200 sm:w-1/2 dark:bg-gray-700">
+                            <div className="h-48 w-full flex-shrink-0 overflow-hidden bg-gray-200 sm:h-48 sm:w-1/2 dark:bg-gray-700">
                                 <Link href={articleUrl(post)}>
                                     {post.image_url && (
                                         <img
@@ -107,7 +107,7 @@ export default function ArticleCategory({
                                         href={articleUrl(post)}
                                         className="bg-black px-4 py-2 text-[10px] font-bold text-white uppercase transition-colors hover:bg-gray-800"
                                     >
-                                        Read More
+                                        Baca Selengkapnya
                                     </Link>
                                 </div>
                             </div>

@@ -38,7 +38,7 @@ export default function CategoryForm({ category = null }) {
     };
 
     return (
-        <AdminLayout title={isEdit ? 'Edit Kategori' : 'Kategori Baru'}>
+        <AdminLayout title={isEdit ? 'Ubah Kategori' : 'Kategori Baru'}>
             <form onSubmit={submit} className="max-w-2xl space-y-4" noValidate>
                 <div className="space-y-4 border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                     <div>

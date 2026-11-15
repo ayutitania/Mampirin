@@ -40,6 +40,7 @@ export default function Partnership({
         ad_title: '',
         ad_target_url: '',
         ad_image: null,
+        addon_wwc: false,
     });
 
     // Ikuti paket yang diklik di halaman Ads, termasuk jika Inertia
@@ -85,22 +86,24 @@ export default function Partnership({
 
     return (
         <AppLayout
-            title="Partnership"
-            description="Ajukan kerja sama dan paket publikasi bersama Mampirin Magazine. Tim redaksi akan menghubungi bisnismu."
+            title="Kemitraan"
+            description="Ajukan kerja sama dan paket publikasi bersama Mampirin. Tim redaksi akan menghubungi bisnismu."
         >
             <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 <div className="mb-4 w-max bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
                     Kemitraan &amp; Kerja Sama
                 </div>
-                <h2 className="mb-4 text-[3rem] leading-none font-black tracking-tighter uppercase">
-                    Partnership Inquiry
+                <h2 className="mb-4 text-3xl leading-none font-black tracking-tighter uppercase sm:text-4xl md:text-[3rem]">
+                    Pengajuan Kemitraan
                 </h2>
-                <p className="mb-10 border-b border-gray-300 dark:border-gray-700 pb-6 text-sm text-gray-700 dark:text-gray-300">
+                <p className="mb-10 border-b border-gray-300 pb-6 text-sm text-gray-700 dark:border-gray-700 dark:text-gray-300">
                     Sebelum mengajukan kerja sama, baca dulu{' '}
                     <Link href="/faq" className="underline">
-                        ketentuan Ads
+                        ketentuan iklan
                     </Link>
-                    .
+                    . Paket Viral Buzz dan Growth Partner akan dikunjungi tim
+                    redaksi untuk ulasan atau wawancara; jika lokasimu di luar
+                    daerah, wawancara dilakukan secara online.
                 </p>
 
                 {flash?.success && (
@@ -166,6 +169,36 @@ export default function Partnership({
                         </div>
                     )}
 
+                    {/* Add-on WWC */}
+                    <div className="border border-gray-300 dark:border-gray-700 p-5">
+                        <div className="mb-2 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
+                            Add-on
+                        </div>
+                        <label className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200">
+                            <input
+                                type="checkbox"
+                                checked={data.addon_wwc}
+                                onChange={(event) =>
+                                    setData('addon_wwc', event.target.checked)
+                                }
+                                className="mt-0.5 h-4 w-4 shrink-0 border-gray-400 dark:border-gray-600"
+                            />
+                            <span>
+                                <span className="font-bold">
+                                    Ongkos WWC offline atau online: gratis
+                                </span>
+                                <span className="mt-1 block text-xs text-gray-600 dark:text-gray-400">
+                                    Centang jika ingin tim redaksi sekaligus
+                                    melakukan ulasan atau wawancara (WWC) untuk
+                                    bisnismu. Gratis untuk paket Viral Buzz dan
+                                    Growth Partner; di luar daerah dilakukan
+                                    secara online.
+                                </span>
+                            </span>
+                        </label>
+                        <FieldError message={errors.addon_wwc} />
+                    </div>
+
                     {/* Nama Perusahaan */}
                     <div>
                         <label
@@ -177,6 +210,7 @@ export default function Partnership({
                         <input
                             id="company"
                             type="text"
+                            autoComplete="organization"
                             value={data.company}
                             onChange={(event) =>
                                 setData('company', event.target.value)
@@ -197,6 +231,7 @@ export default function Partnership({
                         <input
                             id="contact_name"
                             type="text"
+                            autoComplete="name"
                             value={data.contact_name}
                             onChange={(event) =>
                                 setData('contact_name', event.target.value)
@@ -217,6 +252,7 @@ export default function Partnership({
                         <input
                             id="email"
                             type="email"
+                            autoComplete="email"
                             value={data.email}
                             onChange={(event) =>
                                 setData('email', event.target.value)
@@ -237,6 +273,7 @@ export default function Partnership({
                         <input
                             id="phone"
                             type="text"
+                            autoComplete="tel"
                             value={data.phone}
                             onChange={(event) =>
                                 setData('phone', event.target.value)

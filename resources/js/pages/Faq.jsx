@@ -4,7 +4,7 @@ import AppLayout from '../components/AppLayout';
 
 const FAQS = [
     {
-        question: 'Syarat kirim tulisan lewat Write Us',
+        question: 'Syarat kirim tulisan lewat halaman Kirim Tulisan',
         answer:
             'Isi judul, isi artikel (minimal 50 karakter), nama pengirim, dan email yang aktif. Telepon bersifat opsional. Kamu boleh menyertakan foto pendukung (JPG/PNG/WEBP, maksimal 4 MB) agar cerita lebih hidup.',
     },
@@ -16,12 +16,22 @@ const FAQS = [
     {
         question: 'Apakah tulisan harus orisinal?',
         answer:
-            'Ya. Tulisankan harus orisinal dari pengirim. Tulisan yang jiplak atau mengarang nama tokoh tanpa izin akan kami tolak. Hak cipta tetap milik penulis; Mampirin hanya menerbitkannya sebagai liputan.',
+            'Ya. Tulisan harus orisinal dari pengirim. Tulisan yang jiplak atau mengarang nama tokoh tanpa izin akan kami tolak. Hak cipta tetap milik penulis; Mampirin hanya menerbitkannya sebagai liputan.',
     },
     {
         question: 'Bagaimana flow kemitraan iklan (paket di halaman Ads)?',
         answer:
             'Pilih paket di halaman Ads, lalu isi form di halaman Partnership. Tim kami akan menghubungimu, dan setelah disetujui, iklanmu langsung dibuat oleh admin dan tampil di banner atas / sidebar situs tanpa input manual.',
+    },
+    {
+        question: 'Apakah paket Viral Buzz dan Growth Partner dikunjungi redaksi?',
+        answer:
+            'Ya. Untuk paket Viral Buzz dan Growth Partner, tim redaksi akan berkunjung ke lokasi bisnismu untuk melakukan ulasan atau wawancara (WWC). Jika lokasimu di luar daerah, ulasan atau wawancara dilakukan secara online.',
+    },
+    {
+        question: 'Apakah ongkos WWC offline atau online dikenakan biaya?',
+        answer:
+            'Tidak. Ongkos WWC offline atau online gratis untuk paket Viral Buzz dan Growth Partner. Centang opsi add-on WWC di form Partnership jika ingin tim redaksi sekaligus melakukan ulasan atau wawancara untuk bisnismu.',
     },
     {
         question: 'Apakah ada opsi "belum menentukan paket" / konsultasi?',
@@ -39,13 +49,13 @@ export default function Faq() {
     return (
         <AppLayout
             title="FAQ & Syarat Pengiriman"
-            description="Syarat kirim tulisan, alur tinjauan kiriman pembaca, dan alur kemitraan iklan di Mampirin Magazine."
+            description="Syarat kirim tulisan, alur tinjauan kiriman pembaca, dan alur kemitraan iklan di Mampirin."
         >
             <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 <div className="mb-4 w-max bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
                     FAQ
                 </div>
-                <h2 className="mb-4 text-[3rem] leading-none font-black tracking-tighter uppercase">
+                <h2 className="mb-4 text-4xl leading-none font-black tracking-tighter uppercase sm:text-5xl md:text-[3rem]">
                     Syarat &amp; FAQ
                 </h2>
                 <p className="mb-10 border-b border-gray-300 dark:border-gray-700 pb-6 text-sm text-gray-700 dark:text-gray-300">

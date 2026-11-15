@@ -54,14 +54,14 @@ export default function WriteUs() {
 
     return (
         <AppLayout
-            title="Write Us"
-            description="Kirim tulisan, cerita, atau ide liputanmu ke Mampirin Magazine. Sertakan foto pendukung agar ceritamu lebih hidup."
+            title="Kirim Tulisan"
+            description="Kirim tulisan, cerita, atau ide liputanmu ke Mampirin. Sertakan foto pendukung agar ceritamu lebih hidup."
         >
             {/* Form Section */}
             <div className="mx-auto max-w-4xl border-t-[4px] border-black dark:border-gray-400 pt-8">
                 {/* Title & Subtitle */}
-                <h2 className="mb-4 text-[3rem] leading-none font-black tracking-tighter uppercase">
-                    Share Your Idea
+                <h2 className="mb-4 text-4xl leading-none font-black tracking-tighter uppercase sm:text-5xl md:text-[3rem]">
+                    Bagikan Idemu
                 </h2>
                 <p className="mb-10 border-b border-gray-300 dark:border-gray-700 pb-6 text-sm text-gray-700 dark:text-gray-300">
                     Pastikan kamu membaca syarat dan FAQ pengiriman artikel yang
@@ -87,7 +87,7 @@ export default function WriteUs() {
                             htmlFor="title"
                             className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
-                            Article Title:
+                            Judul Artikel:
                         </label>
                         <input
                             id="title"
@@ -107,7 +107,7 @@ export default function WriteUs() {
                             htmlFor="body"
                             className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
-                            Article Body:
+                            Isi Artikel:
                         </label>
                         <div className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
                             {/* Textarea */}
@@ -131,7 +131,7 @@ export default function WriteUs() {
                             htmlFor="writer_name"
                             className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
-                            Writer Name:
+                            Nama Penulis:
                         </label>
                         <input
                             id="writer_name"
@@ -151,7 +151,7 @@ export default function WriteUs() {
                             htmlFor="writer_email"
                             className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
-                            Writer Email:
+                            Email Penulis:
                         </label>
                         <input
                             id="writer_email"
@@ -171,7 +171,7 @@ export default function WriteUs() {
                             htmlFor="writer_phone"
                             className="mb-2 block text-sm text-gray-800 dark:text-gray-200"
                         >
-                            Writer Phone:
+                            Telepon Penulis:
                         </label>
                         <input
                             id="writer_phone"
@@ -238,7 +238,7 @@ export default function WriteUs() {
                             disabled={processing}
                             className="bg-black px-8 py-2 text-sm text-white uppercase transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            {processing ? 'Mengirim...' : 'Submit'}
+                            {processing ? 'Mengirim...' : 'Kirim Tulisan'}
                         </button>
                     </div>
                 </form>

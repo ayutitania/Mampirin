@@ -5,7 +5,7 @@ import BannerAds from './BannerAds';
 import Navbar from './Navbar';
 
 const DEFAULT_DESCRIPTION =
-    'Mampirin Magazine - Mampir Dulu, Baca Berita. Rubrik hiburan, sejarah, dan gaya hidup dari sudut pandang mahasiswa dan warga lokal.';
+    'Mampirin - Mampir Dulu, Baca Berita. Rubrik hiburan, sejarah, dan gaya hidup dari sudut pandang mahasiswa dan warga lokal.';
 
 export default function AppLayout({
     title,
@@ -22,8 +22,8 @@ export default function AppLayout({
     const path = url.split('?')[0] || '/';
     const canonical = `${appUrl}${path.startsWith('/') ? path : `/${path}`}`;
     const fullTitle = title
-        ? `${title} - Mampirin Magazine`
-        : 'Mampirin Magazine';
+        ? `${title} - Mampirin`
+        : 'Mampirin';
     const imageUrl = image
         ? String(image).startsWith('http')
             ? String(image)
@@ -32,6 +32,13 @@ export default function AppLayout({
 
     return (
         <div className="mx-auto max-w-6xl px-4 pb-10 font-sans text-gray-900 dark:text-white">
+            <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-black focus:px-4 focus:py-2 focus:text-xs focus:font-bold focus:text-white focus:uppercase"
+            >
+                Lewati ke konten
+            </a>
+
             <Head>
                 <title>{fullTitle}</title>
                 <meta
@@ -53,7 +60,7 @@ export default function AppLayout({
                 <meta
                     head-key="og:site_name"
                     property="og:site_name"
-                    content="Mampirin Magazine"
+                    content="Mampirin"
                 />
                 <meta head-key="og:url" property="og:url" content={canonical} />
                 <meta
@@ -84,46 +91,46 @@ export default function AppLayout({
 
             <header className="mb-8 text-center">
                 <Link href="/">
-                    <h1 className="text-6xl font-black tracking-tighter uppercase">
-                        Mampirin Magazine
+                    <h1 className="text-4xl leading-none font-black tracking-tighter uppercase sm:text-5xl md:text-6xl">
+                        Mampirin
                     </h1>
                 </Link>
-                <p className="mt-2 text-xs tracking-[0.3em] text-gray-500 dark:text-gray-400 uppercase">
+                <p className="mt-2 text-[10px] tracking-[0.25em] text-gray-500 uppercase sm:text-xs sm:tracking-[0.3em] dark:text-gray-400">
                     Mampir Dulu, Baca Berita
                 </p>
             </header>
 
-            {children}
+            <main id="main-content">{children}</main>
 
             <footer
                 id="footer-contact"
-                className="mt-12 border-t-[4px] border-black dark:border-gray-400 pt-8 text-center"
+                className="mt-12 border-t-[4px] border-black pt-8 text-center dark:border-gray-400"
             >
-                <h2 className="mb-2 text-4xl font-black tracking-tighter uppercase">
-                    Mampirin Magazine
+                <h2 className="mb-2 text-3xl font-black tracking-tighter uppercase sm:text-4xl">
+                    Mampirin
                 </h2>
-                <p className="mb-4 text-xs tracking-widest text-gray-500 dark:text-gray-400 uppercase">
+                <p className="mb-4 text-xs tracking-widest text-gray-500 uppercase dark:text-gray-400">
                     Mampir Dulu, Sukses Kemudian
                 </p>
-                <div className="mb-4 flex justify-center space-x-4 text-xs font-bold text-gray-600 dark:text-gray-300">
+                <div className="mb-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-bold text-gray-600 dark:text-gray-300">
                     <Link href="/about" className="hover:text-black dark:hover:text-white">
-                        About
+                        Tentang
                     </Link>
                     <Link href="/faq" className="hover:text-black dark:hover:text-white">
                         FAQ
                     </Link>
                     <Link href="/partnership" className="hover:text-black dark:hover:text-white">
-                        Partnership
+                        Kemitraan
                     </Link>
                     <Link href="/ads" className="hover:text-black dark:hover:text-white">
-                        Ads
+                        Iklan
                     </Link>
                     <a href="#footer-contact" className="hover:text-black dark:hover:text-white">
-                        Contact
+                        Kontak
                     </a>
                 </div>
                 <p className="text-xs text-gray-400">
-                    &copy; 2026 Mampirin Magazine. All rights reserved.
+                    &copy; 2026 Mampirin. Seluruh hak cipta dilindungi.
                 </p>
             </footer>
 

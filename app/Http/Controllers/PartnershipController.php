@@ -60,6 +60,7 @@ class PartnershipController extends Controller
             'ad_title' => ['required', 'string', 'max:255'],
             'ad_target_url' => ['nullable', 'string', 'max:2048'],
             'ad_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'addon_wwc' => ['sometimes', 'boolean'],
         ]);
 
         unset($validated['ad_image']);
@@ -72,6 +73,7 @@ class PartnershipController extends Controller
             ...$validated,
             'ad_target_url' => ($validated['ad_target_url'] ?? null) ?: null,
             'ad_image_url' => ($validated['ad_image_url'] ?? null) ?: null,
+            'addon_wwc' => $request->boolean('addon_wwc'),
         ]);
 
         return back()->with(

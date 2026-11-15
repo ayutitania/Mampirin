@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property string $ad_title
  * @property string|null $ad_target_url
  * @property string|null $ad_image_url
+ * @property bool $addon_wwc
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -33,10 +34,23 @@ use Illuminate\Support\Carbon;
     'ad_title',
     'ad_target_url',
     'ad_image_url',
+    'addon_wwc',
     'status',
 ])]
 class PartnershipInquiry extends Model
 {
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'addon_wwc' => 'boolean',
+        ];
+    }
+
     /**
      * Inquiry statuses and their Indonesian labels.
      *

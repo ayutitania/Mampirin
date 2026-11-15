@@ -27,6 +27,13 @@ iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
 | 15 | Pengajuan sponsor belum bisa ditindaklanjuti | ✅ Selesai |
 | 16 | Opsi paket "belum menentukan/konsultasi" masih ada; admin masih input iklan manual | ✅ Selesai |
 | 17 | Write Us: masih ada mock "I'm not a robot", link "sini" tak menuju mana-mana, ringkasan dipotong 220 karakter | ✅ Selesai |
+| 18 | Tinggi kartu iklan/paket tidak seragam | ✅ Selesai |
+| 19 | Paket Buzz/Growth belum menjelaskan kunjungan redaksi untuk ulasan/wawancara | ✅ Selesai |
+| 20 | Belum ada add-on ongkos WWC gratis di form kemitraan | ✅ Selesai (kolom `addon_wwc`) |
+| 21 | Ukuran foto artikel di halaman Ads tidak proporsional | ✅ Selesai |
+| 22 | Dropdown Artikel menutup saat kursor menuju submenu | ✅ Selesai |
+| 23 | Layout belum responsif di ponsel/tablet | ✅ Selesai |
+| 24 | Sisa teks UI berbahasa Inggris | ✅ Selesai (locale `id`) |
 
 **Batch terbaru — alur sponsor jadi otomatis & form Write Us rapi:**
 
@@ -73,6 +80,40 @@ iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
   sponsor sebelum admin menyetujui.
 - Test: unggah gambar sponsor tersimpan, gambar opsional, dan file non-gambar
   ditolak. Total **108 test lulus**.
+
+**Batch terbaru — tampilan responsif, add-on WWC, & lokalisasi Indonesia:**
+
+- **Kartu paket iklan tinggi seragam** — kartu di halaman `/ads` memakai
+  `flex h-full flex-col` + `items-stretch`; daftar fitur `flex-1` dan tombol CTA
+  `mt-auto`, sehingga semua tombol sejajar di bawah meski panjang teks berbeda.
+- **Catatan kunjungan redaksi** — paket Viral Buzz dan Growth Partner kini
+  menjelaskan bahwa tim redaksi berkunjung untuk ulasan atau wawancara (WWC),
+  dan dilakukan **online jika lokasi di luar daerah**. Catatan yang sama
+  ditampilkan di halaman `/partnership` dan `/faq`.
+- **Add-on WWC gratis** — ditambahkan di form `/partnership` sebagai checkbox
+  `addon_wwc` dengan keterangan "Ongkos WWC offline atau online: gratis".
+  Didukung migrasi `2026_11_04_000000_add_addon_wwc_to_partnership_inquiries_table`,
+  kolom `partnership_inquiries.addon_wwc` (boolean, default `false`), validasi
+  + penyimpanan di `PartnershipController::store`, dan statusnya tampil di
+  `/admin/sponsors`. Halaman `/ads` juga menampilkan keterangan add-on gratis.
+- **Foto hero halaman Ads** — gambar ilustrasi memakai rasio tetap
+  `aspect-[4/3]` + `object-cover`, tidak lagi gepeng/terlalu tinggi di layar
+  kecil.
+- **Dropdown Artikel navbar** — submenu tetap terbuka saat kursor berpindah
+  dari "Artikel" ke daftar kategori berkat `group-hover`/`group-focus-within`
+  dan jembatan `pt-2`; di ponsel kategori dibuka lewat tombol lipat.
+- **Responsif ponsel & tablet** — navbar memakai menu hamburger + pencarian
+  seluler; judul, grid, gambar, dan sidebar di Home, ArticleIndex,
+  ArticleCategory, ArticleShow, ArticleSearch, About, WriteUs, Faq, NotFound,
+  serta panel admin menyesuaikan lebar layar; tombol dark mode tetap terjangkau.
+- **Lokalisasi Indonesia** — ditambahkan `lang/id/{validation,auth,passwords,pagination}.php`,
+  `APP_LOCALE`/`APP_FALLBACK_LOCALE=id`, dan `<html lang="id">`. Nama kategori
+  menjadi **Hiburan/Sejarah/Gaya Hidup** (slug `entertainment`/`history`/`lifestyle`
+  tetap agar URL lama berfungsi). Label admin diterjemahkan (Dasbor, Draf, Ubah,
+  Kata Sandi), begitu pula komponen sidebar (Kategori, Populer, Iklan), halaman
+  Kirim Tulisan, Tentang, pencarian, dan teks banner iklan.
+- Test bertambah menjadi **110 test lulus** (termasuk asersi `addon_wwc`
+  tersimpan dan default `false`). `npm run build` berhasil.
 
 **Bug tambahan yang ditemukan & diperbaiki:** route `/article/lifestyle` sempat merujuk komponen
 `Lifestyle` yang file-nya belum ada. Kini halaman `Entertainment`, `History`, dan `Lifestyle`

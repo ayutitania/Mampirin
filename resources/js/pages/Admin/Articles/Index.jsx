@@ -7,7 +7,7 @@ import { formatDate } from '../../../lib/articles';
 const STATUS_OPTIONS = [
     { value: '', label: 'Semua Status' },
     { value: 'published', label: 'Terbit' },
-    { value: 'draft', label: 'Draft' },
+    { value: 'draft', label: 'Draf' },
 ];
 
 export default function ArticlesIndex({
@@ -212,7 +212,7 @@ export default function ArticlesIndex({
                                             >
                                                 {article.is_published
                                                     ? 'Terbit'
-                                                    : 'Draft'}
+                                                    : 'Draf'}
                                             </button>
                                         </td>
                                         <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
@@ -227,7 +227,7 @@ export default function ArticlesIndex({
                                                     href={`/admin/articles/${article.id}/edit`}
                                                     className="underline hover:no-underline"
                                                 >
-                                                    Edit
+                                                    Ubah
                                                 </Link>
                                                 <button
                                                     type="button"

@@ -84,7 +84,7 @@ export default function AdForm({ ad = null, placements = [] }) {
     };
 
     return (
-        <AdminLayout title={isEdit ? 'Edit Iklan' : 'Iklan Baru'}>
+        <AdminLayout title={isEdit ? 'Ubah Iklan' : 'Iklan Baru'}>
             <form onSubmit={submit} className="max-w-3xl space-y-4" noValidate>
                 <div className="space-y-4 border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                     <div>

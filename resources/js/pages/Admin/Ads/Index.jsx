@@ -249,7 +249,7 @@ export default function AdsIndex({ ads, placements = [], filters = {} }) {
                                                     href={`/admin/ads/${ad.id}/edit`}
                                                     className="underline hover:no-underline"
                                                 >
-                                                    Edit
+                                                    Ubah
                                                 </Link>
                                                 <button
                                                     type="button"

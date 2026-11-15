@@ -338,13 +338,13 @@ function SponsorCard({ inquiry, placements, statuses, bankAccount = {} }) {
         'tayang setelah disetujui oleh tim redaksi.',
         '',
         'Salam,',
-        'Tim Redaksi Mampirin Magazine',
+        'Tim Redaksi Mampirin',
     ].join('\n');
 
     const chatTemplate = [
         `Halo ${inquiry.contact_name} 👋`,
         '',
-        `Terima kasih sudah mengajukan kemitraan Mampirin Magazine untuk paket ${packageName}.`,
+        `Terima kasih sudah mengajukan kemitraan Mampirin untuk paket ${packageName}.`,
         '',
         'Untuk pembayaran, silakan transfer ke:',
         `🏦 ${bankAccount.bank_name ?? '-'}`,
@@ -357,7 +357,7 @@ function SponsorCard({ inquiry, placements, statuses, bankAccount = {} }) {
     ].join('\n');
 
     const emailHref = `mailto:${inquiry.email}?subject=${encodeURIComponent(
-        `Kemitraan Iklan Mampirin Magazine - ${inquiry.company}`,
+        `Kemitraan Iklan Mampirin - ${inquiry.company}`,
     )}&body=${encodeURIComponent(contactTemplate)}`;
 
     const phoneDigits = (inquiry.phone ?? '').replace(/\D/g, '');
@@ -440,6 +440,11 @@ function SponsorCard({ inquiry, placements, statuses, bankAccount = {} }) {
                                 {formatRupiah(inquiry.package.price)}{' '}
                                 {inquiry.package.price_suffix}
                             </div>
+                            <div className="mt-2 text-[10px] font-bold tracking-widest text-green-700 uppercase dark:text-green-400">
+                                {inquiry.addon_wwc
+                                    ? 'Add-on WWC: dipilih (gratis)'
+                                    : 'Add-on WWC: tidak dipilih'}
+                            </div>
                         </div>
                     ) : (
                         <div className="border border-dashed border-gray-300 p-4 text-xs text-gray-400 dark:border-gray-700">
@@ -508,7 +513,7 @@ function SponsorCard({ inquiry, placements, statuses, bankAccount = {} }) {
                                     href={`/admin/ads/${inquiry.ad.id}/edit`}
                                     className="border border-gray-400 px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase hover:border-black dark:border-gray-600"
                                 >
-                                    Edit Iklan
+                                    Ubah Iklan
                                 </Link>
                             )}
                         </>

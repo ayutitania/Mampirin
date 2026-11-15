@@ -5,7 +5,7 @@ export default function SidebarAd({
     placement = 'sidebar',
     className = '',
     heightClass = 'h-64',
-    label = 'Advertisement',
+    label = 'Iklan',
 }) {
     const ad = (usePage().props.ads?.[placement] ?? [])[0];
 
@@ -17,7 +17,7 @@ export default function SidebarAd({
                 <span className="text-xs font-bold text-gray-400 uppercase dark:text-white">
                     {label}
                 </span>
-                <span className="mt-2 text-2xl text-gray-300">[Ads]</span>
+                <span className="mt-2 text-2xl text-gray-300">[Iklan]</span>
             </div>
         );
     }

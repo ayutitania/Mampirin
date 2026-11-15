@@ -7,7 +7,7 @@ export default function CategoryList({ className = '' }) {
     return (
         <div className={className}>
             <div className="mb-2 bg-black py-1 text-center text-[11px] font-bold tracking-widest text-white uppercase">
-                Categories
+                Kategori
             </div>
             <ul className="font-serif text-sm text-gray-800 dark:text-gray-200">
                 {categories.length === 0 && (

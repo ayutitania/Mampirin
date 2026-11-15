@@ -104,7 +104,7 @@ export default function CategoriesIndex({ categories = [] }) {
                                                     href={`/admin/categories/${category.id}/edit`}
                                                     className="underline hover:no-underline"
                                                 >
-                                                    Edit
+                                                    Ubah
                                                 </Link>
                                                 <button
                                                     type="button"

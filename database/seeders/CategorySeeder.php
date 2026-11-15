@@ -14,21 +14,21 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Entertainment',
+                'name' => 'Hiburan',
                 'slug' => 'entertainment',
                 'description' => 'Berita hiburan, film, musik, dan kultur pop terkini.',
                 'image_url' => 'https://picsum.photos/600/400?random=cat-1',
                 'sort_order' => 1,
             ],
             [
-                'name' => 'History',
+                'name' => 'Sejarah',
                 'slug' => 'history',
                 'description' => 'Eksplorasi masa lalu, arsip sejarah, dan peristiwa penting.',
                 'image_url' => 'https://picsum.photos/600/400?random=cat-2',
                 'sort_order' => 2,
             ],
             [
-                'name' => 'Lifestyle',
+                'name' => 'Gaya Hidup',
                 'slug' => 'lifestyle',
                 'description' => 'Gaya hidup, desain, kuliner, dan perjalanan yang menemani hari-harimu.',
                 'image_url' => 'https://picsum.photos/600/400?random=cat-3',

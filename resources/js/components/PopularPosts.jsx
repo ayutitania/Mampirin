@@ -9,7 +9,7 @@ export default function PopularPosts({ posts = [], className = '' }) {
     return (
         <div className={className}>
             <div className="mb-6 bg-black py-1 text-center text-[11px] font-bold tracking-widest text-white uppercase">
-                Popular
+                Populer
             </div>
             <div className="space-y-8">
                 {posts.map((post, index) => (

@@ -95,7 +95,7 @@ export default function ArticleForm({ article = null, categories = [] }) {
     };
 
     return (
-        <AdminLayout title={isEdit ? 'Edit Artikel' : 'Artikel Baru'}>
+        <AdminLayout title={isEdit ? 'Ubah Artikel' : 'Artikel Baru'}>
             <form
                 onSubmit={submit}
                 className="grid grid-cols-1 gap-4 lg:grid-cols-3"

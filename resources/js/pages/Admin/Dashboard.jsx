@@ -204,7 +204,7 @@ export default function Dashboard({
     categories = [],
 }) {
     return (
-        <AdminLayout title="Dashboard">
+        <AdminLayout title="Dasbor">
             <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
                 <StatCard
                     label="Artikel"
@@ -307,8 +307,8 @@ export default function Dashboard({
 
             <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
                 <ArticleList
-                    title="5 Unggulan di Home"
-                    hint="Artikel unggulan yang tampil di Home (maks 5, acak jika lebih)"
+                    title="5 Unggulan di Beranda"
+                    hint="Artikel unggulan yang tampil di Beranda (maks 5, acak jika lebih)"
                     items={featuredArticles}
                     empty="Belum ada artikel unggulan yang terbit."
                     renderItem={(article) => (
@@ -317,13 +317,13 @@ export default function Dashboard({
                 />
                 <ArticleList
                     title="Artikel Populer"
-                    hint="Berdasarkan jumlah views"
+                    hint="Berdasarkan jumlah kali dibaca"
                     items={popularArticles}
-                    empty="Belum ada data views."
+                    empty="Belum ada data jumlah baca."
                     renderItem={(article) => (
                         <ArticleRow
                             article={article}
-                            badge={`${article.views ?? 0} views`}
+                            badge={`${article.views ?? 0} kali dibaca`}
                         />
                     )}
                 />
@@ -335,7 +335,7 @@ export default function Dashboard({
                     renderItem={(article) => (
                         <ArticleRow
                             article={article}
-                            badge={`${article.views ?? 0} views`}
+                            badge={`${article.views ?? 0} kali dibaca`}
                         />
                     )}
                 />
@@ -389,7 +389,7 @@ export default function Dashboard({
                                             >
                                                 {article.is_published
                                                     ? 'Terbit'
-                                                    : 'Draft'}
+                                                    : 'Draf'}
                                             </span>
                                         </td>
                                         <td className="px-5 py-3 text-gray-500 dark:text-gray-400">
@@ -403,7 +403,7 @@ export default function Dashboard({
                                                 href={`/admin/articles/${article.id}/edit`}
                                                 className="text-[10px] font-bold tracking-widest uppercase underline hover:no-underline"
                                             >
-                                                Edit
+                                                Ubah
                                             </Link>
                                         </td>
                                     </tr>

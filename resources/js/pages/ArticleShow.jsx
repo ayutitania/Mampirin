@@ -58,7 +58,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                             <img
                                 src={article.image_url}
                                 alt={article.title}
-                                className="max-h-[520px] w-full object-cover"
+                                className="max-h-[420px] w-full object-cover sm:max-h-[520px]"
                             />
                         </div>
                     )}
@@ -107,7 +107,7 @@ export default function ArticleShow({ article, related = [], popular = [] }) {
                     <h2 className="mb-8 text-3xl font-black tracking-tighter uppercase">
                         Baca Juga
                     </h2>
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
                         {related.map((post) => (
                             <article key={post.id} className="group">
                                 <Link href={articleUrl(post)}>
