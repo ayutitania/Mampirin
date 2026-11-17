@@ -9,7 +9,6 @@ use App\Models\Category;
 use App\Support\Slug;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -60,24 +59,23 @@ class SubmissionController extends Controller
         $validated = $request->validate([
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'is_published' => ['boolean'],
+            'is_featured' => ['boolean'],
+            'article_image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ]);
+
+        $publishNow = $request->boolean('is_published');
 
         $article = Article::query()->create([
             'category_id' => $validated['category_id'],
             'title' => $submission->title,
             'slug' => Slug::unique($submission->title, Article::class),
-            'excerpt' => Str::limit(
-                trim((string) preg_replace('/\s+/', ' ', $submission->body)),
-                220,
-            ),
+            'excerpt' => $this->excerptFromFirstParagraph($submission->body),
             'body' => $submission->body,
-            'image_url' => $submission->image_path
-                ? '/storage/'.$submission->image_path
-                : null,
+            'image_url' => $this->resolveArticleImage($request, $submission),
             'author' => $submission->writer_name,
-            'is_featured' => false,
-            'is_published' => $request->boolean('is_published'),
-            'published_at' => now(),
+            'is_featured' => $request->boolean('is_featured'),
+            'is_published' => $publishNow,
+            'published_at' => $publishNow ? now() : null,
         ]);
 
         $submission->update([
@@ -87,10 +85,45 @@ class SubmissionController extends Controller
 
         return back()->with(
             'success',
-            $request->boolean('is_published')
-                ? 'Kiriman disetujui dan artikel sudah terbit.'
+            $publishNow
+                ? 'Kiriman disetujui dan artikel langsung terbit di Mampirin.'
                 : 'Kiriman disetujui dan disimpan sebagai draft artikel.',
         );
+    }
+
+    /**
+     * Build the excerpt from the first paragraph of the submission body.
+     *
+     * Paragraphs are separated by newlines; the excerpt is the first
+     * non-empty paragraph (whitespace flattened) capped at 600 characters
+     * so it fits the `articles.excerpt` column.
+     */
+    private function excerptFromFirstParagraph(string $body): string
+    {
+        $paragraph = collect(
+            array_filter(array_map('trim', preg_split('/\R+/', $body) ?: [])),
+        )->first();
+
+        $excerpt = trim((string) preg_replace('/\s+/', ' ', (string) $paragraph));
+
+        return mb_substr($excerpt, 0, 600);
+    }
+
+    /**
+     * Choose the article cover image.
+     *
+     * An image the admin uploads wins; otherwise the reader's supporting
+     * photo is used; otherwise the article has no cover.
+     */
+    private function resolveArticleImage(Request $request, ArticleSubmission $submission): ?string
+    {
+        if ($request->hasFile('article_image')) {
+            return '/storage/'.$request->file('article_image')->store('articles', 'public');
+        }
+
+        return $submission->image_path
+            ? '/storage/'.$submission->image_path
+            : null;
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Support\Slug;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -63,10 +64,29 @@ class ArticleController extends Controller
     {
         $validated = $request->validate($this->rules());
 
-        Article::query()->create($this->payload($validated, $request));
+        $payload = $this->payload($validated, $request);
+        $payload['image_url'] = $this->resolveImageUrl($request, $payload['image_url']);
 
-        return redirect()->route('admin.articles.index')
+        $article = Article::query()->create($payload);
+
+        $redirect = redirect()->route('admin.articles.index')
             ->with('success', 'Artikel berhasil dibuat.');
+
+        if ($article->is_featured && $article->is_published) {
+            $featuredCount = Article::query()
+                ->where('is_featured', true)
+                ->where('is_published', true)
+                ->count();
+
+            if ($featuredCount > 5) {
+                $redirect->with(
+                    'warning',
+                    'Artikel ditandai unggulan. Peringatan: sudah ada lebih dari 5 artikel unggulan, tampilan di Home akan diacak (hanya 5 yang tampil).',
+                );
+            }
+        }
+
+        return $redirect;
     }
 
     /**
@@ -99,10 +119,29 @@ class ArticleController extends Controller
     {
         $validated = $request->validate($this->rules($article));
 
-        $article->update($this->payload($validated, $request, $article));
+        $payload = $this->payload($validated, $request, $article);
+        $payload['image_url'] = $this->resolveImageUrl($request, $payload['image_url'], $article);
 
-        return redirect()->route('admin.articles.index')
+        $article->update($payload);
+
+        $redirect = redirect()->route('admin.articles.index')
             ->with('success', 'Artikel berhasil diperbarui.');
+
+        if ($article->is_featured && $article->is_published) {
+            $featuredCount = Article::query()
+                ->where('is_featured', true)
+                ->where('is_published', true)
+                ->count();
+
+            if ($featuredCount > 5) {
+                $redirect->with(
+                    'warning',
+                    'Artikel ditandai unggulan. Peringatan: sudah ada lebih dari 5 artikel unggulan, tampilan di Home akan diacak (hanya 5 yang tampil).',
+                );
+            }
+        }
+
+        return $redirect;
     }
 
     /**
@@ -110,12 +149,19 @@ class ArticleController extends Controller
      */
     public function toggle(Article $article): RedirectResponse
     {
-        $article->update(['is_published' => ! $article->is_published]);
+        $publishing = ! $article->is_published;
+
+        $article->update([
+            'is_published' => $publishing,
+            'published_at' => $publishing
+                ? ($article->published_at ?? now())
+                : $article->published_at,
+        ]);
 
         return back()->with(
             'success',
-            $article->is_published
-                ? 'Artikel berhasil dipublikasikan.'
+            $publishing
+                ? 'Artikel berhasil dipublikasikan dan langsung tampil di situs.'
                 : 'Artikel diubah menjadi draft.',
         );
     }
@@ -150,6 +196,7 @@ class ArticleController extends Controller
             'excerpt' => ['required', 'string', 'max:600'],
             'body' => ['required', 'string', 'min:50'],
             'image_url' => ['nullable', 'string', 'max:2048'],
+            'article_image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'author' => ['required', 'string', 'max:255'],
             'published_at' => ['nullable', 'date'],
             'is_featured' => ['boolean'],
@@ -165,17 +212,65 @@ class ArticleController extends Controller
      */
     private function payload(array $validated, Request $request, ?Article $article = null): array
     {
+        $imageUrl = $validated['image_url'] ?? null;
+        $isPublished = $request->boolean('is_published');
+        $publishedAt = $validated['published_at'] ?? null;
+
+        unset($validated['article_image'], $validated['image_url']);
+
+        if ($isPublished && ! $publishedAt) {
+            $publishedAt = $article?->published_at ?? now();
+        }
+
         return [
             ...$validated,
+            'image_url' => $imageUrl,
             'slug' => Slug::unique(
                 (string) ($validated['slug'] ?: $validated['title']),
                 Article::class,
                 $article?->id,
             ),
             'is_featured' => $request->boolean('is_featured'),
-            'is_published' => $request->boolean('is_published'),
-            'published_at' => $validated['published_at'] ?? null,
+            'is_published' => $isPublished,
+            'published_at' => $publishedAt,
         ];
+    }
+
+    /**
+     * Resolve the cover image for an article.
+     *
+     * A freshly uploaded file wins over the URL input; the old file is
+     * removed when the image is replaced or the URL is emptied.
+     */
+    private function resolveImageUrl(Request $request, ?string $imageUrl, ?Article $article = null): ?string
+    {
+        if ($request->hasFile('article_image')) {
+            $this->deleteStoredImage($article?->image_url);
+
+            $path = $request->file('article_image')->store('articles', 'public');
+
+            return '/storage/'.$path;
+        }
+
+        if (! $imageUrl && $article?->image_url) {
+            $this->deleteStoredImage($article->image_url);
+        }
+
+        return $imageUrl;
+    }
+
+    /**
+     * Remove a stored cover image from the public disk.
+     */
+    private function deleteStoredImage(?string $imageUrl): void
+    {
+        if ($imageUrl && str_starts_with($imageUrl, '/storage/articles/')) {
+            $path = substr($imageUrl, strlen('/storage/articles/'));
+
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+        }
     }
 
     /**

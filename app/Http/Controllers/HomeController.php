@@ -16,16 +16,21 @@ class HomeController extends Controller
     {
         $published = Article::query()->published()->with('category:id,name,slug');
 
-        $hero = (clone $published)
-            ->featured()
-            ->latest('published_at')
-            ->first()
+        $featuredQuery = Article::query()->published()->featured()->with('category:id,name,slug');
+        $featuredCount = (clone $featuredQuery)->count();
+        $featured = $featuredCount > 5
+            ? (clone $featuredQuery)->inRandomOrder()->take(5)->get()
+            : (clone $featuredQuery)->latest('published_at')->take(5)->get();
+
+        $hero = $featured->first()
             ?? (clone $published)->latest('published_at')->first();
 
         return Inertia::render('Home', [
             'hero' => $hero,
+            'featured' => $featured,
             'entertainment' => ArticleFeed::byCategorySlug('entertainment'),
             'history' => ArticleFeed::byCategorySlug('history'),
+            'lifestyle' => ArticleFeed::byCategorySlug('lifestyle'),
             'latest' => (clone $published)->latest('published_at')->take(5)->get(),
             'popular' => ArticleFeed::popular(2),
         ]);

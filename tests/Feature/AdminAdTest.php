@@ -31,7 +31,7 @@ test('the ad index lists ads with placement options', function () {
             ->component('Admin/Ads/Index')
             ->has('ads.data', 1)
             ->where('ads.data.0.title', 'Promo Kopi Senja')
-            ->has('placements', 3)
+            ->has('placements', 5)
             ->where('placements.0.value', 'top')
         );
 });
@@ -60,7 +60,7 @@ test('the create ad form is displayed', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('Admin/Ads/Form')
             ->where('ad', null)
-            ->has('placements', 3)
+            ->has('placements', 5)
         );
 });
 

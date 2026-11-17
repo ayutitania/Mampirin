@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -15,6 +16,10 @@ use Illuminate\Support\Carbon;
  * @property string $email
  * @property string|null $phone
  * @property string $message
+ * @property string $ad_title
+ * @property string|null $ad_target_url
+ * @property string|null $ad_image_url
+ * @property bool $addon_wwc
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -26,10 +31,26 @@ use Illuminate\Support\Carbon;
     'email',
     'phone',
     'message',
+    'ad_title',
+    'ad_target_url',
+    'ad_image_url',
+    'addon_wwc',
     'status',
 ])]
 class PartnershipInquiry extends Model
 {
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'addon_wwc' => 'boolean',
+        ];
+    }
+
     /**
      * Inquiry statuses and their Indonesian labels.
      *
@@ -47,6 +68,19 @@ class PartnershipInquiry extends Model
      */
     public function package(): BelongsTo
     {
-        return $this->belongsTo(PartnershipPackage::class);
+        return $this->belongsTo(
+            PartnershipPackage::class,
+            'partnership_package_id',
+        );
+    }
+
+    /**
+     * Get the ad created when this inquiry was approved.
+     *
+     * @return HasOne<Ad, $this>
+     */
+    public function ad(): HasOne
+    {
+        return $this->hasOne(Ad::class);
     }
 }

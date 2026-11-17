@@ -16,7 +16,7 @@ export default function Pagination({ paginator }) {
 
     return (
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-300 bg-white px-4 py-3">
-            <p className="text-[10px] font-bold tracking-widest text-gray-500 uppercase">
+            <p className="text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
                 Menampilkan {paginator.from ?? 0}&ndash;{paginator.to ?? 0} dari{' '}
                 {paginator.total} data
             </p>
@@ -45,8 +45,8 @@ export default function Pagination({ paginator }) {
                             preserveScroll
                             className={`border px-2 py-1 text-[10px] font-bold transition-colors ${
                                 isActive
-                                    ? 'border-black bg-black text-white'
-                                    : 'border-gray-300 text-gray-600 hover:border-black hover:text-black'
+                                    ? 'border-black dark:border-gray-400 bg-black text-white'
+                                    : 'border-gray-300 text-gray-600 dark:text-gray-300 hover:border-black dark:border-gray-400 hover:text-black dark:hover:text-white'
                             }`}
                         >
                             {label}

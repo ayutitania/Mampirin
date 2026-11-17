@@ -104,3 +104,27 @@ test('the article hub and sidebar receive active categories', function () {
             ->where('siteCategories.0.slug', 'entertainment')
         );
 });
+
+test('the search page renders results for a matching query', function () {
+    $this->seed(ArticleSeeder::class);
+
+    $this->get(route('search', ['q' => 'kopi']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('ArticleSearch')
+            ->where('query', 'kopi')
+            ->has('results.0')
+        );
+});
+
+test('the search page shows an empty state for a non-matching query', function () {
+    $this->seed(ArticleSeeder::class);
+
+    $this->get(route('search', ['q' => 'zzzztidakada']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('ArticleSearch')
+            ->where('query', 'zzzztidakada')
+            ->has('results', 0)
+        );
+});

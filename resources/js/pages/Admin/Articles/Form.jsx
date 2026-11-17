@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import AdminLayout from '../../../components/AdminLayout';
+import DropZone from '../../../components/DropZone';
 
 function toDateTimeLocal(value) {
     if (!value) {
@@ -29,9 +30,9 @@ function FieldError({ message }) {
 }
 
 const inputClass =
-    'w-full border border-gray-300 bg-white px-3 py-2 text-sm focus:border-black focus:outline-none';
+    'w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm focus:border-black focus:outline-none dark:text-gray-100';
 const labelClass =
-    'mb-1 block text-[10px] font-bold tracking-widest text-gray-500 uppercase';
+    'mb-1 block text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase';
 
 export default function ArticleForm({ article = null, categories = [] }) {
     const isEdit = Boolean(article?.id);
@@ -47,27 +48,61 @@ export default function ArticleForm({ article = null, categories = [] }) {
         published_at: toDateTimeLocal(article?.published_at),
         is_featured: Boolean(article?.is_featured),
         is_published: article ? Boolean(article.is_published) : true,
+        article_image: null,
     });
+
+    const imageInputRef = useRef(null);
+    const [imagePreview, setImagePreview] = useState(
+        article?.image_url ?? null,
+    );
+
+    const selectImage = (input) => {
+        const file =
+            input instanceof File ? input : (input?.target?.files?.[0] ?? null);
+
+        setData('article_image', file);
+        setImagePreview(
+            file ? URL.createObjectURL(file) : (article?.image_url ?? null),
+        );
+    };
+
+    const clearImage = () => {
+        setData('article_image', null);
+        setImagePreview(article?.image_url ?? null);
+
+        if (imageInputRef.current) {
+            imageInputRef.current.value = '';
+        }
+    };
 
     const submit = (event) => {
         event.preventDefault();
 
+        const options = {
+            forceFormData: Boolean(data.article_image),
+            onSuccess: () => {
+                if (data.article_image) {
+                    clearImage();
+                }
+            },
+        };
+
         if (isEdit) {
-            put(`/admin/articles/${article.id}`);
+            put(`/admin/articles/${article.id}`, options);
         } else {
-            post('/admin/articles');
+            post('/admin/articles', options);
         }
     };
 
     return (
-        <AdminLayout title={isEdit ? 'Edit Artikel' : 'Artikel Baru'}>
+        <AdminLayout title={isEdit ? 'Ubah Artikel' : 'Artikel Baru'}>
             <form
                 onSubmit={submit}
                 className="grid grid-cols-1 gap-4 lg:grid-cols-3"
                 noValidate
             >
                 <div className="space-y-4 lg:col-span-2">
-                    <div className="border border-gray-300 bg-white p-5">
+                    <div className="border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                         <div className="mb-4">
                             <label htmlFor="title" className={labelClass}>
                                 Judul *
@@ -118,7 +153,7 @@ export default function ArticleForm({ article = null, categories = [] }) {
                         </div>
                     </div>
 
-                    <div className="border border-gray-300 bg-white p-5">
+                    <div className="border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                         <label htmlFor="body" className={labelClass}>
                             Isi Artikel *
                         </label>
@@ -133,7 +168,7 @@ export default function ArticleForm({ article = null, categories = [] }) {
                             className={`${inputClass} font-serif leading-relaxed`}
                         />
                         <FieldError message={errors.body} />
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                             Minimal 50 karakter. Setiap paragraf dipisahkan oleh
                             baris kosong.
                         </p>
@@ -141,7 +176,7 @@ export default function ArticleForm({ article = null, categories = [] }) {
                 </div>
 
                 <div className="space-y-4">
-                    <div className="border border-gray-300 bg-white p-5">
+                    <div className="border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                         <div className="mb-4">
                             <label htmlFor="category_id" className={labelClass}>
                                 Kategori *
@@ -184,7 +219,7 @@ export default function ArticleForm({ article = null, categories = [] }) {
                         </div>
                     </div>
 
-                    <div className="border border-gray-300 bg-white p-5">
+                    <div className="border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                         <div className="mb-4">
                             <label htmlFor="image_url" className={labelClass}>
                                 URL Gambar Utama
@@ -193,26 +228,53 @@ export default function ArticleForm({ article = null, categories = [] }) {
                                 id="image_url"
                                 type="url"
                                 value={data.image_url}
-                                onChange={(event) =>
-                                    setData('image_url', event.target.value)
-                                }
-                                placeholder="https://..."
+                                onChange={(event) => {
+                                    setData('image_url', event.target.value);
+                                    setImagePreview(event.target.value || null);
+                                }}
+                                placeholder="https://... (atau unggah di bawah)"
                                 className={inputClass}
                             />
                             <FieldError message={errors.image_url} />
                         </div>
 
-                        {data.image_url && (
-                            <div className="mb-4 overflow-hidden border border-gray-200 bg-gray-100">
+                        <div className="mb-4">
+                            <label
+                                htmlFor="article_image"
+                                className={labelClass}
+                            >
+                                Unggah Gambar (opsional)
+                            </label>
+                            <DropZone
+                                inputRef={imageInputRef}
+                                onFile={selectImage}
+                                accept="image/jpeg,image/png,image/webp"
+                            >
+                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    JPG, PNG, atau WEBP, maksimal 4 MB. Unggahan
+                                    menggantikan URL di atas. Seret &amp; lepas
+                                    gambar di sini.
+                                </p>
+                                <FieldError message={errors.article_image} />
+                            </DropZone>
+                        </div>
+
+                        {imagePreview && (
+                            <div className="mb-4 overflow-hidden border border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-gray-900">
                                 <img
-                                    src={data.image_url}
+                                    src={imagePreview}
                                     alt="Pratinjau"
                                     className="h-32 w-full object-cover"
-                                    onError={(event) => {
-                                        event.currentTarget.style.display =
-                                            'none';
-                                    }}
                                 />
+                                {data.article_image && (
+                                    <button
+                                        type="button"
+                                        onClick={clearImage}
+                                        className="mt-2 w-full border border-gray-400 bg-white px-3 py-1.5 text-[10px] font-bold uppercase hover:border-black hover:bg-black hover:text-white dark:border-gray-600 dark:bg-gray-800"
+                                    >
+                                        Hapus Gambar
+                                    </button>
+                                )}
                             </div>
                         )}
 
@@ -236,7 +298,7 @@ export default function ArticleForm({ article = null, categories = [] }) {
                         </div>
                     </div>
 
-                    <div className="space-y-3 border border-gray-300 bg-white p-5">
+                    <div className="space-y-3 border border-gray-300 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                         <label className="flex items-center gap-3 text-sm">
                             <input
                                 type="checkbox"
@@ -247,13 +309,13 @@ export default function ArticleForm({ article = null, categories = [] }) {
                                         event.target.checked,
                                     )
                                 }
-                                className="h-4 w-4 border-gray-400"
+                                className="h-4 w-4 border-gray-400 dark:border-gray-600"
                             />
                             <span>
                                 <span className="font-bold">
                                     Publikasikan artikel
                                 </span>
-                                <span className="block text-xs text-gray-500">
+                                <span className="block text-xs text-gray-500 dark:text-gray-400">
                                     Jika tidak dicentang, artikel disimpan
                                     sebagai draft.
                                 </span>
@@ -267,13 +329,13 @@ export default function ArticleForm({ article = null, categories = [] }) {
                                 onChange={(event) =>
                                     setData('is_featured', event.target.checked)
                                 }
-                                className="h-4 w-4 border-gray-400"
+                                className="h-4 w-4 border-gray-400 dark:border-gray-600"
                             />
                             <span>
                                 <span className="font-bold">
                                     Artikel unggulan
                                 </span>
-                                <span className="block text-xs text-gray-500">
+                                <span className="block text-xs text-gray-500 dark:text-gray-400">
                                     Ditampilkan di bagian hero dan atas rubrik.
                                 </span>
                             </span>
@@ -294,7 +356,7 @@ export default function ArticleForm({ article = null, categories = [] }) {
                         </button>
                         <Link
                             href="/admin/articles"
-                            className="border border-gray-400 px-4 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black"
+                            className="border border-gray-400 px-4 py-3 text-[10px] font-bold tracking-widest uppercase hover:border-black dark:border-gray-600"
                         >
                             Batal
                         </Link>

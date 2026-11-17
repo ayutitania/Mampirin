@@ -10,6 +10,7 @@ beforeEach(function () {
 $pages = [
     'home' => 'Home',
     'ads' => 'Ads',
+    'faq' => 'Faq',
     'write-us' => 'WriteUs',
     'about' => 'About',
     'article.index' => 'ArticleIndex',
@@ -35,7 +36,8 @@ test('the generic category route renders the shared category page', function () 
         );
 });
 
-test('an unknown category returns a 404 response', function () {
+test('an unknown category returns a custom 404 page', function () {
     $this->get(route('article.category', ['slug' => 'tidak-ada']))
-        ->assertNotFound();
+        ->assertNotFound()
+        ->assertInertia(fn (Assert $page) => $page->component('NotFound'));
 });

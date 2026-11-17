@@ -1,0 +1,59 @@
+
+> build
+> vp build
+
+[plugin @laravel/vite-plugin-wayfinder] Types generated for actions, routes, form variants
+[33m[plugin laravel:fonts] Optimized font fallbacks require the optional "fontaine" package. Install it, or set "optimizedFallbacks: false" on your fonts to disable the feature.[39m
+transforming...
+✓ 598 modules transformed.
+rendering chunks...
+computing gzip size...
+public/build/fonts-manifest.json                                 5.74 kB │ gzip:   0.71 kB
+public/build/manifest.json                                      10.41 kB │ gzip:   1.24 kB
+public/build/assets/instrument-sans-400-normal-DRC__1Mx.woff2   16.86 kB
+public/build/assets/instrument-sans-500-normal-Dk9ku72i.woff2   17.23 kB
+public/build/assets/instrument-sans-600-normal-B7fBEWYG.woff2   17.40 kB
+public/build/assets/instrument-sans-400-normal-D1W7dsQl.woff    21.24 kB
+public/build/assets/instrument-sans-500-normal-Z6ESRlEs.woff    21.65 kB
+public/build/assets/instrument-sans-600-normal-B9e8oLYv.woff    21.67 kB
+public/build/assets/fonts-C9MNnjVw.css                           2.35 kB │ gzip:   0.38 kB
+public/build/assets/app-C0sZQhj4.css                            40.31 kB │ gzip:   7.77 kB
+public/build/assets/articles-B-TgMxaG.js                         0.35 kB │ gzip:   0.24 kB
+public/build/assets/compiler-runtime-D9TqtzW-.js                 0.59 kB │ gzip:   0.40 kB
+public/build/assets/Pagination-CiL237FM.js                       1.44 kB │ gzip:   0.79 kB
+public/build/assets/NotFound-Aj4-nE4H.js                         1.55 kB │ gzip:   0.77 kB
+public/build/assets/ArticleIndex-BDODRlF5.js                     2.21 kB │ gzip:   1.03 kB
+public/build/assets/About-P4R9EYfO.js                            2.85 kB │ gzip:   1.22 kB
+public/build/assets/SidebarAd-BclS3dks.js                        3.05 kB │ gzip:   1.14 kB
+public/build/assets/Index-D49Gs5Kf.js                            3.33 kB │ gzip:   1.16 kB
+public/build/assets/ArticleCategory-DDugsIbI.js                  3.47 kB │ gzip:   1.21 kB
+public/build/assets/ArticleShow-DVvKucBP.js                      3.54 kB │ gzip:   1.27 kB
+public/build/assets/Faq-C-Jxzjqj.js                              3.61 kB │ gzip:   1.62 kB
+public/build/assets/Form-D2pE7_SX.js                             3.75 kB │ gzip:   1.40 kB
+public/build/assets/Login-BFLf9eAJ.js                            4.24 kB │ gzip:   1.83 kB
+public/build/assets/AdminLayout-E0lVYey3.js                      4.72 kB │ gzip:   2.00 kB
+public/build/assets/Form-Cyy-X-BT.js                             5.01 kB │ gzip:   1.73 kB
+public/build/assets/Index-C0L3kvv5.js                            5.37 kB │ gzip:   1.63 kB
+public/build/assets/Home-DSBuNY4-.js                             5.49 kB │ gzip:   1.55 kB
+public/build/assets/Index-DK5sGPyL.js                            6.07 kB │ gzip:   1.85 kB
+public/build/assets/Form-CjzrpCoj.js                             7.33 kB │ gzip:   2.31 kB
+public/build/assets/AppLayout-CsJGG6vE.js                        8.09 kB │ gzip:   3.26 kB
+public/build/assets/Partnership-BUwJ01kc.js                      8.35 kB │ gzip:   2.52 kB
+public/build/assets/Dashboard-DHKLN4GN.js                        8.79 kB │ gzip:   2.66 kB
+public/build/assets/Ads-9OhF7-nX.js                              9.15 kB │ gzip:   2.84 kB
+public/build/assets/WriteUs-CIReyOOm.js                          9.81 kB │ gzip:   3.61 kB
+public/build/assets/Index-DvBMzUv8.js                            9.89 kB │ gzip:   3.52 kB
+public/build/assets/Index-CO8kc-R5.js                           18.34 kB │ gzip:   6.41 kB
+public/build/assets/app-DOf-_wA8.js                            350.79 kB │ gzip: 109.79 kB
+
+[32m✓ built in 5.99s[39m
+[33m[33m[PLUGIN_TIMINGS] [0mYour build spent 94% of 6.0s inside plugin hooks (5.6s).
+Measured inside the callback, so queue time is excluded and time the callback itself awaited is not:
+  - @rolldown/plugin-babel transform (46%, 2.7s, 32 calls)
+  - @laravel/vite-plugin-wayfinder buildStart (28%, 1.7s, 1 call)
+  - @tailwindcss/vite:generate:build transform (24%, 1.4s, 1 call)
+Those rows are 98% of the build; the rest of the 94% is below.
+Not measurable — 1 hook whose calls overlap, so elapsed time covers work other calls were doing. Profile with `node --cpu-prof`:
+  - vite:css-post renderChunk (28 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+[39m

@@ -67,7 +67,7 @@ export default function Login() {
                             htmlFor="password"
                             className="mb-2 block text-sm text-gray-800"
                         >
-                            Password:
+                            Kata Sandi:
                         </label>
                         <input
                             id="password"

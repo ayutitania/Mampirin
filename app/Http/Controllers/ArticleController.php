@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Support\ArticleFeed;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -74,6 +75,33 @@ class ArticleController extends Controller
             'featured' => $featured,
             'articles' => $articles,
             'popular' => ArticleFeed::popular(3),
+        ]);
+    }
+
+    /**
+     * Search published articles by title/excerpt.
+     */
+    public function search(Request $request): Response
+    {
+        $query = trim((string) $request->input('q'));
+
+        $results = collect();
+
+        if ($query !== '') {
+            $results = Article::query()
+                ->published()
+                ->with('category:id,name,slug')
+                ->where(fn ($builder) => $builder
+                    ->where('title', 'like', "%{$query}%")
+                    ->orWhere('excerpt', 'like', "%{$query}%"))
+                ->latest('published_at')
+                ->take(20)
+                ->get();
+        }
+
+        return Inertia::render('ArticleSearch', [
+            'query' => $query,
+            'results' => $results,
         ]);
     }
 
