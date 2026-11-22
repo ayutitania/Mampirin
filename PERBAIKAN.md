@@ -90,8 +90,8 @@ iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
   menjelaskan bahwa tim redaksi berkunjung untuk ulasan atau wawancara (WWC),
   dan dilakukan **online jika lokasi di luar daerah**. Catatan yang sama
   ditampilkan di halaman `/partnership` dan `/faq`.
-- **Add-on WWC gratis** — ditambahkan di form `/partnership` sebagai checkbox
-  `addon_wwc` dengan keterangan "Ongkos WWC offline atau online: gratis".
+- **Add-on wawancara gratis** — ditambahkan di form `/partnership` sebagai checkbox
+  `addon_wwc` dengan keterangan "Ongkos wawancara offline atau online".
   Didukung migrasi `2026_11_04_000000_add_addon_wwc_to_partnership_inquiries_table`,
   kolom `partnership_inquiries.addon_wwc` (boolean, default `false`), validasi
   + penyimpanan di `PartnershipController::store`, dan statusnya tampil di
@@ -114,6 +114,30 @@ iklan, dan sponsor masuk, serta form Write Us mendukung unggah foto pendukung.
   Kirim Tulisan, Tentang, pencarian, dan teks banner iklan.
 - Test bertambah menjadi **110 test lulus** (termasuk asersi `addon_wwc`
   tersimpan dan default `false`). `npm run build` berhasil.
+
+**Batch terbaru — penyesuaian tarif & teks kartu paket:**
+
+- **Harga paket disesuaikan** di `database/seeders/PartnershipPackageSeeder.php`:
+  Starter UMKM Spotlight `Rp 200.000` / Konten, Viral Buzz Package
+  `Rp 550.000` / Campaign, dan Growth Partner (Retainer) `Rp 850.000` / Bulan.
+- **Deskripsi fitur add-on di kartu paket** Viral Buzz dan Growth Partner
+  diubah menjadi "Add-on ulasan atau wawancara offline maupun online"
+  (menggantikan "Add-on ongkos WWC offline maupun online: gratis").
+- **Label tombol CTA disesuaikan**: "Klaim Paket Viral Buzz" → "Pilih Paket
+  Viral Buzz" dan "Konsultasikan Paket Retainer" → "Pilih Paket Retainer"
+  (field `cta_label`, tetap mengarah ke `/partnership?package=02|03`).
+- Harga dan fitur kartu dibaca dari tabel `partnership_packages`, jadi jalankan
+  `php artisan db:seed --class=PartnershipPackageSeeder` agar perubahan tampil
+  di halaman `/ads` (seeder memakai `updateOrCreate`, aman dijalankan ulang).
+- Seeder sudah dijalankan di MySQL `db_ucd` (`php artisan db:seed
+  --class=PartnershipPackageSeeder --force`); verifikasi query menunjukkan
+  harga `200000`/`550000`/`850000`, teks add-on, dan label CTA yang baru
+  tersimpan.
+- Verifikasi: **111 test lulus** (818 assertion) setelah perubahan ini. Jalankan
+  dengan `php -d extension=pdo_sqlite -d extension=sqlite3 vendor/bin/pest`
+  (ekstensi SQLite diaktifkan sementara lewat flag CLI karena belum aktif di
+  `php.ini` Laragon; `php artisan test` tanpa flag gagal dengan "could not find
+  driver (Connection: sqlite)").
 
 **Bug tambahan yang ditemukan & diperbaiki:** route `/article/lifestyle` sempat merujuk komponen
 `Lifestyle` yang file-nya belum ada. Kini halaman `Entertainment`, `History`, dan `Lifestyle`
@@ -356,7 +380,7 @@ serta 404 kustom dan publikasi artikel yang langsung tampil di situs.
   tautan yang sama (menggantikan placeholder di Home, About, Entertainment, History, Lifestyle).
 - `AdsController` + route `GET /ads` mengirim `packages` dari database.
 - Halaman `Ads.jsx` merender kartu paket secara dinamis: label, nama, deskripsi, harga
-  (`Rp 750.000`), daftar fitur (✓/✕), badge unggulan, dan CTA dari `cta_url`.
+  (`Rp 200.000`), daftar fitur (✓/✕), badge unggulan, dan CTA dari `cta_url`.
 - **Halaman `/partnership`** (`PartnershipController`) — form pengajuan kemitraan dengan pilihan
   paket yang otomatis terpilih saat datang dari halaman Ads (`?package=01|02|03` atau id paket),
   lengkap dengan validasi dan konfirmasi sukses. Data masuk ke tabel `partnership_inquiries` dan

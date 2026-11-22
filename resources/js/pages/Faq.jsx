@@ -29,9 +29,9 @@ const FAQS = [
             'Ya. Untuk paket Viral Buzz dan Growth Partner, tim redaksi akan berkunjung ke lokasi bisnismu untuk melakukan ulasan atau wawancara (WWC). Jika lokasimu di luar daerah, ulasan atau wawancara dilakukan secara online.',
     },
     {
-        question: 'Apakah ongkos WWC offline atau online dikenakan biaya?',
+        question: 'Apakah add-on wawancara offline atau online dikenakan biaya?',
         answer:
-            'Tidak. Ongkos WWC offline atau online gratis untuk paket Viral Buzz dan Growth Partner. Centang opsi add-on WWC di form Partnership jika ingin tim redaksi sekaligus melakukan ulasan atau wawancara untuk bisnismu.',
+            'Tidak. add-on wawancara offline atau online gratis untuk paket Viral Buzz dan Growth Partner. Centang opsi add-on wawancara di form Partnership jika ingin tim redaksi sekaligus melakukan ulasan atau wawancara untuk bisnismu.',
     },
     {
         question: 'Apakah ada opsi "belum menentukan paket" / konsultasi?',

@@ -442,8 +442,8 @@ function SponsorCard({ inquiry, placements, statuses, bankAccount = {} }) {
                             </div>
                             <div className="mt-2 text-[10px] font-bold tracking-widest text-green-700 uppercase dark:text-green-400">
                                 {inquiry.addon_wwc
-                                    ? 'Add-on WWC: dipilih (gratis)'
-                                    : 'Add-on WWC: tidak dipilih'}
+                                    ? 'Add-on: dipilih'
+                                    : 'Add-on: tidak dipilih'}
                             </div>
                         </div>
                     ) : (

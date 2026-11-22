@@ -9,6 +9,10 @@ const formatRupiah = (value) =>
         maximumFractionDigits: 0,
     }).format(value ?? 0);
 
+// Add-on WWC hanya tersedia untuk paket Viral Buzz (02) dan Growth Partner (03).
+const ADDON_PACKAGE_CODES = ['02', '03'];
+const allowsAddon = (code) => ADDON_PACKAGE_CODES.includes(String(code ?? ''));
+
 function FieldError({ message }) {
     if (!message) return null;
 
@@ -54,6 +58,15 @@ export default function Partnership({
     const chosenPackage = packages.find(
         (pkg) => String(pkg.id) === String(data.partnership_package_id),
     );
+
+    const showAddon = Boolean(chosenPackage) && allowsAddon(chosenPackage.code);
+
+    // Pastikan add-on tidak ikut terkirim jika paketnya tidak menyediakannya.
+    useEffect(() => {
+        if (!showAddon && data.addon_wwc) {
+            setData('addon_wwc', false);
+        }
+    }, [showAddon, data.addon_wwc, setData]);
 
     const selectImage = (event) => {
         const file = event.target.files?.[0] ?? null;
@@ -169,35 +182,37 @@ export default function Partnership({
                         </div>
                     )}
 
-                    {/* Add-on WWC */}
-                    <div className="border border-gray-300 dark:border-gray-700 p-5">
-                        <div className="mb-2 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
-                            Add-on
+                    {/* Add-on WWC — hanya untuk Viral Buzz & Growth Partner */}
+                    {showAddon && (
+                        <div className="border border-gray-300 dark:border-gray-700 p-5">
+                            <div className="mb-2 text-[10px] font-bold tracking-widest text-gray-500 dark:text-gray-400 uppercase">
+                                Add-on
+                            </div>
+                            <label className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200">
+                                <input
+                                    type="checkbox"
+                                    checked={data.addon_wwc}
+                                    onChange={(event) =>
+                                        setData('addon_wwc', event.target.checked)
+                                    }
+                                    className="mt-0.5 h-4 w-4 shrink-0 border-gray-400 dark:border-gray-600"
+                                />
+                                <span>
+                                    <span className="font-bold">
+                                        Biaya wawancara offline atau online
+                                    </span>
+                                    <span className="mt-1 block text-xs text-gray-600 dark:text-gray-400">
+                                        Centang jika ingin tim redaksi sekaligus
+                                        melakukan ulasan atau wawancara (WWC)
+                                        untuk bisnismu. Gratis untuk paket Viral
+                                        Buzz dan Growth Partner; di luar daerah
+                                        dilakukan secara online.
+                                    </span>
+                                </span>
+                            </label>
+                            <FieldError message={errors.addon_wwc} />
                         </div>
-                        <label className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200">
-                            <input
-                                type="checkbox"
-                                checked={data.addon_wwc}
-                                onChange={(event) =>
-                                    setData('addon_wwc', event.target.checked)
-                                }
-                                className="mt-0.5 h-4 w-4 shrink-0 border-gray-400 dark:border-gray-600"
-                            />
-                            <span>
-                                <span className="font-bold">
-                                    Ongkos WWC offline atau online: gratis
-                                </span>
-                                <span className="mt-1 block text-xs text-gray-600 dark:text-gray-400">
-                                    Centang jika ingin tim redaksi sekaligus
-                                    melakukan ulasan atau wawancara (WWC) untuk
-                                    bisnismu. Gratis untuk paket Viral Buzz dan
-                                    Growth Partner; di luar daerah dilakukan
-                                    secara online.
-                                </span>
-                            </span>
-                        </label>
-                        <FieldError message={errors.addon_wwc} />
-                    </div>
+                    )}
 
                     {/* Nama Perusahaan */}
                     <div>

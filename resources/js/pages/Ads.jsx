@@ -247,12 +247,14 @@ export default function Ads({ packages = [] }) {
 
                 <div className="mt-8 border border-dashed border-gray-400 p-5 text-center dark:border-gray-600">
                     <div className="mb-1 inline-block bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase">
-                        Add-on Gratis
+                        Add-on
                     </div>
                     <p className="font-serif text-sm text-gray-700 dark:text-gray-300">
-                        Ongkos WWC (ulasan atau wawancara) untuk mode{' '}
-                        <strong>offline maupun online tidak dikenakan biaya</strong>.
-                        Centang add-on ini saat mengisi form pengajuan iklan.
+                        Pembuatan ulasan atau wawancara oleh tim redaksi secara{' '}
+                        <strong>offline maupun online akan dikenakan biaya lebih</strong>.
+                        Add-on ini hanya tersedia untuk paket Viral Buzz dan
+                        Growth Partner — centang saat mengisi form pengajuan
+                        iklan jika memilih salah satu paket tersebut.
                     </p>
                 </div>
             </section>

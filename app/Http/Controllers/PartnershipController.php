@@ -65,6 +65,13 @@ class PartnershipController extends Controller
 
         unset($validated['ad_image']);
 
+        $addonAllowed = PartnershipPackage::query()
+            ->whereKey($validated['partnership_package_id'])
+            ->whereIn('code', ['02', '03'])
+            ->exists();
+
+        $validated['addon_wwc'] = $addonAllowed && $request->boolean('addon_wwc');
+
         if ($request->hasFile('ad_image')) {
             $validated['ad_image_url'] = '/storage/'.$request->file('ad_image')->store('partnership-images', 'public');
         }
@@ -73,7 +80,6 @@ class PartnershipController extends Controller
             ...$validated,
             'ad_target_url' => ($validated['ad_target_url'] ?? null) ?: null,
             'ad_image_url' => ($validated['ad_image_url'] ?? null) ?: null,
-            'addon_wwc' => $request->boolean('addon_wwc'),
         ]);
 
         return back()->with(

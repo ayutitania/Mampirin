@@ -83,6 +83,23 @@ test('a partnership inquiry can be stored', function () {
     );
 });
 
+test('the wawancara add-on is ignored for the Starter package', function () {
+    $this->seed(PartnershipPackageSeeder::class);
+    $starter = PartnershipPackage::query()->where('code', '01')->firstOrFail();
+
+    $this->post(route('partnership.store'), [
+        'partnership_package_id' => $starter->id,
+        'company' => 'Kafe Pemula',
+        'contact_name' => 'Budi',
+        'email' => 'budi@example.com',
+        'message' => 'Ingin mempromosikan menu baru untuk mahasiswa.',
+        'ad_title' => 'Banner Kafe Pemula',
+        'addon_wwc' => true,
+    ])->assertSessionHasNoErrors();
+
+    expect(PartnershipInquiry::firstOrFail()->addon_wwc)->toBeFalse();
+});
+
 test('the ad image is optional but must be a valid image when uploaded', function () {
     $this->seed(PartnershipPackageSeeder::class);
     $package = PartnershipPackage::query()->where('code', '02')->firstOrFail();
