@@ -1,9 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 2ea7c58 (sikit)
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AdController as AdminAdController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
@@ -12,18 +8,13 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\SponsorController as AdminSponsorController;
 use App\Http\Controllers\Admin\SubmissionController as AdminSubmissionController;
+use App\Http\Controllers\AdOrderController;
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleSubmissionController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartnershipController;
-<<<<<<< HEAD
-=======
-use App\Http\Controllers\AdOrderController;
->>>>>>> e350246 (form booking ads)
-=======
->>>>>>> 2ea7c58 (sikit)
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -36,19 +27,12 @@ Route::get('/search', [ArticleController::class, 'search'])->name('search');
 // Halaman About
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 // Halaman Ads / Kemitraan
 Route::get('/ads', [AdsController::class, 'index'])->name('ads');
 
 // Halaman FAQ & syarat pengiriman
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
-=======
-// Halaman Ads / Kemitraan
-Route::get('/ads', [AdsController::class, 'index'])->name('ads');
-
->>>>>>> 2ea7c58 (sikit)
 // Halaman Pengajuan Kemitraan
 Route::get('/partnership', [PartnershipController::class, 'index'])
     ->name('partnership.index');
@@ -56,12 +40,6 @@ Route::get('/partnership', [PartnershipController::class, 'index'])
 // Kirim pengajuan kemitraan
 Route::post('/partnership', [PartnershipController::class, 'store'])
     ->name('partnership.store');
-<<<<<<< HEAD
-=======
-// Halaman Ads / Kemitraan (Katalog Paket)
-Route::get('/ads', function () {
-    return Inertia::render('Ads');
-})->name('ads');
 
 // Alur Pemesanan Iklan & Simulasi Pembayaran (Inertia React)
 Route::get('/ads/order', [AdOrderController::class, 'create'])->name('ads.order');
@@ -74,9 +52,6 @@ Route::get('/blade/ads/order', [AdOrderController::class, 'createBlade'])->name(
 Route::post('/blade/ads/order', [AdOrderController::class, 'storeBlade'])->name('blade.ads.order.store');
 Route::get('/blade/ads/payment/{order}', [AdOrderController::class, 'paymentBlade'])->name('blade.ads.payment');
 Route::post('/blade/ads/payment/{order}/simulate', [AdOrderController::class, 'simulatePaymentBlade'])->name('blade.ads.payment.simulate');
->>>>>>> e350246 (form booking ads)
-=======
->>>>>>> 2ea7c58 (sikit)
 
 // Halaman Write Us
 Route::get('/write-us', function () {
